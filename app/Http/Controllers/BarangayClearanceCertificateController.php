@@ -30,19 +30,16 @@ use App\Models\BarangayClearanceCertificate;
 class BarangayClearanceCertificateController extends Controller
 {
     public function viewBarangayClearanceCertificate(){
-        $barangayClearanceCertificateDetails = BarangayClearanceCertificate::with('resident_info.user_info')
-            ->where('is_deleted', 0)
-            ->orderBy('id', 'desc')
-            ->get();
-    
-            return DataTables::of($barangayClearanceCertificateDetails)
+        $barangayClearanceCertificateDetails = BarangayClearanceCertificate::with('resident_info.user_info')->where('is_deleted', 0)->orderBy('id', 'desc')->get();
+        
+        return DataTables::of($barangayClearanceCertificateDetails)
             ->addColumn('action', function($row){
                 $result = '<center>';
-                if($row->status != 4){ // 1-Approved, 2-Processing, 3-Pending, 4-Disapproved
+                if ($row->status != 4) { // 1-Approved, 2-Processing, 3-Pending, 4-Disapproved
                     $result .= '<button type="button" class="btn btn-primary btn-xs text-center actionEditBarangayClearanceCertificate mr-1" barangay-clearance-certificate-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#modalAddBarangayClearanceCertificate" title="Edit Details">';
                     $result .= '<i class="fa fa-xl fa-edit"></i>';
                     $result .= '</button>';
-                    $result .= '<a href="barangay_clerance_pdf/'.$row->id.'" class="btn btn-info btn-xs text-center actionPrintBarangayClearanceCertificate mr-1" barangay-clearance-certificate-id="' . $row->id . '" title="Print Certificate">';
+                    $result .= '<a href="barangay_clearance_pdf/' . $row->id . '" class="btn btn-info btn-xs text-center actionPrintBarangayClearanceCertificate mr-1" barangay-clearance-certificate-id="' . $row->id . '" title="Print Certificate">';
                     $result .= '<i class="fa fa-xl fa-print"></i>';
                     $result .= '</a>';
                 } else {
@@ -54,53 +51,38 @@ class BarangayClearanceCertificateController extends Controller
                 return $result;
             })
             ->addColumn('gender', function($row){
-                $result = "";
-                if($row->resident_info) {
-                    if($row->resident_info->gender == 1){
-                        $result .= '<center><span>Male</span></center>';
-                    } else if($row->resident_info->gender == 2){
-                        $result .= '<center><span>Female</span></center>';
+                if ($row->resident_info) {
+                    if ($row->resident_info->gender == 1) {
+                        return '<center><span>Male</span></center>';
+                    } else if ($row->resident_info->gender == 2) {
+                        return '<center><span>Female</span></center>';
                     } else {
-                        $result .= '<center><span>Other</span></center>';
+                        return '<center><span>Other</span></center>';
                     }
-                } else {
-                    $result .= '<center><span>N/A</span></center>';
                 }
-                return $result;
+                return '<center><span>N/A</span></center>';
             })
             ->addColumn('civil_status', function($row){
-                $result = "";
-                if($row->resident_info) {
-                    if($row->resident_info->civil_status == 1){
-                        $result .= '<center><span>Single</span></center>';
-                    } else if($row->resident_info->civil_status == 2){
-                        $result .= '<center><span>Married</span></center>';
-                    } else if($row->resident_info->civil_status == 3){
-                        $result .= '<center><span>Widow/er</span></center>';
-                    } else if($row->resident_info->civil_status == 4){
-                        $result .= '<center><span>Annulled</span></center>';
-                    } else if($row->resident_info->civil_status == 5){
-                        $result .= '<center><span>Legally Separated</span></center>';
-                    } else if($row->resident_info->civil_status == 6){
-                        $result .= '<center><span>Others</span></center>';
-                    }
-                } else {
-                    $result .= '<center><span>N/A</span></center>';
+                if ($row->resident_info) {
+                    $statuses = [
+                        1 => 'Single',
+                        2 => 'Married',
+                        3 => 'Widow/er',
+                        4 => 'Annulled',
+                        5 => 'Legally Separated',
+                        6 => 'Others'
+                    ];
+                    return '<center><span>' . ($statuses[$row->resident_info->civil_status] ?? 'N/A') . '</span></center>';
                 }
-                return $result;
+                return '<center><span>N/A</span></center>';
             })
             ->addColumn('status', function($row){
-                $result = "";
-                if($row->status == 1){
-                    $result .= '<center><span class="badge badge-pill badge-success">Issued</span></center>';
-                } else if($row->status == 2){
-                    $result .= '<center><span class="badge badge-pill badge-primary">For Issuance</span></center>';
-                } else if($row->status == 3){
-                    $result .= '<center><span class="badge badge-pill badge-secondary">On Process</span></center>';
-                } else {
-                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Pending</span></center>';
-                }
-                return $result;
+                $statuses = [
+                    1 => '<center><span class="badge badge-pill badge-success">Issued</span></center>',
+                    2 => '<center><span class="badge badge-pill badge-primary">For Issuance</span></center>',
+                    3 => '<center><span class="badge badge-pill badge-secondary">On Process</span></center>'
+                ];
+                return $statuses[$row->status] ?? '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Pending</span></center>';
             })
             ->rawColumns(['action', 'gender', 'civil_status', 'status'])
             ->make(true);

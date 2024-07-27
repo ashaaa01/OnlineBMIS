@@ -7,11 +7,9 @@
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
+                    <div class="col-sm-6"></div>
                     <div class="col-sm-6">
-                        
-                    </div>
-                    <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
+                        <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Brgy. Clearance Certificate Management</li>
                         </ol>
@@ -55,7 +53,6 @@
         </section>
     </div>
     
-
     <!-- Add Clearance Certificate Modal Start -->
     <div class="modal fade" id="modalAddBarangayClearanceCertificate" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
@@ -71,10 +68,10 @@
                             <div class="col-md-12">
                                 <div class="card-body">
                                     <!-- For Edit -->
-                                    <input type="text" class="form-control" style="display: none" name="barangay_clearance_certificate_id" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                    <input type="hidden" name="barangay_clearance_certificate_id">
 
                                     <!-- Id of Request Cedula Basis -->
-                                    <input type="text" class="form-control" style="display: none" name="issuance_configuration_id" id="issuanceConfigurationId" placeholder="Issuance Certificate Id">
+                                    <input type="hidden" name="issuance_configuration_id" id="issuanceConfigurationId">
 
                                     <div class="mb-3">
                                         <label for="selectResident" class="form-label">Select Resident<span class="text-danger" title="Required">*</span></label>
@@ -102,23 +99,23 @@
                                     
                                     <div class="mb-3">
                                         <label for="textPurpose" class="form-label">Purpose<span class="text-danger" title="Required">*</span></label>
-                                        <textarea type="text" class="form-control" rows="3" name="purpose" id="textPurpose" placeholder="Purpose"></textarea>
+                                        <textarea class="form-control" rows="3" name="purpose" id="textPurpose" placeholder="Purpose"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="textORNumber" class="form-label">OR Number<span class="text-danger" title="Required">*</span></label>
-                                        <input type="text" class="form-control" rows="4" name="or_number" id="textORNumber" placeholder="OR Number">
+                                        <input type="text" class="form-control" name="or_number" id="textORNumber" placeholder="OR Number">
                                     </div>
                                     <div class="mb-3">
                                         <label for="textAmountCollection" class="form-label">Amount Collection<span class="text-danger" title="Required">*</span></label>
-                                        <input type="text" class="form-control" rows="4" name="amount_collection" id="textAmountCollection" placeholder="Amount Collection">
+                                        <input type="text" class="form-control" name="amount_collection" id="textAmountCollection" placeholder="Amount Collection">
                                     </div>
                                     <div class="mb-3">
                                         <label for="textIssuedOn" class="form-label">Issued On<span class="text-danger" title="Required">*</span></label>
-                                        <input type="date" class="form-control" rows="4" name="issued_on" id="textIssuedOn" placeholder="Issued On">
+                                        <input type="date" class="form-control" name="issued_on" id="textIssuedOn">
                                     </div>
                                     <div class="mb-3">
                                         <label for="textRemarks" class="form-label">Remarks</label>
-                                        <textarea type="text" class="form-control" rows="3" name="remarks" id="textRemarks" placeholder="Remarks"></textarea>
+                                        <textarea class="form-control" rows="3" name="remarks" id="textRemarks" placeholder="Remarks"></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="textStatus" class="form-label">Status<span class="text-danger" title="Required">*</span></label>
@@ -127,7 +124,7 @@
                                             <option value="1">Issued</option>
                                             <option value="2">For issuance</option>
                                             <option value="3">On Process</option>
-                                           {{-- <option value="4">Disapproved</option>--}}
+                                            {{-- <option value="4">Disapproved</option>--}}
                                         </select>
                                     </div>
                                 </div>
@@ -156,8 +153,8 @@
                     @csrf
                     <div class="modal-body">
                         <p id="paragraphEditClearanceCertificateStatus"></p>
-                        <input type="hidden" name="barangay_clearance_certificate_id" placeholder="Clearance Certificate Id" id="textEditClearanceCertificateStatusClearanceCertificateId">
-                        <input type="hidden" name="status" placeholder="Status" id="textEditClearanceCertificateStatus">
+                        <input type="hidden" name="barangay_clearance_certificate_id" id="textEditClearanceCertificateStatusClearanceCertificateId">
+                        <input type="hidden" name="status" id="textEditClearanceCertificateStatus">
                     </div>
                     
                     <div class="modal-footer justify-content-between">
@@ -170,7 +167,7 @@
     </div><!-- Edit ClearanceCertificate Status Modal End -->
 @endsection
 
-<!--     {{-- JS CONTENT --}} -->
+<!-- JS CONTENT -->
 @section('js_content')
 <script type="text/javascript">
     $(document).ready(function () {
@@ -186,18 +183,18 @@
             addBarangayClearanceCertificate();
         });
 
-        dataTablesBarangayClearanceCertificate = $("#tableBarangayClearanceCertificate").DataTable({
+        const dataTablesBarangayClearanceCertificate = $("#tableBarangayClearanceCertificate").DataTable({
             "processing": false,
             "serverSide": true,
             "responsive": true,
             "orderClasses": false, // disable sorting_1 for unknown background
             "ajax": {
-                url: "view_barangay_clearance_certificate",
+                url: "{{ route('view_barangay_clearance_certificate') }}",
             },
             "columns": [
                 { "data": "action", orderable: false, searchable: false },
                 { "data": function(data){
-                    let firstName = data.resident_info?.user_info?.firstname || '';
+                    let firstName = data.resident_info?.user_info?.firstname || 'N/A';
                     let lastName = data.resident_info?.user_info?.lastname || '';
                     return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName);
                 }},
@@ -218,14 +215,13 @@
 
         $(document).on('click', '.actionEditBarangayClearanceCertificate', function(){
             let id = $(this).attr('barangay-clearance-certificate-id');
-            console.log('id ', id);
             $("input[name='barangay_clearance_certificate_id']", $("#formAddBarangayClearanceCertificate")).val(id);
             getBarangayClearanceCertificateById(id);
         });
 
         function getCedulaBasis() {
             $.ajax({
-                url: "get_issuance_certification",
+                url: "{{ route('get_issuance_certification') }}",
                 method: "get",
                 data: {
                     id: 1, // 6-Cedula, 5-License & Permit, 4-Registration, 3-Residency, 2-Indigency, 1-Brgy. Clearance
@@ -268,4 +264,3 @@
     });
 </script>
 @endsection
-
