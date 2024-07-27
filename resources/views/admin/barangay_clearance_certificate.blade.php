@@ -192,12 +192,10 @@
                 url: "{{ route('view_barangay_clearance_certificate') }}",
             },
             "columns": [
-                { "data": "action", orderable: false, searchable: false },
-                { "data": function(data){
-                    let firstName = data.resident_info?.user_info?.firstname || 'N/A';
-                    let lastName = data.resident_info?.user_info?.lastname || '';
-                    return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName);
-                }},
+                { "data" : "action", orderable:false, searchable:false},
+                    { "data" : function(data){
+                        return capitalizeFirstLetter(data.resident_info.user_info.firstname) + ' ' +capitalizeFirstLetter(data.resident_info.user_info.lastname);
+                    }},
                 { "data": "gender" },
                 { "data": "civil_status" },
                 { "data": "ticket_number" },
