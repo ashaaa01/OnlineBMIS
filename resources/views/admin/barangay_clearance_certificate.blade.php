@@ -201,8 +201,12 @@
                     { "data" : function(data){
                         return capitalizeFirstLetter(data.resident_info.user_info.firstname) + ' ' +capitalizeFirstLetter(data.resident_info.user_info.lastname);
                     }},
-                    { "data" : "gender"},
-                    { "data" : "civil_status"},
+                    { "data": function(data) {
+                    return data.resident_info?.user_info?.gender || 'N/A';
+                    }},
+                    { "data": function(data) {
+                    return data.resident_info?.civil_status || 'N/A';
+                    }},
                     { "data" : "ticket_number"},
                     { "data" : "ticket_datetime"},
                     { "data" : "status"},
