@@ -159,7 +159,7 @@
                     
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="buttonEditClearanceCertificateStatus" class="btn btn-primary"><i id="iconEditClearanceCertificate" class="fa fa-check"></i> Save</button>
+                        <button type="submit" id="buttonEditBarangayClearanceCertificateStatus" class="btn btn-primary"><i id="iconEditBarangayClearanceCertificateStatus" class="fa fa-check"></i> Save</button>
                     </div>
                 </form>
             </div>
@@ -190,14 +190,24 @@
             "orderClasses": false, // disable sorting_1 for unknown background
             "ajax": {
                 url: "{{ route('view_barangay_clearance_certificate') }}",
+                dataSrc: function (json) {
+                    console.log(json); // Log the response data
+                    return json.data;
+                }
             },
             "columns": [
-                { "data" : "action", orderable:false, searchable:false},
-                    { "data" : function(data){
-                        return capitalizeFirstLetter(data.resident_info.user_info.firstname) + ' ' +capitalizeFirstLetter(data.resident_info.user_info.lastname);
-                    }},
-                { "data": "gender" },
-                { "data": "civil_status" },
+                { "data": "action", orderable: false, searchable: false },
+                { "data": function(data){
+                    let firstName = data.resident_info?.user_info?.firstname || 'N/A';
+                    let lastName = data.resident_info?.user_info?.lastname || '';
+                    return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName);
+                }},
+                { "data": function(data){
+                    return data.resident_info?.user_info?.gender || 'N/A';
+                }},
+                { "data": function(data){
+                    return data.resident_info?.user_info?.civil_status || 'N/A';
+                }},
                 { "data": "ticket_number" },
                 { "data": "ticket_datetime" },
                 { "data": "status" },
