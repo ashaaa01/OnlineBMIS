@@ -174,104 +174,121 @@
 @section('js_content')
     <script type="text/javascript">
         $(document).ready(function () {
-    // Initialize Select2 Elements
-    $('.bootstrap-5').select2({
-        theme: 'bootstrap-5'
-    });
+            // Initialize Select2 Elements
+            // $('.bootstrap-5').select2();
+            $('.bootstrap-5').select2({
+                theme: 'bootstrap-5'
+            });
 
-    getResidentsBarangayClearance($('#selectResident'));
+            getResidentsBarangayClearance($('#selectResident'));
+            
+            $("#formAddBarangayClearanceCertificate").submit(function(event){
+                event.preventDefault();
+                addBarangayClearanceCertificate();
+            });
 
-    $("#formAddBarangayClearanceCertificate").submit(function(event){
-        event.preventDefault();
-        addBarangayClearanceCertificate();
-    });
+            dataTablesBarangayClearanceCertificate = $("#tableBarangayClearanceCertificate").DataTable({
+                "processing" : false,
+                "serverSide" : true,
+                "responsive": true,
+                "orderClasses": false, // disable sorting_1 for unknown background
+                // "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                "ajax" : {
+                    url: "view_barangay_clearance_certificate",
+                },
+                "columns":[
+                    { "data" : "action", orderable:false, searchable:false},
+                    { "data" : function(data){
+                        return capitalizeFirstLetter(data.resident_info.user_info.firstname) + ' ' +capitalizeFirstLetter(data.resident_info.user_info.lastname);
+                    }},
+                    { "data" : "gender"},
+                    { "data" : "civil_status"},
+                    { "data" : "ticket_number"},
+                    { "data" : "ticket_datetime"},
+                    { "data" : "status"},
+                ],
+                "columnDefs": [
+                    { className: 'align-middle', targets: [0, 1, 2, 3] },
+                ],
+                "createdRow": function(row, data, index) {
+                    $('td', row).eq(1).css('white-space', 'normal');
+                    $('td', row).eq(2).css('white-space', 'normal');
+                    // console.log('row ', row);
+                    // console.log('data ', data);
+                    // console.log('index ', index);
+                },
+            });
 
-    dataTablesBarangayClearanceCertificate = $("#tableBarangayClearanceCertificate").DataTable({
-        "processing": false,
-        "serverSide": true,
-        "responsive": true,
-        "orderClasses": false, // disable sorting_1 for unknown background
-        "ajax": {
-            url: "view_barangay_clearance_certificate",
-        },
-        "columns": [
-            { "data": "action", orderable: false, searchable: false },
-            { "data": function(data){
-                let firstName = data.resident_info?.user_info?.firstname || '';
-                let lastName = data.resident_info?.user_info?.lastname || '';
-                return capitalizeFirstLetter(firstName) + ' ' + capitalizeFirstLetter(lastName);
-            }},
-            { "data": function(data) {
-                return data.resident_info?.user_info?.gender || 'N/A';
-            }},
-            { "data": function(data) {
-                return data.resident_info?.civil_status || 'N/A';
-            }},
-            { "data": "ticket_number" },
-            { "data": "ticket_datetime" },
-            { "data": "status" }
-        ],
-        "columnDefs": [
-            { className: 'align-middle', targets: [0, 1, 2, 3] }
-        ],
-        "createdRow": function(row, data, index) {
-            $('td', row).eq(1).css('white-space', 'normal');
-            $('td', row).eq(2).css('white-space', 'normal');
-        },
-    });
+            $(document).on('click', '.actionEditBarangayClearanceCertificate', function(){
+                let id = $(this).attr('barangay-clearance-certificate-id');
+                console.log('id ', id);
+                $("input[name='barangay_clearance_certificate_id'", $("#formAddBarangayClearanceCertificate")).val(id);
+                getBarangayClearanceCertificateById(id);
+            })
 
-    $(document).on('click', '.actionEditBarangayClearanceCertificate', function(){
-        let id = $(this).attr('barangay-clearance-certificate-id');
-        $("input[name='barangay_clearance_certificate_id']", $("#formAddBarangayClearanceCertificate")).val(id);
-        getBarangayClearanceCertificateById(id);
-    });
+            function getCedulaBasis(){
+                $.ajax({
+                    url: "get_issuance_certification",
+                    method: "get",
+                    data: {
+                        id: 1, // 6-Cedula, 5-License & Permit, 4-Registration, 3-Residency, 2-Indigency, 1-Brgy. Clearance
+                    },
+                    dataType: "json",
+                    success: function(response){
+                        let issuanceConfigurationDetails = response['issuanceConfigurationDetails'];
+                        if(issuanceConfigurationDetails.length > 0){
+                            let cedulaProcessingTime = "";
+                            if(issuanceConfigurationDetails[0].processing_time == 1){
+                                cedulaProcessingTime = '1 Day';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 2){
+                                cedulaProcessingTime = '2 Days';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 3){
+                                cedulaProcessingTime = '3 Days';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 4){
+                                cedulaProcessingTime = '4 Days';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 5){
+                                cedulaProcessingTime = '5 Days';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 6){
+                                cedulaProcessingTime = '1 Week';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 7){
+                                cedulaProcessingTime = '2 Weeks';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 8){
+                                cedulaProcessingTime = '3 Weeks';
+                            }
+                            else if(issuanceConfigurationDetails[0].processing_time == 9){
+                                cedulaProcessingTime = '1 Month';
+                            }
+                            else{
+                                cedulaProcessingTime = 'Other';
+                            }
+                            $("#issuanceConfigurationId").val(issuanceConfigurationDetails[0].id);
+                            $("#textTotalAmount").val(issuanceConfigurationDetails[0].amount);
+                            $("#textProcessingTime").val(cedulaProcessingTime);
+                        }
+                        else{
+                            toastr.warning('No records found!');
+                        }
+                    },
+                    error: function(data, xhr, status){
+                        toastr.error('An error occured!\n' + 'Data: ' + data + "\n" + "XHR: " + xhr + "\n" + "Status: " + status);
+                    },
+                });
+            }
 
-    function getCedulaBasis(){
-        $.ajax({
-            url: "get_issuance_certification",
-            method: "get",
-            data: {
-                id: 1, // 6-Cedula, 5-License & Permit, 4-Registration, 3-Residency, 2-Indigency, 1-Brgy. Clearance
-            },
-            dataType: "json",
-            success: function(response){
-                let issuanceConfigurationDetails = response['issuanceConfigurationDetails'];
-                if (issuanceConfigurationDetails.length > 0) {
-                    let cedulaProcessingTime = getProcessingTime(issuanceConfigurationDetails[0].processing_time);
-                    $("#issuanceConfigurationId").val(issuanceConfigurationDetails[0].id);
-                    $("#textTotalAmount").val(issuanceConfigurationDetails[0].amount);
-                    $("#textProcessingTime").val(cedulaProcessingTime);
-                } else {
-                    toastr.warning('No records found!');
-                }
-            },
-            error: function(data, xhr, status){
-                toastr.error('An error occurred!\n' + 'Data: ' + data + "\n" + "XHR: " + xhr + "\n" + "Status: " + status);
-            },
+            
+            $("#buttonAddModalBarangayClearanceCertificate").on('click',function(event){
+                event.preventDefault();
+                getCedulaBasis();
+                // console.log('userId ', $('#textUserId').val());
+                // getResidentForCedulaByUserId($('#textUserId').val());
+            });
         });
-    }
-
-    function getProcessingTime(timeCode) {
-        const processingTimes = {
-            1: '1 Day',
-            2: '2 Days',
-            3: '3 Days',
-            4: '4 Days',
-            5: '5 Days',
-            6: '1 Week',
-            7: '2 Weeks',
-            8: '3 Weeks',
-            9: '1 Month',
-            default: 'Other'
-        };
-        return processingTimes[timeCode] || processingTimes['default'];
-    }
-
-    $("#buttonAddModalBarangayClearanceCertificate").on('click', function(event){
-        event.preventDefault();
-        getCedulaBasis();
-    });
-});
-
     </script>
 @endsection
