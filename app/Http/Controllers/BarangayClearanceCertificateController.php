@@ -59,37 +59,37 @@ class BarangayClearanceCertificateController extends Controller
             })
             ->addColumn('gender', function($row){
                 $result = "";
-                if($row->resident_info->gender == 1){
-                    $result .= '<center><span>Male</span></center>';
-                }
-                else if($row->resident_info->gender == 2){
-                    $result .= '<center><span>Female</span></center>';
-                }
-                else{
-                    $result .= '<center><span>Other</span></center>';
+                if($row->resident_info) {
+                    if($row->resident_info->gender == 1){
+                        $result .= '<center><span>Male</span></center>';
+                    } else if($row->resident_info->gender == 2){
+                        $result .= '<center><span>Female</span></center>';
+                    } else {
+                        $result .= '<center><span>Other</span></center>';
+                    }
+                } else {
+                    $result .= '<center><span>N/A</span></center>';
                 }
                 return $result;
             })
             ->addColumn('civil_status', function($row){
-                // 1-Single, 2-Married, 3-Widow/er, 4-Annulled, 5-Legally Separated, 6-Others
                 $result = "";
-                if($row->resident_info->civil_status == 1){
-                    $result .= '<center><span>Single</span></center>';
-                }
-                else if($row->resident_info->civil_status == 2){
-                    $result .= '<center><span>Married</span></center>';
-                }
-                else if($row->resident_info->civil_status == 3){
-                    $result .= '<center><span>Widow/er</span></center>';
-                }
-                else if($row->resident_info->civil_status == 4){
-                    $result .= '<center><span>Annulled</span></center>';
-                }
-                else if($row->resident_info->civil_status == 5){
-                    $result .= '<center><span>Legally Separated</span></center>';
-                }
-                else if($row->resident_info->civil_status == 6){
-                    $result .= '<center><span>Others</span>';
+                if($row->resident_info) {
+                    if($row->resident_info->civil_status == 1){
+                        $result .= '<center><span>Single</span></center>';
+                    } else if($row->resident_info->civil_status == 2){
+                        $result .= '<center><span>Married</span></center>';
+                    } else if($row->resident_info->civil_status == 3){
+                        $result .= '<center><span>Widow/er</span></center>';
+                    } else if($row->resident_info->civil_status == 4){
+                        $result .= '<center><span>Annulled</span></center>';
+                    } else if($row->resident_info->civil_status == 5){
+                        $result .= '<center><span>Legally Separated</span></center>';
+                    } else if($row->resident_info->civil_status == 6){
+                        $result .= '<center><span>Others</span></center>';
+                    }
+                } else {
+                    $result .= '<center><span>N/A</span></center>';
                 }
                 return $result;
             })
