@@ -334,10 +334,10 @@ class BarangayClearanceCertificateController extends Controller
         return DataTables::of($barangayClearanceCertificateDetails)
             ->addColumn('gender', function($row){
                 $result = "";
-                if($row->resident_info->gender == 1){
+                if($row->resident_info?->gender == 1){
                     $result .= '<center><span>Male</span></center>';
                 }
-                else if($row->resident_info->gender == 2){
+                else if($row->resident_info?->gender == 2){
                     $result .= '<center><span>Female</span></center>';
                 }
                 else{
