@@ -11,6 +11,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Online Barangay Management Information System</title>
         @include('shared.css_links.css_links')
+        <!-- Bootstrap CSS for Modal -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     </head>
     <body>
@@ -40,6 +42,9 @@
                             <label for="exampleFormControlInput1" class="form-label">Password<span class="text-danger">*</span></label>
                             <input type="password" class="form-control" name="password" id="textPassword" placeholder="Password">
                         </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <a href="#" data-toggle="modal" data-target="#forgotPasswordModal" class="text-decoration-none">Forgot Password?</a>
+                        </div>
                         <div class="submit-button text-right">
                             <button class="btn btn-success" id="btnSignIn" type="submit"><i id="btnSignInIcon" class="fa fa-check"></i> Login</button>
                         </div>
@@ -48,10 +53,38 @@
             </div>
         </div>
         
+        <!-- Forgot Password Modal -->
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formForgotPassword">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address<span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required>
+                            </div>
+                            <div class="submit-button text-right">
+                                <button class="btn btn-primary" id="btnForgotPassword" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     </html>
 
     @include('shared.js_links.js_links')
+
+    <!-- Bootstrap JS and dependencies for Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -59,10 +92,14 @@
                 event.preventDefault();
                 signIn();
             });
-
+            $("#formForgotPassword").submit(function(event){
+                event.preventDefault();
+                forgotPassword();
+            });
         });
         
-    </script>
+
+        </script>
 @endif
 
 
