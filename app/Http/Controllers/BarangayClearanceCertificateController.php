@@ -233,7 +233,8 @@ class BarangayClearanceCertificateController extends Controller
     foreach ($data['data'] as $item) {
         $item->issued_on = Carbon::parse($item->issued_on)->format('Y-m-d');
     }
-
+    
+    // Load the PDF view with data
     $pdf = PDF::loadView('barangay_clearance_pdf', $data);
     return $pdf->stream('Barangay Clearance PDF File' . ".pdf");
 }

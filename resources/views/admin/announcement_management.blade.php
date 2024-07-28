@@ -202,7 +202,20 @@
                 },
                 "columns":[
                     { "data" : "action", orderable:false, searchable:false},
-                    { "data" : "image"},
+                    {
+                    data: null,
+                    render: function (data, type, row) {
+                        return `
+                        <div style="overflow: hidden;">
+                            <img
+                            style="object-fit: cover;width:40px;height:40px"
+                            src="${data.image}"
+                            alt="Product Avatar"
+                            />
+                        </div>
+                        `;
+                    }
+                    },
                     { "data" : "title"},
                     { "data" : "details"},
                     { "data" : "date"},

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Auth; // or use Illuminate\Support\Facades\Auth;
@@ -65,14 +66,9 @@ class AnnouncementController extends Controller
             })
             ->addColumn('image', function($row){
                 $result = "";
-                
+                 
                 if($row->image != null){
-                    $url = asset("/storage/announcement_attachments/$row->image");
-                    $result .= '<a href="'.$url.'" target="_blank" data-toggle="lightbox" data-caption="This describes the image">';
-                    $result .=    '<center><img width="80" height="80" class="img-fluid rounded" src="'.$url.'"></center>';
-                    $result .=  '</a>';
-                }else{
-                    $result .= '<center><span class="badge badge-pill badge-secondary">No image</span></center>';
+                    $result = asset("announcement_attachments/$row->image");
                 }
                 return $result;
             })
@@ -101,18 +97,23 @@ class AnnouncementController extends Controller
                     /**
                      * For uploading image
                      */
-                    $name = null;
+                    $image_name = null;
                     if(isset($request->image)){
-                        $file = $request->file('image');
-                        $name = $file->getClientOriginalName();
-                        Storage::putFileAs('public/announcement_attachments', $request->image, $name);
+                        $folder = 'announcement_attachments';
+                        $image_file = $request->file('image');
+                        $image_name = $image_file->getClientOriginalName();
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $image_file;
+                        $file->move(public_path($folder), $image_name);
                     }
                     
                     Announcement::insert([
                         'title' => $request->title,
                         'details' => $request->details,
                         'date' => $request->date,
-                        'image' => $name,
+                        'image' => $image_name,
                         'created_at' => date('Y-m-d H:i:s'),
                         'created_by' => $_SESSION["session_user_id"],
                         'is_deleted' => 0
@@ -137,17 +138,22 @@ class AnnouncementController extends Controller
             } else {
                 DB::beginTransaction();
                 try {
-                    $name = null;
+                    $image_name = null;
                     if(isset($request->image)){
-                        $file = $request->file('image');
-                        $name = $file->getClientOriginalName();
-                        Storage::putFileAs('public/announcement_attachments', $request->image, $name);
+                        $folder = 'announcement_attachments';
+                        $image_file = $request->file('image');
+                        $image_name = $image_file->getClientOriginalName();
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $image_file;
+                        $file->move(public_path($folder), $image_name);
 
                         Announcement::where('id', $request->announcement_id)->update([
                             'title' => $request->title,
                             'details' => $request->details,
                             'date' => $request->date,
-                            'image' => $name,
+                            'image' => $image_name,
                             'updated_at' => date('Y-m-d H:i:s'),
                             'last_updated_by' => $_SESSION["session_user_id"]
                         ]);

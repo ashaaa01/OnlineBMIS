@@ -67,6 +67,7 @@
                                             <tr>
                                                 <th>Action</th>
                                                 <!--th>ID Number</th-->
+                                                <th>Image</th>
                                                 <th>Name</th>
                                                 <th>Age</th>
                                                 <th>Gender</th>
@@ -692,6 +693,20 @@
                 "columns":[
                     { "data" : "action", orderable:false, searchable:false},
                   //  { "data" : "barangay_id_number"},
+                    {
+                    data: null,
+                    render: function (data, type, row) {
+                        return `
+                        <div style="overflow: hidden;">
+                            <img
+                            style="object-fit: cover;width:40px;height:40px"
+                            src="${data.image}"
+                            alt="Product Avatar"
+                            />
+                        </div>
+                        `;
+                    }
+                    },
                     { "data" : function(data){
                         return capitalizeFirstLetter(data.user_info.lastname) +', '+ capitalizeFirstLetter(data.user_info.firstname);
                     }},

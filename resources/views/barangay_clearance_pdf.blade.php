@@ -99,8 +99,8 @@
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" class="logo" alt="Top Left Logo" style="float: left;">
-        <img src="path_to_top_right_logo.png" class="logo" alt="Top Right Logo" style="float: right;">
+        <img src="{{$logoleft ?? ''}}" class="logo" alt="Top Left Logo" style="float: left;">
+        <img src="{{$logoright ?? ''}}" class="logo" alt="Top Right Logo" style="float: right;">
         <p style="font-size: 17px;">Republic of the Philippines<br>Province of Oriental Mindoro<br>Municipality of Bansud<br><strong style="color: #008000;">BARANGAY PAG-ASA</strong></p>
         <hr class="headerline1" style="width: 100%; border: none; border-bottom: 1px solid #964B00;">
         <hr class="headerline2" style="width: 100%; border: none; border-bottom: 3px solid #964B00;">

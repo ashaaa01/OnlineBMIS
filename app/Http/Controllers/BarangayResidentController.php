@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Auth; // or use Illuminate\Support\Facades\Auth;
@@ -192,6 +193,14 @@ class BarangayResidentController extends Controller
                  }
                  return $result;
              })
+             ->addColumn('image', function($row){
+                $result = "";
+                 
+                if($row->photo != null){
+                    $result = asset("resident_photo/$row->photo");
+                }
+                return $result;
+            })
             ->addColumn('created_at', function($row){
                 $result = "";
                 $result .= Carbon::parse($row->created_at)->format('M d, Y h:ia');
@@ -277,6 +286,14 @@ class BarangayResidentController extends Controller
                 }
                 return $result;
             })
+            ->addColumn('image', function($row){
+                $result = "";
+                
+                if($row->photo != null){
+                    $result = asset("resident_photo/$row->photo");
+                }
+                return $result;
+            })
         ->rawColumns(['case_number', 'respondent', 'complainant', 'complainant_statement', 'reported_date', 'reported_date', 'action_taken', 'status'])
         ->make(true);
     }
@@ -323,9 +340,14 @@ class BarangayResidentController extends Controller
                      */
                     $image_name = null;
                     if(isset($request->photo)){
+                        $folder = 'resident_photo';
                         $image_file = $request->file('photo');
                         $image_name = $image_file->getClientOriginalName();
-                        Storage::putFileAs('public/resident_photo', $request->photo, $image_name);
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $image_file;
+                        $file->move(public_path($folder), $image_name);
                     }
 
                     $barangayResidentId = BarangayResident::insertGetId([
@@ -401,9 +423,14 @@ class BarangayResidentController extends Controller
                      */
                     $image_name = null;
                     if(isset($request->photo)){
+                        $folder = 'resident_photo';
                         $image_file = $request->file('photo');
                         $image_name = $image_file->getClientOriginalName();
-                        Storage::putFileAs('public/resident_photo', $request->photo, $image_name);
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $image_file;
+                        $file->move(public_path($folder), $image_name);
                     }
 
                     BarangayResident::where('id', $request->barangay_resident_id)->update([
