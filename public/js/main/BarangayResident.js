@@ -220,7 +220,10 @@ function getBarangayResidentById(id){
         success: function(response){
             let barangayResidentDetails = response['barangayResidentDetails'];
             if(barangayResidentDetails.length > 0){
-
+                $("#selectUser").val(barangayResidentDetails[0].user_id).trigger('change');
+                $("#selectGender").val(barangayResidentDetails[0].gender).trigger('change');
+                $("#selectCivilStatus").val(barangayResidentDetails[0].civil_status).trigger('change');
+                $("#selectEducationalAttainment").val(barangayResidentDetails[0].educational_attainment).trigger('change');
 
                 $("#textLengthOfStay").val(barangayResidentDetails[0].length_of_stay);
                 $("#textBirthdate").val(barangayResidentDetails[0].birthdate);
@@ -242,10 +245,7 @@ function getBarangayResidentById(id){
                 $("#textPhilHealthNumber").val(barangayResidentDetails[0].phil_health_number);
                 $("#textRemarks").val(barangayResidentDetails[0].remarks);
 
-                $("#selectUser").val(barangayResidentDetails[0].user_id).trigger('change');
-                $("#selectGender").val(barangayResidentDetails[0].gender).trigger('change');
-                $("#selectCivilStatus").val(barangayResidentDetails[0].civil_status).trigger('change');
-                $("#selectEducationalAttainment").val(barangayResidentDetails[0].educational_attainment).trigger('change');
+                
                 
             }
             else{
@@ -273,6 +273,9 @@ function viewBarangayResidentById(id){
             let viewBarangayResidentDetails = response['viewBarangayResidentDetails'];
             // console.log(viewBarangayResidentDetails)
             if(viewBarangayResidentDetails.length > 0){
+                $("#selectUser", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].user_id).trigger('change');
+                $("#selectGender", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].gender).trigger('change');
+                $("#selectCivilStatus", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].civil_status).trigger('change');
 
                 $("#textZone", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].zone);
                 $("#textBarangay", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].barangay);
@@ -293,9 +296,8 @@ function viewBarangayResidentById(id){
                 $("#textContactNumber", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].contact_number);
                 $('select[name="user_level"]', $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info']['user_levels'].id).trigger('change');
                 $("#textUsername", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].username);
-                $("#selectUser", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].user_id).trigger('change');
-                $("#selectGender", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].gender).trigger('change');
-                $("#selectCivilStatus", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].civil_status).trigger('change');
+                
+                
                 $("#textBirthdate", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].birthdate);
                 $("#textAge", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].age);
                 $("#textBirthPlace", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].birth_place);
