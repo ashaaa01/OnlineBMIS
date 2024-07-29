@@ -94,6 +94,9 @@
                 event.preventDefault();
                 signIn();
             });
+
+            var alertMessage = $("#alertMessage");
+            
             $("#formForgotPassword").submit(function(event){
                 event.preventDefault();
                 $.ajax({
