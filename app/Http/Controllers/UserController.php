@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
+use App\Jobs\SendNewPassword;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 use DOMElement;
@@ -739,6 +741,35 @@ class UserController extends Controller
         }
 
         return DataTables::of($query)->make(true);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make([
+            'email' => $request->email
+        ], [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        if($validator->fails()) {
+            return response($validator->errors()->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('email', $request->email);
+
+        $newPassword = Str::random(8);
+        $hashedPassword = bcrypt($newPassword);
+
+        $user->update(['password' => $hashedPassword]);
+
+        $details = [
+            'recipient' => $user->email,
+            'newPassword' => $newPassword
+        ];
+
+        SendNewPassword::dispatch($details);
+
+        return response(['message' => 'Password has been reset successfully. Please check your email.'], Response::HTTP_OK);
     }
 }
 

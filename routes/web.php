@@ -37,16 +37,16 @@ Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function 
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
   
     Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');
-    Route::get('/leave', '\App\Http\Controllers\LeaveController@index')->name('leave');
-    Route::get('/overtime', '\App\Http\Controllers\LeaveController@indexOvertime')->name('indexOvertime');
+    // Route::get('/leave', '\App\Http\Controllers\LeaveController@index')->name('leave');
+    // Route::get('/overtime', '\App\Http\Controllers\LeaveController@indexOvertime')->name('indexOvertime');
 
-    Route::get('/admin', '\App\Http\Controllers\AdminController@index')->name('admin');
+    // Route::get('/admin', '\App\Http\Controllers\AdminController@index')->name('admin');
 
-    Route::resource('/schedule', '\App\Http\Controllers\ScheduleController');
+    // Route::resource('/schedule', '\App\Http\Controllers\ScheduleController');
 
-    Route::get('/check', '\App\Http\Controllers\CheckController@index')->name('check');
-    Route::get('/sheet-report', '\App\Http\Controllers\CheckController@sheetReport')->name('sheet-report');
-    Route::post('check-store','\App\Http\Controllers\CheckController@CheckStore')->name('check_store');
+    // Route::get('/check', '\App\Http\Controllers\CheckController@index')->name('check');
+    // Route::get('/sheet-report', '\App\Http\Controllers\CheckController@sheetReport')->name('sheet-report');
+    // Route::post('check-store','\App\Http\Controllers\CheckController@CheckStore')->name('check_store');
     
 
 });
@@ -64,7 +64,7 @@ Route::post('/register', '\App\Http\Controllers\Auth\RegisterController@store')-
 
 // routes/web.php
 
-Route::resource('/brand', '\App\Http\Controllers\BrandController');
+// Route::resource('/brand', '\App\Http\Controllers\BrandController');
 
 // routes/web.php
 
@@ -502,3 +502,5 @@ Route::get('/resident-report', [BarangayResidentController::class, 'resident_rep
 Route::get('get-combined-report-data', [ReportController::class, 'getCombinedReportData'])->name('getCombinedReportData');
 Route::get('/certificates-reports', [ReportController::class, 'certificateReport'])->name('certificates_reports');
 Route::get('combined-report-pdf', [ReportController::class, 'generateCombinedReportPdf'])->name('combinedReportPdf');
+
+Route::post('/auth/user/reset-password', [UserController::class, 'resetPassword']);
