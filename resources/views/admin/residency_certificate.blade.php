@@ -118,10 +118,10 @@
                                         <label for="textStatus" class="form-label">Status<span class="text-danger" title="Required">*</span></label>
                                         <select class="form-select" id="selectStatus" name="status">
                                             <option value="0" disabled selected>Select One</option>
-                                            <option value="1">Approved</option>
-                                            <option value="2">Processing</option>
-                                            <option value="3">Pending</option>
-                                            <option value="4">Disapproved</option>
+                                            <option value="1">Issued</option>
+                                            <option value="2">For Issuance</option>
+                                            <option value="3">On Process</option>
+                                           {{-- <option value="4">Disapproved</option> --}}
                                         </select>
                                     </div>
                                 </div>

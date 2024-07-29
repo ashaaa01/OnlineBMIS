@@ -92,7 +92,7 @@ class BarangayClearanceCertificateController extends Controller
                     case 3:
                         return '<center><span class="badge badge-pill badge-secondary">On Process</span></center>';
                     default:
-                        return '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Pending</span></center>';
+                        return '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">On Process</span></center>';
                 }
             })
         ->rawColumns(['action', 'gender', 'civil_status', 'status'])
@@ -443,7 +443,7 @@ class BarangayClearanceCertificateController extends Controller
                //     $result .= '<center><span class="badge badge-pill badge-danger">Disapproved</span></center>';
                // }
                 else{
-                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Pending</span></center>';
+                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">On Process</span></center>';
                 }
                 return $result;
             })

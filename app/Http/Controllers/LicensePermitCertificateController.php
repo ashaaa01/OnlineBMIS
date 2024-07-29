@@ -93,19 +93,19 @@ class LicensePermitCertificateController extends Controller
                 // 1-Approved, 2-Processing, 3-Pending, 4-Disapproved
                 $result = "";
                 if($row->status == 1){
-                    $result .= '<center><span class="badge badge-pill badge-success">To be claimed</span></center>';
+                    $result .= '<center><span class="badge badge-pill badge-success">Issued</span></center>';
                 }
                 else if($row->status == 2){
-                    $result .= '<center><span class="badge badge-pill badge-primary">Processing</span></center>';
+                    $result .= '<center><span class="badge badge-pill badge-primary">For Issuance</span></center>';
                 }
                 else if($row->status == 3){
-                    $result .= '<center><span class="badge badge-pill badge-secondary">Pending</span></center>';
+                    $result .= '<center><span class="badge badge-pill badge-secondary">On Process</span></center>';
                 }
-                else if($row->status == 4){
-                    $result .= '<center><span class="badge badge-pill badge-danger">Disapproved</span></center>';
-                }
+              //  else if($row->status == 4){
+              //      $result .= '<center><span class="badge badge-pill badge-danger">Disapproved</span></center>';
+              //  }
                 else{
-                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Pending</span></center>';
+                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">On Process</span></center>';
                 }
                 return $result;
             })

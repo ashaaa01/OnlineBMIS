@@ -523,6 +523,12 @@ class UserController extends Controller
         $totalDisapprovedResidencyCertificates = ResidencyCertificate::where('status', '4')->count();
         $totalApprovedResidencyCertificates = ResidencyCertificate::where('status', '1')->count();
 
+        $totalLicensePermitCertificate = LicensePermitCertificate::count();
+        $totalPendingLicensePermitCertificate = LicensePermitCertificate::where('status', '3')->count();
+        $totalProcessingLicensePermitCertificate = LicensePermitCertificate::where('status', '2')->count();
+        $totalDisapprovedLicensePermitCertificate = LicensePermitCertificate::where('status', '4')->count();
+        $totalApprovedLicensePermitCertificate = LicensePermitCertificate::where('status', '1')->count();
+
         $totalRegistrationCertificates = RegistrationCertificate::count();
         $totalLicensePermitCertificates = LicensePermitCertificate::count();
     
@@ -567,6 +573,12 @@ class UserController extends Controller
             'totalProcessingResidencyCertificates' => $totalProcessingResidencyCertificates,
             'totalDisapprovedResidencyCertificates' => $totalDisapprovedResidencyCertificates,
             'totalApprovedResidencyCertificates' => $totalApprovedResidencyCertificates,
+
+            'totalLicensePermitCertificate' => $totalLicensePermitCertificate,
+            'totalPendingLicensePermitCertificate' => $totalPendingLicensePermitCertificate,
+            'totalProcessingLicensePermitCertificate' => $totalProcessingLicensePermitCertificate,
+            'totalDisapprovedLicensePermitCertificate' => $totalDisapprovedLicensePermitCertificate,
+            'totalApprovedLicensePermitCertificate' => $totalApprovedLicensePermitCertificate,
 
             'totalRegistrationCertificates' => $totalRegistrationCertificates,
             'totalLicensePermitCertificates' => $totalLicensePermitCertificates,

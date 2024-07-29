@@ -269,8 +269,10 @@ class ReportController extends Controller
         'city_title' => 'Bayan ng Bansud',
         'brgy_title' => "BARANGAY PAG-ASA",
         'telephone_title' => "Telephone No.: (049)-502-6234",
-        'title' => 'Combined Report',
+        'title' => 'LIST OF REQUESTED BARANGAY DOCUMENTS',
         'data' => $combinedData, // Ensure this is populated correctly
+        'logoleft' => public_path('images/svg/bansudlogo.png'),
+        'logoright' => public_path('images/svg/palogo.png'),
     ];
 
     $pdf = PDF::loadView('certificates_reports_pdf', $data);

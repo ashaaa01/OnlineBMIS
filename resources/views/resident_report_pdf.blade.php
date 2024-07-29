@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Resident Certificate</title>
+    <title>Resident Report</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -70,6 +70,14 @@
             z-index: -1; /* Place it behind the text */
             transform: translate(-50%, -50%) rotate(-0deg); /* Center and rotate the watermark */
         }
+        hr.headerline1{
+            margin-top: -10px;
+            margin-bottom: 1px;
+        }
+        hr.headerline2{
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
     </style>
 </head>
 <body>
@@ -85,9 +93,10 @@
         {{ $province_title }}<br>
         <span>{{ $city_title }}</span><br>
         <span style="font-size: 16px; color:#008000;"><strong>{{ $brgy_title }}</strong></span><br>
-        <span style="font-size: 10px;"><strong>{{ $telephone_title }}</strong></span>
+        <hr class="headerline1" style="width: 100%; border: none; border-bottom: 1px solid #964B00;">
+        <hr class="headerline2" style="width: 100%; border: none; border-bottom: 3px solid #964B00;">
     </p>
-    <hr style="width:100%;text-align:left;margin-left:0">
+    </div>
     </div>
     <h2 style="text-align: center; font-size: 20px;"><strong>{{ $title }}</strong></h2>
     <table>

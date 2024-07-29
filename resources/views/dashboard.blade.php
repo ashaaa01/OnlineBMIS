@@ -413,25 +413,27 @@
             labels: ['Barangay Clearance', 'Indigency', 'Residency', 'Business Permit'], // Sequential numbers for the x-axis labels
             datasets: [
                 {
-                    label: 'Pending',
+                    label: 'On Process',
                     data: [
                         data['totalPendingBarangayClearanceCertificates'],
                         data['totalPendingIndigencyCertificates'],
                         data['totalPendingResidencyCertificates'],
+                        data['totalLicensePermitCertificate'],
                         0
                     ],
-                    backgroundColor: '#AC92EB',
-                    borderColor: '#AC92EB',
+                    backgroundColor: '#6c757d',
+                    borderColor: '#6c757d',
                     borderWidth: 1,
                     barThickness: 30,
                     borderRadius: 5
                 },
                 {
-                    label: 'Processing',
+                    label: 'For Issuance',
                     data: [
                         data['totalProcessingBarangayClearanceCertificates'],
                         data['totalProcessingIndigencyCertificates'],
                         data['totalProcessingResidencyCertificates'],
+                        data['totalProcessingLicensePermitCertificate'],
                         0
                     ],
                     backgroundColor: '#4FC1E8',
@@ -441,25 +443,12 @@
                     borderRadius: 5
                 },
                 {
-                    label: 'Disapproved',
-                    data: [
-                        data['totalDisapprovedBarangayClearanceCertificates'],
-                        data['totalDisapprovedIndigencyCertificates'],
-                        data['totalDisapprovedResidencyCertificates'],
-                        0
-                    ],
-                    backgroundColor: '#ED5564',
-                    borderColor: '#ED5564',
-                    borderWidth: 1,
-                    barThickness: 30,
-                    borderRadius: 5
-                },
-                {
-                    label: 'Approved',
+                    label: 'Issued',
                     data: [
                         data['totalApprovedBarangayClearanceCertificates'],
                         data['totalApprovedIndigencyCertificates'],
                         data['totalApprovedResidencyCertificates'],
+                        data['totalApprovedLicensePermitCertificate'],
                         0
                     ],
                     backgroundColor: '#A0D568',
@@ -474,7 +463,7 @@
                         data['totalBarangayClearanceCertificates'],
                         data['totalIndigencyCertificates'],
                         data['totalResidencyCertificates'],
-                        data['totalLicensePermitCertificatesRequests']
+                        data['totalLicensePermitCertificatesRequests'],
                     ],
                     backgroundColor: [
                         '#FFCE54',

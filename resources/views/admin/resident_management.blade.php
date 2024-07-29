@@ -230,7 +230,7 @@
                                     </div>
 
                                     <div class="mb-3" id="divUploadphoto">
-                                        <label for="textRemarks" class="form-label">Upload</label>
+                                        <label for="textRemarks" class="form-label">Upload Photo</label>
                                         <input type="text" class="form-control d-none" disabled id="textAddphoto"> <!-- Only for showing fetched file -->
                                         <input type="file" class="form-control" name="photo" id="fileAddPhoto">
                                     </div>
@@ -671,6 +671,23 @@
                 event.preventDefault();
                 addBarangayResident();
             });
+
+            $("#buttonEditBarangayResident").on('click', function() {
+        $('#divReuploadphoto').removeClass('d-none'); // Show the re-upload section
+        $('#textAddphoto').removeClass('d-none'); // Show the fetched file text input
+        $('#fileAddPhoto').addClass('d-none'); // Hide the file input for uploading a new photo initially
+    });
+
+    // Handle the checkbox change event to toggle the visibility of the file input
+    $('#checkboxphoto').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#fileAddPhoto').removeClass('d-none'); // Show the file input when checkbox is checked
+            $('#textAddphoto').addClass('d-none'); // Hide the fetched file text input when checkbox is checked
+        } else {
+            $('#fileAddPhoto').addClass('d-none'); // Hide the file input when checkbox is unchecked
+            $('#textAddphoto').removeClass('d-none'); // Show the fetched file text input when checkbox is unchecked
+        }
+    });
 
             dataTablesBarangayResident = $("#tableBarangayResident").DataTable({
                 "processing" : false,
