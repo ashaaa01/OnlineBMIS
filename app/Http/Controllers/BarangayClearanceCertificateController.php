@@ -522,7 +522,7 @@ public function certificateReportPdf()
         
         $barangayResidentId = BarangayResident::
             where('user_id', $request->user_id)
-            ->value('id');
+            ->first();
             // return $barangayResidentId;
             
         /* For Insert */
@@ -547,7 +547,7 @@ public function certificateReportPdf()
                 
                 try {
                     $barangayClearanceCertificateId = BarangayClearanceCertificate::insertGetId([
-                        'barangay_resident_id' => $barangayResidentId,
+                        'barangay_resident_id' => $barangayResidentId->id,
                         'purpose' => $request->purpose,
                         'issuance_configuration_id' => $request->issuance_configuration_id,
                         'total_amount_paid' => $request->total_amount_paid,
