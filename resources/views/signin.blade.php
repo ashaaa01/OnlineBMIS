@@ -95,7 +95,17 @@
             });
             $("#formForgotPassword").submit(function(event){
                 event.preventDefault();
-                forgotPassword();
+                $.ajax({
+                    url: '/auth/user/reset-password',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function() {
+                        alertMessage.removeClass("alert-danger").addClass("alert-success").text("Password reset link has been sent to your email.").removeClass("d-none");
+                    },
+                    error: function() {
+                        alertMessage.removeClass("alert-success").addClass("alert-danger").text("Failed to send password reset link. Please try again.").removeClass("d-none");
+                    }
+                })
             });
         });
         
