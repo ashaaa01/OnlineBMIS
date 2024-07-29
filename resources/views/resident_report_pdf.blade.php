@@ -37,17 +37,58 @@
             text-align: center;
             font-size: 8px;
         }
+        .header .logo-left {
+            margin-top: 7px;
+            position: absolute;
+            margin-left: 55px;
+            top: 0;
+            left: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+        }
+        .header .logo-right {
+            position: absolute;
+            margin-right: 55px;
+            top: 0;
+            right: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+            margin-top: 7px;
+        }
+        .logo {
+            height: 80px;
+            width: auto;
+        }
+        .watermark {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            width: 90%;
+            height: 70%;
+            opacity: 0.2; /* Adjust opacity as needed */
+            pointer-events: none; /* Ensure it doesn't interfere with content interaction */
+            z-index: -1; /* Place it behind the text */
+            transform: translate(-50%, -50%) rotate(-0deg); /* Center and rotate the watermark */
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center; font-size: 18px;"><strong>{{ $repub_title }}</strong></h1>
-    <p style="text-align: center; font-size: 12px;">
+
+    <!-- Watermark -->
+    <img src="file://{{ $logoright }}" class="watermark" alt="Watermark Logo">
+
+    <div class="header">
+        <img src="file://{{ $logoleft }}" class="logo-left" alt="Top Left Logo" style="float: left;">
+        <img src="file://{{ $logoright }}" class="logo-right" alt="Top Right Logo" style="float: right;">
+        <h1 style="text-align: center; font-size: 18px;"><strong>{{ $repub_title }}</strong></h1>
+        <p style="text-align: center; font-size: 12px;">
         {{ $province_title }}<br>
         <span>{{ $city_title }}</span><br>
-        <span style="font-size: 16px; color:dodgerblue;"><strong>{{ $brgy_title }}</strong></span><br>
+        <span style="font-size: 16px; color:#008000;"><strong>{{ $brgy_title }}</strong></span><br>
         <span style="font-size: 10px;"><strong>{{ $telephone_title }}</strong></span>
     </p>
     <hr style="width:100%;text-align:left;margin-left:0">
+    </div>
     <h2 style="text-align: center; font-size: 20px;"><strong>{{ $title }}</strong></h2>
     <table>
         <tr>
@@ -115,7 +156,7 @@
     </table>
     <!-- Footer -->
     <div class="footer">
-        <p>Page {PAGE_NUM} of {PAGE_COUNT}</p>
+        
         <p>Generated on {{ date('F j, Y') }}</p>
     </div>
 </body>

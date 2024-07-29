@@ -627,6 +627,8 @@ class BarangayResidentController extends Controller
         'telephone_title' => "Telephone No.: (049)-502-6234",
         'title' => $title,
         'data' => $residentDetails,
+        'logoleft' => public_path('images/svg/bansudlogo.png'),
+        'logoright' => public_path('images/svg/palogo.png'),
     ];
 
     $pdf = PDF::loadView('resident_report_pdf', $data);

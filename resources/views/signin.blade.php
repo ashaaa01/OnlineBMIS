@@ -71,6 +71,7 @@
                             </div>
                             <div class="submit-button text-right">
                                 <button class="btn btn-primary" id="btnForgotPassword" type="submit">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -98,6 +99,23 @@
             });
         });
         
+        function forgotPassword() {
+            var email = $("#email").val();
+            
+            // Simulate AJAX request
+            setTimeout(function() {
+                // Mock response
+                var success = true; // Change to false to simulate error
+
+                var alertMessage = $("#alertMessage");
+                if(success) {
+                    alertMessage.removeClass("alert-danger").addClass("alert-success").text("Password reset link has been sent to your email.").removeClass("d-none");
+                } else {
+                    alertMessage.removeClass("alert-success").addClass("alert-danger").text("Failed to send password reset link. Please try again.").removeClass("d-none");
+                }
+                $("#forgotPasswordModal").modal('hide');
+            }, 1000);
+        }
 
         </script>
 @endif
