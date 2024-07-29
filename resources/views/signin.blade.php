@@ -64,6 +64,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div id="alertMessage"></div>
                         <form id="formForgotPassword">
                             @csrf
                             <div class="mb-3">
@@ -96,7 +97,7 @@
             });
 
             var alertMessage = $("#alertMessage");
-            
+
             $("#formForgotPassword").submit(function(event){
                 event.preventDefault();
                 $.ajax({
