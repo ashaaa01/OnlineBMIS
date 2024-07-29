@@ -65,6 +65,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="formForgotPassword">
+                            @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address<span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required>
