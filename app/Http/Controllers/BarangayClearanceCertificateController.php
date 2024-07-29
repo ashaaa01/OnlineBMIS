@@ -215,9 +215,85 @@ class BarangayClearanceCertificateController extends Controller
     public function barangay_clerance_pdf(Request $request, $id)
 {
     $barangayResidentDetails = BarangayClearanceCertificate::with(['resident_info.user_info', 'issuance_configuration_info'])
-                                ->where('id', $id)
-                                ->where('is_deleted', 0)->orderBy('id', 'desc')
-                                ->get();
+        ->where('id', $id)
+        ->where('is_deleted', 0)
+        ->orderBy('id', 'desc')
+        ->get();
+
+    // Helper functions to convert codes to text
+    $getGenderText = function($genderCode) {
+        switch ($genderCode) {
+            case 1: return 'Male';
+            case 2: return 'Female';
+            default: return 'Other';
+        }
+    };
+
+    $getCivilStatusText = function($civilStatusCode) {
+        switch ($civilStatusCode) {
+            case 1: return 'Single';
+            case 2: return 'Married';
+            case 3: return 'Widow/er';
+            case 4: return 'Annulled';
+            case 5: return 'Legally Separated';
+            case 6: return 'Others';
+            default: return 'Unknown';
+        }
+    };
+
+    $getEducationalAttainmentText = function($educationCode) {
+        switch ($educationCode) {
+            case 1: return 'Elementary Graduate';
+            case 2: return 'Elementary Undergraduate';
+            case 3: return 'High School Graduate';
+            case 4: return 'High School Undergraduate';
+            case 5: return 'College Graduate';
+            case 6: return 'College Undergraduate';
+            case 7: return 'Masters Graduate';
+            case 8: return 'Some/Completed Masters Degree';
+            case 9: return 'Vocational';
+            case 10: return 'Others';
+            default: return 'Unknown';
+        }
+    };
+
+    $getZoneText = function($zoneCode) {
+        // Define your zone mappings here
+        $zoneMap = [
+            1 => 'Zone 1',
+            2 => 'Zone 2',
+            3 => 'Zone 3',
+            4 => 'Zone 4',
+            5 => 'Zone 5',
+            6 => 'Zone 6',
+            7 => 'Zone 7',
+            8 => 'Zone 8',
+            9 => 'Zone 9',
+            // Add more zones as needed
+        ];
+        return $zoneMap[$zoneCode] ?? 'Unknown Zone';
+    };
+
+    // Format the date and convert values to text
+    foreach ($barangayResidentDetails as $item) {
+        $item->issued_on = Carbon::parse($item->issued_on)->format('Y-m-d');
+        $item->resident_info->gender_text = $getGenderText($item->resident_info->gender);
+        $item->resident_info->civil_status_text = $getCivilStatusText($item->resident_info->civil_status);
+        $item->resident_info->educational_attainment_text = $getEducationalAttainmentText($item->resident_info->educational_attainment);
+        $item->resident_info->zone_text = $getZoneText($item->resident_info->zone);
+        
+        // Concatenate address fields
+        $addressParts = [
+            $item->resident_info->zone_text,
+            $item->resident_info->street,
+            $item->resident_info->barangay,
+            $item->resident_info->municipality,
+            $item->resident_info->province
+        ];
+        
+        // Remove empty parts and join with commas
+        $item->resident_info->full_address = implode(', ', array_filter($addressParts));
+    }
 
     $data = [
         'repub_title' => 'Republic of the Philippines',
@@ -225,19 +301,18 @@ class BarangayClearanceCertificateController extends Controller
         'city_title' => 'Municipality of Bansud',
         'brgy_title' => "BARANGAY PAG-ASA",
         'data' => $barangayResidentDetails,
-        'amount_collection' => $barangayResidentDetails->first()->amount_collection,  // Fetch amount_collection
+        'amount_collection' => $barangayResidentDetails->first()->amount_collection,
         'or_number' => $barangayResidentDetails->first()->or_number,
+        'purpose' => $barangayResidentDetails->first()->purpose,
+        'logoleft' => public_path('images/svg/bansudlogo.png'),
+        'logoright' => public_path('images/svg/palogo.png'),
     ];
 
-    // Format the date
-    foreach ($data['data'] as $item) {
-        $item->issued_on = Carbon::parse($item->issued_on)->format('Y-m-d');
-    }
-    
-    // Load the PDF view with data
     $pdf = PDF::loadView('barangay_clearance_pdf', $data);
     return $pdf->stream('Barangay Clearance PDF File' . ".pdf");
 }
+
+
 
     public function getTotalBarangayClearanceRequests()
     {

@@ -37,6 +37,7 @@
         .header {
             text-align: center;
             margin-bottom: 7px;
+            margin-top: 0%;
         }
         hr.headerline1{
             margin-top: -15px;
@@ -45,6 +46,24 @@
         hr.headerline2{
             margin-top: 1px;
             margin-bottom: 1px;
+        }
+        .header .logo-left {
+            margin-top: 7px;
+            position: absolute;
+            margin-left: 55px;
+            top: 0;
+            left: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+        }
+        .header .logo-right {
+            position: absolute;
+            margin-right: 55px;
+            top: 0;
+            right: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+            margin-top: 7px;
         }
         .logo {
             height: 80px;
@@ -95,12 +114,26 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
+        .watermark {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            width: 100%;
+            height: 60%;
+            opacity: 0.2; /* Adjust opacity as needed */
+            pointer-events: none; /* Ensure it doesn't interfere with content interaction */
+            z-index: -1; /* Place it behind the text */
+            transform: translate(-50%, -50%) rotate(-0deg); /* Center and rotate the watermark */
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="{{$logoleft ?? ''}}" class="logo" alt="Top Left Logo" style="float: left;">
-        <img src="{{$logoright ?? ''}}" class="logo" alt="Top Right Logo" style="float: right;">
+    <!-- Watermark -->
+    <img src="file://{{ $logoright }}" class="watermark" alt="Watermark Logo">
+
+    <div class="header" >
+        <img src="file://{{ $logoleft }}" class="logo-left" alt="Top Left Logo" style="float: left;">
+        <img src="file://{{ $logoright }}" class="logo-right" alt="Top Right Logo" style="float: right;">
         <p style="font-size: 17px;">Republic of the Philippines<br>Province of Oriental Mindoro<br>Municipality of Bansud<br><strong style="color: #008000;">BARANGAY PAG-ASA</strong></p>
         <hr class="headerline1" style="width: 100%; border: none; border-bottom: 1px solid #964B00;">
         <hr class="headerline2" style="width: 100%; border: none; border-bottom: 3px solid #964B00;">
@@ -136,37 +169,37 @@
         <tr>
             <td><strong>NAME</strong></td>
             <td>:</td>
-            <td><u style="text-transform: capitalize;">{{ $data[0]->resident_info->user_info->lastname}}, {{$data[0]->resident_info->user_info->firstname}} {{$data[0]->resident_info->user_info->middle_initial }}</u></td>
+            <td style="text-transform: capitalize;">{{ $data[0]->resident_info->user_info->lastname}}, {{$data[0]->resident_info->user_info->firstname}} {{$data[0]->resident_info->user_info->middle_initial }}</td>
         </tr>
         <tr>
             <td><strong>ADDRESS</strong></td>
             <td>:</td>
-            <td><u style="text-transform: capitalize;">{{ $data[0]->resident_info->zone .' '. $data[0]->resident_info->street .' '. $data[0]->resident_info->block }}</u></td>
+            <td style="text-transform: capitalize;">{{ $data[0]->resident_info->full_address }}</td>
         </tr>
         <tr>
             <td><strong>CIVIL STATUS</strong></td>
             <td>:</td>
-            <td><u>{{ $data[0]->resident_info->civil_status }}</u></td>
+            <td>{{ $data[0]->resident_info->civil_status_text }}</td>
         </tr>
         <tr>
             <td><strong>GENDER</strong></td>
             <td>:</td>
-            <td><u>{{ $data[0]->resident_info->gender }}</u></td>
+            <td>{{ $data[0]->resident_info->gender_text }}</td>
         </tr>
         <tr>
             <td><strong>DATE OF BIRTH</strong></td>
             <td>:</td>
-            <td><u>{{ $data[0]->resident_info->birthdate }}</u></td>
+            <td>{{ $data[0]->resident_info->birthdate }}</td>
         </tr>
         <tr>
             <td><strong>PLACE OF BIRTH</strong></td>
             <td>:</td>
-            <td><u style="text-transform: capitalize;">{{ $data[0]->resident_info->birth_place }}</u></td>
+            <td style="text-transform: capitalize;">{{ $data[0]->resident_info->birth_place }}</u></td>
         </tr>
         <tr>
             <td><strong>PURPOSE</strong></td>
             <td>:</td>
-            <td><u>{{ $data[0]->purpose }}</u></td>
+            <td>{{ $data[0]->purpose }}</td>
         </tr>
     </table>
     
