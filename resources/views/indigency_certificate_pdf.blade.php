@@ -72,16 +72,37 @@
     .indigency-text strong {
         color: #039303; /* Text color */
     }
+    .header .logo-left {
+            margin-top: 7px;
+            position: absolute;
+            margin-left: 55px;
+            top: 0;
+            left: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+        }
+        .header .logo-right {
+            position: absolute;
+            margin-right: 55px;
+            top: 0;
+            right: 0;
+            height: 80px; /* Adjusted height */
+            width: 80px; /* Adjusted width */
+            margin-top: 7px;
+        }
+        .logo {
+            height: 80px;
+            width: auto;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="logo.png" class="logo" alt="Top Left Logo" style="float: left;">
-        <img src="path_to_top_right_logo.png" class="logo" alt="Top Right Logo" style="float: right;">
-        <p style="font-size: 17px;">Republic of the Philippines<br>Province of Oriental Mindoro<br>Municipality of Bansud<br><strong style="color: #1e1f1e;">BARANGAY PAG-ASA</strong></p>
+    <div class="header" >
+        <img src="file://{{ $logoleft }}" class="logo-left" alt="Top Left Logo" style="float: left;">
+        <img src="file://{{ $logoright }}" class="logo-right" alt="Top Right Logo" style="float: right;">
+        <p style="font-size: 17px;">Republic of the Philippines<br>Province of Oriental Mindoro<br>Municipality of Bansud<br><strong style="color: #008000;">BARANGAY PAG-ASA</strong></p>
         <hr class="headerline1" style="width: 100%; border: none; border-bottom: 1px solid #964B00;">
         <hr class="headerline2" style="width: 100%; border: none; border-bottom: 3px solid #964B00;">
-    </div>
     @php
         function ordinal($number) {
             $suffixes = ['th','st','nd','rd','th','th','th','th','th','th'];
