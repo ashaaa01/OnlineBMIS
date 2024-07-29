@@ -199,7 +199,9 @@
                 "columns":[
                     { "data" : "action", orderable:false, searchable:false},
                     { "data" : function(data){
-                        return capitalizeFirstLetter(data.resident_info.user_info.firstname) + ' ' +capitalizeFirstLetter(data.resident_info.user_info.lastname);
+                        let firstname = data.resident_info ? data.resident_info.user_info.firstname : '';
+                        let lastname = data.resident_info ? data.resident_info.user_info.lastname : '';
+                        return capitalizeFirstLetter(firstname) + ' ' +capitalizeFirstLetter(lastname);
                     }},
                     { "data" : "gender"},
                     { "data" : "civil_status"},
