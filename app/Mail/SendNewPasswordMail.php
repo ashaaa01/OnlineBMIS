@@ -29,6 +29,6 @@ class SendNewPasswordMail extends Mailable
     public function build()
     {
         return $this->subject('Your Password Has been Reset')
-            ->view('mail.forgot-password');
+            ->view('mail.forgot-password')->with(['details' => $this->details]);
     }
 }
