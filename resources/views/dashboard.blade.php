@@ -33,8 +33,6 @@
                     <h2 class="my-3">Dashboard</h2>
 
                     @if ($sessionId == 1)
-
-                    
                         <!-- Bar Graph Container -->
                         <div class="bar-graph-container">
                             <canvas id="barGraph"></canvas>
@@ -79,9 +77,9 @@
 
                         <!-- Total Barangay Clearance Requests -->
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-                                <a href="{{ route('barangay_clearance_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
-                                    <div class="card-body">
-                                        <div class="row">
+                            <a href="{{ route('barangay_clearance_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
+                                <div class="card-body">
+                                    <div class="row">
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard" style="color: #4B545C;">Total Barangay Clearance Requests</h5>
                                             <h1 class="mt-1 mb-3" id="totalBarangayClearanceCertificates">0</h1>
@@ -152,15 +150,8 @@
                                 </div>
                             </a>
                         </div>
-                    @endif
-                </div>
-            </div>
-        </section>
-    </div>
-    <!--
-                        For User Dashboard
-                    -->
                     @else
+                        <!-- User Dashboard Cards -->
                         <div class="col-sm-12 col-md-6 col-xl-4">
                             <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
                                 <div class="card-body">
@@ -168,10 +159,9 @@
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard">REQUEST</h5>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-users"></i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -182,6 +172,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-md-6 col-xl-4">
                             <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
                                 <div class="card-body">
@@ -189,20 +180,20 @@
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard">REQUEST</h5>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-users"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
+                                    <h1 class="mt-1 mb-3" id="totalIndigencyRequests">0</h1>
                                     <div class="mb-0">
                                         <span class="text-muted-dashboard">Total Indigency Requests</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-sm-12 col-md-6 col-xl-4">
                             <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
                                 <div class="card-body">
@@ -210,56 +201,34 @@
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard">REQUEST</h5>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-users"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
+                                    <h1 class="mt-1 mb-3" id="totalResidencyRequests">0</h1>
                                     <div class="mb-0">
                                         <span class="text-muted-dashboard">Total Residency Requests</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
-                                        </div-->
 
-                                        <!--div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Registration Requests</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div-->
                         <div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
+                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard">REQUEST</h5>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-users"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
+                                    <h1 class="mt-1 mb-3" id="totalBusinessPermitRequests">0</h1>
                                     <div class="mb-0">
                                         <span class="text-muted-dashboard">Total Business Permit Requests</span>
                                     </div>
@@ -267,7 +236,7 @@
                             </div>
                         </div>
                     @endif
-                    
+                </div>
             </div>
         </section>
     </div>
