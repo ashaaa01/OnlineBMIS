@@ -117,8 +117,8 @@ class UserController extends Controller
 
         $data = $request->all();
         $validator = Validator::make($data, [
-            'firstname' => 'required|alpha|max:255', // or regex:/^[a-zA-Z ]+$/
-            'lastname' => 'required|alpha|max:255', // or regex:/^[a-zA-Z ]+$/
+            'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+            'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'email' => 'required|email|unique:users',
             'contact_number' => 'required|numeric|min:11',
             'username' => 'required|unique:users',
@@ -216,12 +216,12 @@ class UserController extends Controller
         $data = $request->all();
         if(!isset($request->user_id)){
             $validator = Validator::make($data, [
-                'firstname' => 'required|alpha|max:255', // or regex:/^[a-zA-Z ]+$/
-                'lastname' => 'required|alpha|max:255', // or regex:/^[a-zA-Z ]+$/
+                'firstname' => 'required|regex:/^[\pL\s]+$/u|max:255',
+                'lastname' => 'required|regex:/^[\pL\s]+$/u|max:255',
                 'email' => 'required|email|unique:users',
                 'contact_number' => 'required|numeric|min:11',
                 'username' => 'required|unique:users',
-                'voters_id' => 'required',
+               // 'voters_id' => 'required',
                 'password' => 'required|alphaNum|min:8|required_with:confirm_password|same:confirm_password',
                 'user_level' => 'required',
                 'confirm_password' => 'required|alphaNum|min:8'
@@ -233,9 +233,9 @@ class UserController extends Controller
                 DB::beginTransaction();
                 try {
                     $userId = User::insertGetId([
-                        'firstname' => strtolower($request->firstname),
-                        'lastname' => strtolower($request->lastname),
-                        'middle_initial' => strtolower($request->middle_initial),
+                        'firstname' => ucwords(strtolower($request->firstname)),
+                        'lastname' => ucwords(strtolower($request->lastname)),
+                        'middle_initial' => ucfirst(strtolower($request->middle_initial)),
                         'suffix' => $request->suffix,
                         'email' => $request->email,
                         'contact_number' => $request->contact_number,
@@ -260,8 +260,8 @@ class UserController extends Controller
              * The uniqueness of the email and username should be correct logic.
              */
             $validator = Validator::make($data, [
-                'firstname' => 'required|alpha|max:255',
-                'lastname' => 'required|alpha|max:255',
+                'firstname' => 'required|regex:/^[\pL\s]+$/u|max:255',
+                'lastname' => 'required|regex:/^[\pL\s]+$/u|max:255',
                 'email' => 'required',
                 // 'contact_number' => 'required|regex:/^(09|\+639)\d{9}$',
                 'contact_number' => 'required|numeric|min:11',
@@ -274,14 +274,14 @@ class UserController extends Controller
                 return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
             } else {
                 User::where('id', $request->user_id)->update([
-                    'firstname' => strtolower($request->firstname),
-                    'lastname' => strtolower($request->lastname),
-                    'middle_initial' => strtolower($request->middle_initial),
+                    'firstname' => ucwords(strtolower($request->firstname)),
+                        'lastname' => ucwords(strtolower($request->lastname)),
+                        'middle_initial' => ucfirst(strtolower($request->middle_initial)),
                     'suffix' => $request->suffix,
                     'email' => $request->email,
                     'contact_number' => $request->contact_number,
                     'username' => $request->username,
-                    // 'voters_id' => $request->voters_id,
+                    'voters_id' => $request->voters_id,
                     'user_level_id' => $request->user_level,
                     'updated_at' => date('Y-m-d H:i:s'),
                     'last_updated_by' => $_SESSION["session_user_id"]
