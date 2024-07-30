@@ -755,15 +755,13 @@ class UserController extends Controller
             return response($validator->errors()->messages(), Response::HTTP_BAD_REQUEST);
         }
 
-        $user = User::where('email', $request->email);
-
         $newPassword = Str::random(8);
         $hashedPassword = bcrypt($newPassword);
 
-        $user->update(['password' => $hashedPassword]);
+        DB::table('users')->where('email', $request->email)->update(['password' => $hashedPassword]);
 
         $details = [
-            'recipient' => $user->email,
+            'recipient' => $request->email,
             'newPassword' => $newPassword
         ];
 
