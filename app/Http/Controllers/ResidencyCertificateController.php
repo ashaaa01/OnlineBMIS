@@ -251,6 +251,8 @@ class ResidencyCertificateController extends Controller
             'age' => $age,
             'address' => $address,
             'data' => $barangayResidentDetails,
+            'logoleft' => public_path('images/svg/bansudlogo.png'),
+            'logoright' => public_path('images/svg/palogo.png'),
         ];
 
         $pdf = PDF::loadView('residency_certificate_pdf', $data);

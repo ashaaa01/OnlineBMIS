@@ -129,9 +129,9 @@ class BarangayResidentController extends Controller
                 else if($row->gender == 2){
                     $result .= '<center><span>Female</span></center>';
                 }
-                else{
-                    $result .= '<center><span>Other</span></center>';
-                }
+               // else{
+               //     $result .= '<center><span>Other</span></center>';
+               // }
                 return $result;
             })
             ->addColumn('civil_status', function($row){
@@ -183,13 +183,13 @@ class BarangayResidentController extends Controller
                      $result .= 'Masters Graduate';
                  }
                  else if($row->educational_attainment == 8){
-                     $result .= 'Some/Completed Masters Degree';
+                     $result .= 'Completed Masters Degree';
                  }
                  else if($row->educational_attainment == 9){
                      $result .= 'Vocational';
                  }
                  else if($row->educational_attainment == 10){
-                     $result .= 'Others';
+                     $result .= 'Out of School Youth';
                  }
                  return $result;
              })
@@ -312,7 +312,7 @@ class BarangayResidentController extends Controller
                 'birthdate' => 'required|string',
                 'age' => 'required|string',
                 // 'birth_place' => 'required|string',
-                // 'zone' => 'required|string',
+                'zone' => 'required|integer|min:1|max:9',
                 // 'block' => 'required|string',
                 // 'lot' => 'required|string',
                 // 'street' => 'required|string',

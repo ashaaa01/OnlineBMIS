@@ -33,368 +33,127 @@
                     <h2 class="my-3">Dashboard</h2>
 
                     @if ($sessionId == 1)
-                        {{--<div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
+
+                    
+                        <!-- Bar Graph Container -->
+                        <div class="bar-graph-container">
+                            <canvas id="barGraph"></canvas>
+                        </div>
+                        <!-- Total Pending Users -->
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+                            <a href="#" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">USER</h5>
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="totalUsers">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Users</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>--}}
-
-                        <div class="col-sm-12 col-md-6 col-xl-6">
-                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Pending Users</h5>
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Pending Resident</h5>
                                             <h1 class="mt-1 mb-3" id="totalPendingUsers">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
                                                 <span><i class="fa-solid fa-users-slash" style="color: #4B545C;"></i></span>
-                                                
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard"></span>
-                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
-                        <div class="col-sm-12 col-md-6 col-xl-6">
-                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
+                        <!-- Total Residents -->
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+                            <a href="{{ route('resident_management') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard" style="color: #4B545C;">Total Residents</h5>
                                             <h1 class="mt-1 mb-3" id="totalResidents">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users" style="color: #4B545C;"></i></i></span>
+                                                <span><i class="fa-solid fa-users" style="color: #4B545C;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard"></span>
-                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
-                        @if ($sessionId == 1)
-                            <div style="display: flex; justify-content: space-between;">
-                                <div style="flex: 2; width: 40%;">
-                                    <canvas id="certificateRequestsChart" style="width: 0px; height: 350px; background-color:#e1eee7;"></canvas>
-                            </div>
-                                <div style=" width: 20%; display: flex; justify-content: center; align-items: center;">
-                                    <canvas id="genderDistributionChart" style="width: 150px; height: 100px;"></canvas>
-                            </div>
-                            </div>
-                        @endif
-                        
-                        <!--div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
-                                <div class="card-body">
-                                    <div class="row">
+                        <!-- Total Barangay Clearance Requests -->
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+                                <a href="{{ route('barangay_clearance_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
+                                    <div class="card-body">
+                                        <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">BLOTTER</h5>
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Barangay Clearance Requests</h5>
+                                            <h1 class="mt-1 mb-3" id="totalBarangayClearanceCertificates">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-clipboard"></i></span>
+                                                <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBlotters">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Blotters</span>
-                                    </div>
                                 </div>
-                            </div>
-                        </div-->
-
-
-                        {{-- 
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-info"><i class="fa-brands fa-bitcoin"></i></span>
-                                
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Users</span>
-                                    <span class="info-box-number" id="totalUsers">0</span>
-                                </div>
-                            </div>
+                            </a>
                         </div>
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-warning"><i class="fa-brands fa-bitcoin"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Pending Request</span>
-                                    <span class="info-box-number" id="totalPendingUsers">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-success"><i class="fa-brands fa-bitcoin"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Residents</span>
-                                    <span class="info-box-number">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-info"><i class="fa-brands fa-bitcoin"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Blotter</span>
-                                    <span class="info-box-number">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-black"><i class="fa-brands fa-bitcoin"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Households</span>
-                                    <span class="info-box-number">0</span>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!--div class="col-xl-4 col-lg-4">
-                            <div class="info-box shadow bg-white rounded">
-                                <span class="info-box-icon bg-danger"><i class="fa-brands fa-bitcoin"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total Business Permit</span>
-                                    <span class="info-box-number">0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div--> 
-   {{--this is the request                <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title-dashboard" style="color: #4B545C;">Total Business Permits Requests</h5>
-                                        <h1 class="mt-1 mb-3" id="totalLicensePermitCertificatesRequests">0</h1>
-                                    </div>
 
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <span><i class="fa-brands fa-bitcoin" style="color: #4B545C;"></i></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-0">
-                                    <span class="text-muted-dashboard"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title-dashboard" style="color: #4B545C;">Total Barangay Clearance Certificate Requests</h5>
-                                        <h1 class="mt-1 mb-3" id="totalBarangayClearanceCertificates">0</h1>
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-0">
-                                    <span class="text-muted-dashboard"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title-dashboard" style="color: #4B545C;">Total Indigency Certificate Requests</h5>
-                                        <h1 class="mt-1 mb-3" id="totalIndigencyCertificates">0</h1>
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-0">
-                                    <span class="text-muted-dashboard"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col mt-0">
-                                        <h5 class="card-title-dashboard" style="color: #4B545C;">Total Residency Certificate Requests</h5>
-                                        <h1 class="mt-1 mb-3" id="totalResidencyCertificates">0</h1>
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="stat text-primary">
-                                            <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-0">
-                                    <span class="text-muted-dashboard"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}} 
-
-                    <!--
-                        For User Dashboard
-                    -->
-                    @else
+                        <!-- Total Indigency Requests -->
                         <div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
+                            <a href="{{ route('indigency_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Indigency Requests</h5>
+                                            <h1 class="mt-1 mb-3" id="totalIndigencyCertificates">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Brgy. Clearance Requests</span>
-                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
+
+                        <!-- Total Residency Requests -->
                         <div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
+                            <a href="{{ route('residency_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Residency Requests</h5>
+                                            <h1 class="mt-1 mb-3" id="totalResidencyCertificates">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Indigency Requests</span>
-                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
+
+                        <!-- Total Business Permit Requests -->
                         <div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
+                            <a href="{{ route('license_permit_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Business Permit Requests</h5>
+                                            <h1 class="mt-1 mb-3" id="totalBusinessPermitRequests">0</h1>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
+                                                <span><i class="fa-solid fa-file-signature" style="color: #4B545C;"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Residency Requests</span>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!--div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
-                                        </div-->
-
-                                        <!--div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Registration Requests</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div-->
-                        <div class="col-sm-12 col-md-6 col-xl-4">
-                            <div class="card card-dashboard">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title-dashboard">REQUEST</h5>
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <span><i class="fa-solid fa-users"></i></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3" id="totalBarangayClearanceRequests">0</h1>
-                                    <div class="mb-0">
-                                        <span class="text-muted-dashboard">Total Business Permit Requests</span>
-                                    </div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     @endif
-                    
+                </div>
             </div>
         </section>
     </div>
@@ -406,16 +165,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script type="text/javascript">
     function renderChart(data) {
-    var ctx = document.getElementById('certificateRequestsChart').getContext('2d');
+    var ctx = document.getElementById('barGraph').getContext('2d');
     var certificateRequestsChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Barangay Clearance', 'Indigency', 'Residency', 'Business Permit'], // Sequential numbers for the x-axis labels
+            labels: ['Children', 'Youth', 'Adult', 'Senior'], // Sequential numbers for the x-axis labels
             datasets: [
                 {
-                    label: 'On Process',
+                    label: 'Male',
                     data: [
-                        data['totalPendingBarangayClearanceCertificates'],
+                        data['totalMaleChildren'],
                         data['totalPendingIndigencyCertificates'],
                         data['totalPendingResidencyCertificates'],
                         data['totalLicensePermitCertificate'],
