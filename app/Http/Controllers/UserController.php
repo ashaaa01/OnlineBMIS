@@ -730,8 +730,8 @@ class UserController extends Controller
              * The uniqueness of the email and username should be correct logic.
              */
             $validator = Validator::make($data, [
-                'firstname' => 'required|alpha|max:255',
-                'lastname' => 'required|alpha|max:255',
+                'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+            'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
                 'email' => 'required',
                 'contact_number' => 'required|numeric|min:11', // 'contact_number' => 'required|regex:/^(09|\+639)\d{9}$',
                 'username' => 'required',
