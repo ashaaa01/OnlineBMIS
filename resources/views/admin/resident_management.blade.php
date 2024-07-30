@@ -70,7 +70,7 @@
                                                 <th>Image</th>
                                                 <th>Name</th>
                                                 <th>Age</th>
-                                                <th>Gender</th>
+                                                <th>Sex</th>
                                                 <th>Zone</th>
                                                 <th>Civil Status</th>
                                                 <th>Contact</th>
@@ -114,12 +114,12 @@
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <label for="selectGender" class="form-label">Gender<span class="text-danger" title="Required">*</span></label>
+                                        <label for="selectGender" class="form-label">Sex<span class="text-danger" title="Required">*</span></label>
                                         <select class="form-select" id="selectGender" name="gender">
                                             <option value="0" disabled selected>Select One</option>
                                             <option value="1">Male</option>
                                             <option value="2">Female</option>
-                                            <option value="3">Other</option>
+                                            {{-- <option value="3">Other</option> --}}
                                         </select>
                                     </div>
     
@@ -156,10 +156,13 @@
                                         <input type="text" class="form-control" name="birth_place" id="textBirthPlace" placeholder="Birth Place">
                                     </div>
     
-                                    <div class="mb-3">
-                                        <label for="textZone" class="form-label">Zone</label>
-                                        <input type="text" class="form-control" name="zone" id="textZone" placeholder="Zone">
-                                    </div>
+                                    <label for="zone">Zone:</label>
+                                        <select id="zone" name="zone" class="form-control">
+                                        <option value="">Select Zone</option>
+                                        @for ($i = 1; $i <= 9; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
     
                                     <div class="mb-3">
                                         <label for="textBarangay" class="form-label">Barangay</label>
@@ -220,7 +223,7 @@
                                             <option value="7">Masters Graduate</option>
                                             <option value="8">Some/Completed Masters Degree</option>
                                             <option value="9">Vocational</option>
-                                            <option value="10">Others</option>
+                                            <option value="10">Out of School Youth</option>
                                         </select>
                                     </div>
 
@@ -267,7 +270,7 @@
                 </div>
                 <form method="post" id="formEditBarangayResidentStatus" autocomplete="off">
                     @csrf
-                    <div class="modal-body">
+                    <div class="modal-body"> 
                         <p id="paragraphEditResidentStatus"></p>
                         <input type="hidden" name="barangay_resident_id" placeholder="Resident Id" id="textEditResidentStatusResidentId">
                         <input type="hidden" name="status" placeholder="Status" id="textEditResidentStatus">
@@ -348,12 +351,12 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="selectGender" class="form-label">Gender</label>
+                                            <label for="selectGender" class="form-label">Sex</label>
                                             <select class="form-select" id="selectGender" name="gender" readonly>
                                                 <option value="0" disabled selected>Select One</option>
                                                 <option value="1">Male</option>
                                                 <option value="2">Female</option>
-                                                <option value="3">Other</option>
+                                                {{-- <option value="3">Other</option> --}}
                                             </select>
                                         </div>
 
@@ -407,7 +410,7 @@
                                                 <option value="7">Masters Graduate</option>
                                                 <option value="8">Some/Completed Masters Degree</option>
                                                 <option value="9">Vocational</option>
-                                                <option value="10">Others</option>
+                                                <option value="10">Out of School Youth</option>
                                             </select>
                                         </div>
                                     </div>
@@ -574,13 +577,13 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend w-50">
-                                <span class="input-group-text w-100" id="inputGroup-sizing-default"><input type="checkbox" id="checkboxFilterGender" name="checkbox_filter_gender">&nbsp;Gender</span>
+                                <span class="input-group-text w-100" id="inputGroup-sizing-default"><input type="checkbox" id="checkboxFilterGender" name="checkbox_filter_gender">&nbsp;Sex</span>
                             </div>
                             <select class="form-select" id="selectFilterGender" name="filter_gender" disabled>
                                 <option value="0" disabled selected>Select One</option>
                                 <option value="1">Male</option>
                                 <option value="2">Female</option>
-                                <option value="3">Other</option>
+                                {{-- <option value="3">Other</option> --}}
                             </select>
                         </div>
 

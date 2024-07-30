@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,59 +40,77 @@ use App\Models\LicensePermitCertificate;
 class UserController extends Controller
 {
     public function signIn(Request $request)
-    {
-        // $data = array(
-        //     'username' => $request->username,
-        //     'password' => $request->password,
-        //     // 'is_deleted' => 0
-        // );
-        // return $data;
+{
+    $credentials = $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        // $validator = Validator::make($data, [
-        //     'username' => 'required',
-        //     'password' => 'required',
-        // ]);
+    $maxAttempts = 3;
+    $decaySeconds = 20; // Set decay time to 20 seconds
+    $key = 'login:' . $credentials['username'];
 
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
+    // Check if the user has made too many login attempts
+    if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+        $seconds = RateLimiter::availableIn($key);
+        $seconds = min($seconds, $decaySeconds); // Ensure the remaining seconds don't exceed 20
+
+        return response()->json([
+            'hasError' => 1,
+            'error_message' => 'Your account is temporarily blocked. Please try again in ' . $seconds . ' second(s).',
+            'blocked' => true,
+            'cooldown' => $seconds
         ]);
-
-        // if ($validator->fails()) {
-            if (Auth::attempt($credentials)) {
-                if(Auth::user()->is_deleted == 1){
-                    Auth::logout();
-                    return response()->json(['isDeleted' => 1, 'error_message' => 'Your account was already deleted!']);
-                }
-                else if(Auth::user()->is_authenticated == 0){
-                    Auth::logout();
-                    return response()->json(['isAuthenticated' => 0, 'error_message' => 'Your account was already registered. Kindly wait for the approval of the Administrator']);
-                }
-                else if(Auth::user()->status == 0){
-                    Auth::logout();
-                    return response()->json(['inactive' => 0, 'error_message' => 'Your account is currently deactivated. Kindly contact the Administrator']);
-                }
-                // else if (Auth::user()->is_password_changed == 0) {
-                //     return response()->json(['isPasswordChanged' => 0, 'error_message' => 'Change Password!']);
-                // }
-                else {
-                    session_start();
-                    $_SESSION["session_user_id"] = Auth::user()->id;
-                    $_SESSION["session_user_level_id"] = Auth::user()->user_level_id;
-                    $_SESSION["session_username"] = Auth::user()->username;
-                    $_SESSION["session_firstname"] = Auth::user()->firstname;
-                    $_SESSION["session_lastname"] = Auth::user()->lastname;
-                    $_SESSION["session_email"] = Auth::user()->email;
-
-                    return response()->json(['hasError' => 0]);
-                }
-            } else {
-                return response()->json(['hasError' => 1,  'error_message' => 'We do not recognize your username and/or password. Please try again.']);
-            }
-        // } else {
-        //     return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
-        // }
     }
+
+    // Attempt to authenticate the user
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+
+        // Check user account status
+        if ($user->is_deleted == 1) {
+            Auth::logout();
+            return response()->json(['isDeleted' => 1, 'error_message' => 'Your account was already deleted!']);
+        } elseif ($user->is_authenticated == 0) {
+            Auth::logout();
+            return response()->json(['isAuthenticated' => 0, 'error_message' => 'Your account was already registered. Kindly wait for the approval of the Administrator']);
+        } elseif ($user->status == 0) {
+            Auth::logout();
+            return response()->json(['inactive' => 0, 'error_message' => 'Your account is currently deactivated. Kindly contact the Administrator']);
+        } else {
+            session_start();
+            $_SESSION["session_user_id"] = $user->id;
+            $_SESSION["session_user_level_id"] = $user->user_level_id;
+            $_SESSION["session_username"] = $user->username;
+            $_SESSION["session_firstname"] = $user->firstname;
+            $_SESSION["session_lastname"] = $user->lastname;
+            $_SESSION["session_email"] = $user->email;
+
+            // Clear the rate limiter on successful login
+            RateLimiter::clear($key);
+
+            return response()->json(['hasError' => 0]);
+        }
+    } else {
+        // Increment the counter for a given key with the decay time
+        RateLimiter::hit($key, $decaySeconds);
+
+        // Check remaining attempts
+        if (RateLimiter::attempts($key) >= $maxAttempts) {
+            return response()->json([
+                'hasError' => 1,
+                'error_message' => 'Your account is temporarily blocked due to too many failed login attempts. Please try again later.',
+                'blocked' => true,
+                'cooldown' => RateLimiter::availableIn($key)
+            ]);
+        }
+
+        return response()->json([
+            'hasError' => 1,
+            'error_message' => 'We do not recognize your username and/or password. You have ' . ($maxAttempts - RateLimiter::attempts($key)) . ' attempt(s) left.'
+        ]);
+    }
+}
 
     public function addUser(Request $request){
         date_default_timezone_set('Asia/Manila');
@@ -540,10 +559,37 @@ class UserController extends Controller
         $totalIndigencyCertificatesRequests = IndigencyCertificate::all();
         $totalResidencyCertificatesRequests = ResidencyCertificate::all();
 
-        // Gender counts
-    $totalMale = BarangayResident::where('gender', 1)->count();
-    $totalFemale = BarangayResident::where('gender', 2)->count();
-    $totalOther = BarangayResident::where('gender', 3)->count();
+        $totalMaleChildren = BarangayResident::where('gender', 1)->whereBetween('age', [0, 12])->count();
+        $totalMaleYouth = BarangayResident::where('gender', 1)->whereBetween('age', [13, 24])->count();
+        $totalMaleAdult = BarangayResident::where('gender', 1)->whereBetween('age', [25, 59])->count();
+        $totalMaleSenior = BarangayResident::where('gender', 1)->where('age', '>=', 60)->count();
+
+        $totalFemaleChildren = BarangayResident::where('gender', 2)->whereBetween('age', [0, 12])->count();
+        $totalFemaleYouth = BarangayResident::where('gender', 2)->whereBetween('age', [13, 24])->count();
+        $totalFemaleAdult = BarangayResident::where('gender', 2)->whereBetween('age', [25, 59])->count();
+        $totalFemaleSenior = BarangayResident::where('gender', 2)->where('age', '>=', 60)->count();
+
+    // Age category counts
+    $totalChildren = BarangayResident::whereBetween('age', [0, 12])->count();
+    $totalYouth = BarangayResident::whereBetween('age', [13, 24])->count();
+    $totalAdult = BarangayResident::whereBetween('age', [25, 59])->count();
+    $totalSenior = BarangayResident::where('age', '>=', 60)->count();
+
+    // Educational attainment counts (example, adjust according to your categories)
+    $educationalAttainments = [
+        'None' => BarangayResident::where('educational_attainment', 'None')->count(),
+        'High School' => BarangayResident::where('educational_attainment', 'High School')->count(),
+        'College' => BarangayResident::where('educational_attainment', 'College')->count(),
+        'Graduate' => BarangayResident::where('educational_attainment', 'Graduate')->count(),
+    ];
+
+    // Civil status counts (example, adjust according to your statuses)
+    $civilStatuses = [
+        'Single' => BarangayResident::where('civil_status', 'Single')->count(),
+        'Married' => BarangayResident::where('civil_status', 'Married')->count(),
+        'Widowed' => BarangayResident::where('civil_status', 'Widowed')->count(),
+        'Divorced' => BarangayResident::where('civil_status', 'Divorced')->count(),
+    ];
         
 
         
@@ -585,10 +631,21 @@ class UserController extends Controller
             'totalRegistrationCertificates' => $totalRegistrationCertificates,
             'totalLicensePermitCertificates' => $totalLicensePermitCertificates,
         
-            // Gender counts
-            'totalMale' => $totalMale,
-            'totalFemale' => $totalFemale,
-            'totalOther' => $totalOther,
+            // Gender and Age Category counts
+        'totalMaleChildren' => $totalMaleChildren,
+        'totalMaleYouth' => $totalMaleYouth,
+        'totalMaleAdult' => $totalMaleAdult,
+        'totalMaleSenior' => $totalMaleSenior,
+
+        'totalFemaleChildren' => $totalFemaleChildren,
+        'totalFemaleYouth' => $totalFemaleYouth,
+        'totalFemaleAdult' => $totalFemaleAdult,
+        'totalFemaleSenior' => $totalFemaleSenior,
+
+            'totalChildren' => $totalChildren,
+            'totalYouth' => $totalYouth,
+            'totalAdult' => $totalAdult,
+            'totalSenior' => $totalSenior,
     
             // For User Dashboard
             'totalBarangayClearanceRequests' => $totalBarangayClearanceRequests,

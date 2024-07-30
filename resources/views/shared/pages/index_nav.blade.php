@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-xl navbar-light bg-white shadow rounded py-3 fixed-top">
     <div class="container">
-        <a class="navbar-brand text-success" href="{{ route('index') }}"><img src="{{ asset('images/logo.png') }}" width="30" height="30"></span> OBMIS - Brgy. Pag-Asa</a>
+        <a class="navbar-brand text-success" href="{{ route('index') }}"><img src="{{ asset('images/svg/logo.png') }}" width="60" height="60"></span> OBMIS - Brgy. Pag-Asa</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
