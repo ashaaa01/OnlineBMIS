@@ -765,7 +765,7 @@ class UserController extends Controller
             'newPassword' => $newPassword
         ];
 
-        // SendNewPassword::dispatch($details);
+        SendNewPassword::dispatch($details);
 
         return response(['message' => 'Password has been reset successfully. Please check your email.', 'new_password' => $newPassword], Response::HTTP_OK);
     }
