@@ -105,12 +105,29 @@
                                 <div class="col-lg-6">
                                     <!-- For Resident Id -->
                                     <input type="text" class="form-control" style="display: none" name="barangay_resident_id" id="barangayResidentId" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                                                                        
-                                    <div class="mb-3">
+                                    <input type="hidden" name="user_id" id="hiddenUserID">                          
+                                    {{-- <div class="mb-3">
                                         <label for="selectUser" class="form-label">Resident Name<span class="text-danger" title="Required">*</span></label>
                                         <select class="form-select" id="selectUser" name="user_id">
                                             <!-- Auto Generated -->
                                         </select>
+                                    </div> --}}
+
+                                    <div class="mb-3">
+                                        <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="firstname" id="textFirstname" placeholder="Firstname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lastname" class="form-label">Last Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="lastname" id="textLastname" placeholder="Lastname">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="middleInitial" class="form-label">Middle Initial</label>
+                                        <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" placeholder="Middle Initial">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="textSuffix" class="form-label">Suffix</label>
+                                        <input type="text" class="form-control" name="suffix" id="textSuffix" placeholder="Suffix">
                                     </div>
                                     
                                     <div class="mb-3">
@@ -137,8 +154,14 @@
                                     </div>
     
                                     <div class="mb-3">
-                                        <label for="textLengthOfStay" class="form-label">Length of stay(In years/month)<span class="text-danger" title="Required">*</span></label>
-                                        <input type="text" class="form-control" name="length_of_stay" id="textLengthOfStay" placeholder="Length of stay">
+                                        <label for="lengthOfStayNumber" class="form-label">Length of Stay<span class="text-danger" title="Required">*</span></label>
+                                        <div class="dropdown-wrapper">
+                                            <input type="number" class="form-control" id="lengthOfStayNumber" name="length_of_stay_number" placeholder="Enter number">
+                                            <select class="form-select" id="lengthOfStayUnit" name="length_of_stay_unit">
+                                                <option value="years">Years</option>
+                                                <option value="months">Months</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <div class="mb-3">
@@ -157,7 +180,7 @@
                                     </div>
     
                                     <label for="zone">Zone:</label>
-                                        <select id="zone" name="zone" class="form-control">
+                                    <select id="zone" name="zone" class="form-control" value="">
                                         <option value="">Select Zone</option>
                                         @for ($i = 1; $i <= 9; $i++)
                                             <option value="{{ $i }}">{{ $i }}</option>
@@ -204,12 +227,7 @@
                                         <label for="textMonthlyIncome" class="form-label">Monthly Income</label>
                                         <input type="text" class="form-control" name="monthly_income" id="textMonthlyIncome" placeholder="Monthly Income">
                                     </div>
-    
-                                    <div class="mb-3">
-                                        <label for="textPhilHealthNumber" class="form-label">Phil Health Number</label>
-                                        <input type="text" class="form-control" name="phil_health_number" id="textPhilHealthNumber" placeholder="Phil Health Number">
-                                    </div>
-    
+                                 
                                     <div class="mb-3">
                                         <label for="selectEducationalAttainment" class="form-label">Educational Attainment<span class="text-danger" title="Required">*</span></label>
                                         <select class="form-select" id="selectEducationalAttainment" name="educational_attainment">
@@ -228,6 +246,19 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <label for="textRegisteredVoter" class="form-label">A Registered Voter?<span class="text-danger" title="Required">*</span></label>
+                                        <select class="form-select w-100" id="textRegisteredVoter" name="registered_voter">
+                                            <option value="0" disabled selected>Select One</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="votersId" class="form-label">Voter's ID</label>
+                                        <input type="file" class="form-control" name="voters_id" id="votersId" placeholder="Voter's ID">
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label for="textRemarks" class="form-label">Remarks</label>
                                         <input type="text" class="form-control" name="remarks" id="textRemarks" placeholder="Remarks">
                                     </div>
@@ -241,6 +272,16 @@
                                         <input type="checkbox" id="checkboxphoto" name="checkbox_image">
                                         <label class="font-weight-normal" for="checkboxphoto">Re-upload photo</label>
                                     </div>
+
+                                        <!-- Contact Information Fields -->
+                                      
+                                    <div class="mb-3">
+                                        <label for="textMobileNumber" class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" name="mobile_number" id="textMobileNumber" placeholder="Mobile Number">
+                                    </div>
+                                       
+
+                                    
     
                                     {{-- <div class="mb-3">
                                         <label for="textPhoto" class="form-label">Photo</label>
@@ -330,6 +371,10 @@
                                         <div class="mb-3">
                                             <label for="middleInitial" class="form-label">Middle Initial</label>
                                             <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="textSuffix" class="form-label">Suffix</label>
+                                            <input type="text" class="form-control" name="suffix" id="textSuffix" readonly placeholder="Suffix">
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email address</label>

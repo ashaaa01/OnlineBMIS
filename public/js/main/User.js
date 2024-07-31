@@ -10,7 +10,7 @@ function addUser(){
         beforeSend: function(){
             // $("#btnAddUserIcon").addClass('spinner-border spinner-border-sm');
             // $("#btnAddUser").addClass('disabled');
-            // $("#btnAddUserIcon").removeClass('fa fa-check');
+            // $("#btnAddUserIcon").removeClass('fa fa-check'); //
         },
         success: function(response){
             if(response['validationHasError'] == 1){

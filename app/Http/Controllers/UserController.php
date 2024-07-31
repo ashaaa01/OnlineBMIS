@@ -119,12 +119,35 @@ class UserController extends Controller
         $validator = Validator::make($data, [
             'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-            'email' => 'required|email|unique:users',
-            'contact_number' => 'required|numeric|min:11',
-            'username' => 'required|unique:users',
-           // 'voters_id' => 'required',
-            'password' => 'required|alphaNum|min:8|required_with:confirm_password|same:confirm_password',
-            'confirm_password' => 'required|alphaNum|min:8',
+            'middle_initial' => 'nullable|regex:/^[A-Z]$/',
+            'suffix' => 'nullable|string|max:10', 
+            'gender' => 'required|in:1,2,3', 
+            'civil_status' => 'required|in:1,2,3,4,5,6',
+            'birthdate' => 'required|date|before:today', 
+            'age' => 'required|integer|min:0|max:120',
+            'length_of_stay_number' => 'required|integer|min:0',
+            'length_of_stay_unit' => 'required|in:years,months',
+            'birth_place' => 'nullable|string|max:255',
+            'zone' => 'required|integer|min:1|max:9',
+            'barangay' => 'nullable|string|max:255',
+            'nationality' => 'required|string|max:255',
+            'municipality' => 'nullable|string|max:255',
+            'religion' => 'required|string|max:255',
+            'occupation' => 'nullable|string|max:255',
+            'registered_voter' => 'required|in:1,2',
+            'voters_id' => 'nullable|string|max:255',
+
+            'email' => 'required|email|unique:users,email',
+            'mobile_number' => 'required|numeric|min:11',
+            'username' => 'required|unique:users,username',
+
+            'password' => 'required|alphaNum|min:8|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'required|alphaNum|min:8',
+        ], [
+            'gender.in' => 'The gender must be one of the following: male, female, or other.',
+            'civil_status.in' => 'The civil status must be one of the following: Single, Married, Widow/er, Annulled, Legally Separated, or Others.',
+            'length_of_stay_unit.in' => 'The length of stay unit must be either "years" or "months".',
+            'registered_voter.in' => 'The registered voter must be either "Yes" or "No".',
         ]);
         // return $data;
 
@@ -149,15 +172,46 @@ class UserController extends Controller
                     'lastname' => $request->lastname,
                     'middle_initial' => $request->middle_initial,
                     'suffix' => $request->suffix,
-                    'email' => $request->email,
-                    'contact_number' => $request->contact_number,
-                    'username' => $request->username,
+                    'registered_voter' => $request->registered_voter,
                     'voters_id' => $voters_id,
+                    'email' => $request->email,
+                    'contact_number' => $request->mobile_number,
+                    'username' => $request->username,
+
                     'password' => Hash::make($request->password),
                     'is_password_changed' => 0,
                     'user_level_id' => 3, // User
                     'created_at' => date('Y-m-d H:i:s'),
                     'is_deleted' => 0
+                ]);
+
+                $date = date_create("$request->birthdate");
+                $birthdate = date_format($date,"Y-m-d");
+
+                $barangayResidentId = BarangayResident::insertGetId([
+                    'gender' => $request->gender,
+                    'civil_status' => $request->civil_status,
+                    'length_of_stay' => $request->length_of_stay_number,
+                    'length_of_stay_unit' => $request->length_of_stay_unit,
+                    'birthdate' => $birthdate,
+                    'age' => $request->age,
+                    'birth_place' => $request->birth_place,
+                    'zone' => $request->zone,
+                    'barangay' => $request->barangay,
+                    'municipality' => $request->municipality,
+                    'nationality' => $request->nationality,
+                    'religion' => $request->religion,
+                    'occupation' => $request->occupation,
+                    'user_id' => $userId,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => $userId,
+                    'is_deleted' => 0,
+                    'photo' => '/images/img/user-circle-icon.png'
+                ]);
+
+                $barangayIdNumber = "BRGY-PAGASA-" . date("Y") .'-'. $barangayResidentId;
+                BarangayResident::where('id', $barangayResidentId)->update([
+                    'barangay_id_number' => $barangayIdNumber,
                 ]);
 
                 // User::where('id', $userId)->update(['created_by' => $userId]);

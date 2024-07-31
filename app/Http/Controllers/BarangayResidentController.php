@@ -298,6 +298,20 @@ class BarangayResidentController extends Controller
         ->make(true);
     }
 
+    private function generateUniqueUsername($firstname)
+    {
+        $baseUsername = preg_replace('/\s+/', '', $firstname); // Remove spaces
+        $username = $baseUsername;
+        $counter = 1;
+
+        while (User::where('username', $username)->exists()) {
+            $username = $baseUsername . $counter; // Append counter to base username
+            $counter++;
+        }
+
+        return $username;
+    }
+
     public function addBarangayResident(Request $request){
         date_default_timezone_set('Asia/Manila');
         session_start();
@@ -306,24 +320,37 @@ class BarangayResidentController extends Controller
         /* For Insert */
         if(!isset($request->barangay_resident_id)){
             $validator = Validator::make($data, [
-                'user_id' => 'required',
-                'gender' => 'required',
-                'civil_status' => 'required',
-                'birthdate' => 'required|string',
-                'age' => 'required|string',
-                // 'birth_place' => 'required|string',
+                'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+                'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+                'middle_initial' => 'nullable|regex:/^[A-Z]$/',
+                'suffix' => 'nullable|string|max:10', 
+
+                'gender' => 'required|in:1,2,3', 
+                'civil_status' => 'required|in:1,2,3,4,5,6',
+                'birthdate' => 'required|date|before:today', 
+                'age' => 'required|integer|min:0|max:120',
+                'length_of_stay_number' => 'required|integer|min:0',
+                'length_of_stay_unit' => 'required|in:years,months',
+
+                'birth_place' => 'nullable|string|max:255',
                 'zone' => 'required|integer|min:1|max:9',
-                // 'block' => 'required|string',
-                // 'lot' => 'required|string',
-                // 'street' => 'required|string',
-                // 'phase' => 'required|string',
-                'nationality' => 'required|string',
-                'religion' => 'required|string',
-                // 'occupation' => 'required|string',
-                // 'monthly_income' => 'required|string',
-                // 'phil_health_number' => 'required|string',
-                'educational_attainment' => 'required',
-                // 'remarks' => 'required|string',
+                'barangay' => 'nullable|string|max:255',
+                'nationality' => 'required|string|max:255',
+                'municipality' => 'nullable|string|max:255',
+                'province' => 'nullable|string|max:255',
+                'religion' => 'required|string|max:255',
+                'occupation' => 'nullable|string|max:255',
+                'monthly_income' => 'nullable|string',
+                'registered_voter' => 'required|in:1,2',
+                'voters_id' => 'nullable|string|max:255',
+                'educational_attainment' => 'required|in:1,2,3,4,5,6,7,8,9,10',
+                'remarks' => 'nullable|string',
+            ], [
+                'gender.in' => 'The gender must be one of the following: male, female, or other.',
+                'civil_status.in' => 'The civil status must be one of the following: Single, Married, Widow/er, Annulled, Legally Separated, or Others.',
+                'length_of_stay_unit.in' => 'The length of stay unit must be either "years" or "months".',
+                'registered_voter.in' => 'The registered voter must be either "Yes" or "No".',
+                'educational_attainment.in' => 'The educational attainment must be a valid option.',
             ]);
     
             if ($validator->fails()) {
@@ -348,12 +375,44 @@ class BarangayResidentController extends Controller
                         }
                         $file = $image_file;
                         $file->move(public_path($folder), $image_name);
+                    } else {
+                        $image_name = '/images/img/user-circle-icon.png';
                     }
+
+                    /**
+                     * For uploading image
+                     */
+                    $voters_id = null;
+                    if(isset($request->voters_id)){
+                        $voters_file = $request->file('voters_id');
+                        $voters_id = $voters_file->getClientOriginalName();
+                        Storage::putFileAs('public/voters_government_id', $request->voters_id, $voters_id);
+                    }
+
+                    $firstname = strtolower($request->firstname);
+                    $username = $this->generateUniqueUsername($firstname);
+
+                    $userId = User::insertGetId([
+                        'firstname' => $request->firstname,
+                        'lastname' => $request->lastname,
+                        'middle_initial' => $request->middle_initial,
+                        'suffix' => $request->suffix,
+                        'registered_voter' => $request->registered_voter,
+                        'voters_id' => $voters_id,
+                        'contact_number' => $request->mobile_number,
+                        'username' => $username,
+    
+                        'is_password_changed' => 0,
+                        'user_level_id' => 3, // User
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'is_deleted' => 0
+                    ]);
 
                     $barangayResidentId = BarangayResident::insertGetId([
                         'gender' => $request->gender,
                         'civil_status' => $request->civil_status,
-                        'length_of_stay' => $request->length_of_stay,
+                        'length_of_stay' => $request->length_of_stay_number,
+                        'length_of_stay_unit' => $request->length_of_stay_unit,
                         'birthdate' => $birthdate,
                         'age' => $request->age,
                         'birth_place' => $request->birth_place,
@@ -367,11 +426,10 @@ class BarangayResidentController extends Controller
                         'religion' => $request->religion,
                         'occupation' => $request->occupation,
                         'monthly_income' => $request->monthly_income,
-                        'phil_health_number' => $request->phil_health_number,
                         'educational_attainment' => $request->educational_attainment,
                         'remarks' => $request->remarks,
                         'photo' => $image_name,
-                        'user_id' => $request->user_id,
+                        'user_id' => $userId,
                         'created_at' => date('Y-m-d H:i:s'),
                         'created_by' => $_SESSION["session_user_id"],
                         'is_deleted' => 0
@@ -391,24 +449,37 @@ class BarangayResidentController extends Controller
             }
         }else{ /* For Update */
             $validator = Validator::make($data, [
-                'user_id' => 'required',
-                'gender' => 'required',
-                'civil_status' => 'required',
-                'birthdate' => 'required|string',
-                'age' => 'required|string',
-                // 'birth_place' => 'required|string',
-                // 'zone' => 'required|string',
-                // 'block' => 'required|string',
-                // 'lot' => 'required|string',
-                // 'street' => 'required|string',
-                // 'phase' => 'required|string',
-                'nationality' => 'required|string',
-                'religion' => 'required|string',
-                // 'occupation' => 'required|string',
-                // 'monthly_income' => 'required|string',
-                // 'phil_health_number' => 'required|string',
-                'educational_attainment' => 'required',
-                // 'remarks' => 'required|string',
+                'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+                'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+                'middle_initial' => 'nullable|regex:/^[A-Z]$/',
+                'suffix' => 'nullable|string|max:10', 
+
+                'gender' => 'required|in:1,2,3', 
+                'civil_status' => 'required|in:1,2,3,4,5,6',
+                'birthdate' => 'required|date|before:today', 
+                'age' => 'required|integer|min:0|max:120',
+                'length_of_stay_number' => 'required|integer|min:0',
+                'length_of_stay_unit' => 'required|in:years,months',
+
+                'birth_place' => 'nullable|string|max:255',
+                'zone' => 'required|integer|min:1|max:9',
+                'barangay' => 'nullable|string|max:255',
+                'nationality' => 'required|string|max:255',
+                'municipality' => 'nullable|string|max:255',
+                'province' => 'nullable|string|max:255',
+                'religion' => 'required|string|max:255',
+                'occupation' => 'nullable|string|max:255',
+                'monthly_income' => 'nullable|string',
+                'registered_voter' => 'required|in:1,2',
+                'voters_id' => 'nullable|string|max:255',
+                'educational_attainment' => 'required|in:1,2,3,4,5,6,7,8,9,10',
+                'remarks' => 'nullable|string',
+            ], [
+                'gender.in' => 'The gender must be one of the following: male, female, or other.',
+                'civil_status.in' => 'The civil status must be one of the following: Single, Married, Widow/er, Annulled, Legally Separated, or Others.',
+                'length_of_stay_unit.in' => 'The length of stay unit must be either "years" or "months".',
+                'registered_voter.in' => 'The registered voter must be either "Yes" or "No".',
+                'educational_attainment.in' => 'The educational attainment must be a valid option.',
             ]);
     
             if ($validator->fails()) {
@@ -417,8 +488,8 @@ class BarangayResidentController extends Controller
                 DB::beginTransaction();
                 $date = date_create("$request->birthdate");
                 $birthdate = date_format($date,"Y-m-d");
-                try {
-                    /**
+                // try {
+                     /**
                      * For uploading image
                      */
                     $image_name = null;
@@ -431,12 +502,45 @@ class BarangayResidentController extends Controller
                         }
                         $file = $image_file;
                         $file->move(public_path($folder), $image_name);
+
+                        BarangayResident::where('id', $request->barangay_resident_id)->update([
+                            'photo' => $image_name,
+                        ]);
                     }
+
+                    /**
+                     * For uploading image
+                     */
+                    $voters_id = null;
+                    if(isset($request->voters_id)){
+                        $voters_file = $request->file('voters_id');
+                        $voters_id = $voters_file->getClientOriginalName();
+                        Storage::putFileAs('public/voters_government_id', $request->voters_id, $voters_id);
+
+                        User::where('id', $request->user_id)->update([
+                            'voters_id' => $voters_id,
+                        ]);
+                    }
+
+                    $userId = User::where('id', $request->user_id)->update([
+                        'firstname' => $request->firstname,
+                        'lastname' => $request->lastname,
+                        'middle_initial' => $request->middle_initial,
+                        'suffix' => $request->suffix,
+                        'registered_voter' => $request->registered_voter,
+                        'contact_number' => $request->mobile_number,
+    
+                        'is_password_changed' => 0,
+                        'user_level_id' => 3, // User
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'is_deleted' => 0
+                    ]);
 
                     BarangayResident::where('id', $request->barangay_resident_id)->update([
                         'gender' => $request->gender,
                         'civil_status' => $request->civil_status,
-                        'length_of_stay' => $request->length_of_stay,
+                        'length_of_stay' => $request->length_of_stay_number,
+                        'length_of_stay_unit' => $request->length_of_stay_unit,
                         'birthdate' => $birthdate,
                         'age' => $request->age,
                         'birth_place' => $request->birth_place,
@@ -446,14 +550,13 @@ class BarangayResidentController extends Controller
                         'province' => $request->province,
                        // 'phase' => $request->phase,
                         'nationality' => $request->nationality,
-                       // 'block' => $request->block,
+                      //  'block' => $request->block,
                         'religion' => $request->religion,
-                        'photo' => $image_name,
                         'occupation' => $request->occupation,
                         'monthly_income' => $request->monthly_income,
-                        'phil_health_number' => $request->phil_health_number,
                         'educational_attainment' => $request->educational_attainment,
                         'remarks' => $request->remarks,
+                       
                         // 'user_id' => $request->user_id,
                         'updated_at' => date('Y-m-d H:i:s'),
                         'last_updated_by' => $_SESSION["session_user_id"]
@@ -461,10 +564,10 @@ class BarangayResidentController extends Controller
 
                     DB::commit();
                     return response()->json(['hasError' => 0]);
-                } catch (\Exception $e) {
-                    DB::rollback(); 
-                    return response()->json(['hasError' => 1, 'exceptionError' => $e]);
-                }
+                // } catch (\Exception $e) {
+                //     DB::rollback(); 
+                //     return response()->json(['hasError' => 1, 'exceptionError' => $e]);
+                // }
             }
         }
     }
@@ -505,14 +608,17 @@ class BarangayResidentController extends Controller
     return response()->json($data);
 }
 
-
     public function getBarangayResidentById(Request $request){
-        $barangayResidentDetails = BarangayResident::where('id', $request->barangayResidentId)->get();
+        $barangayResidentDetails = BarangayResident::with(['user_info' => function($query) {
+            $query->select('id', 'firstname', 'lastname', 'middle_initial', 'suffix', 'registered_voter', 'contact_number'); // Include the primary key for the relationship
+        }])->where('id', $request->barangayResidentId)->get();
         return response()->json(['barangayResidentDetails' => $barangayResidentDetails]);
     }
 
     public function viewBarangayResidentById(Request $request){
-        $viewBarangayResidentDetails = BarangayResident::with('user_info.user_levels', 'barangay_resident_blotter_details')->where('id', $request->barangayResidentId)->get();
+        $viewBarangayResidentDetails = BarangayResident::with(['user_info.user_levels', 'barangay_resident_blotter_details', 'user_info' => function($query) {
+            $query->select('id', 'firstname', 'lastname', 'middle_initial', 'suffix', 'registered_voter', 'username','contact_number', 'user_level_id'); // Include the primary key for the relationship
+        }])->where('id', $request->barangayResidentId)->get();
         return response()->json(['viewBarangayResidentDetails' => $viewBarangayResidentDetails]);
     }
 
