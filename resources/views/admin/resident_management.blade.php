@@ -274,7 +274,10 @@
                                     </div>
 
                                         <!-- Contact Information Fields -->
-                                      
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address<small>(For Account Activation)</small><span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email" id="textEmail" placeholder="Email Address">
+                                    </div>  
                                     <div class="mb-3">
                                         <label for="textMobileNumber" class="form-label">Mobile Number</label>
                                         <input type="text" class="form-control" name="mobile_number" id="textMobileNumber" placeholder="Mobile Number">
