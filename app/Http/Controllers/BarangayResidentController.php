@@ -474,6 +474,7 @@ class BarangayResidentController extends Controller
                 'voters_id' => 'nullable|string|max:255',
                 'educational_attainment' => 'required|in:1,2,3,4,5,6,7,8,9,10',
                 'remarks' => 'nullable|string',
+                'email' => 'required',
             ], [
                 'gender.in' => 'The gender must be one of the following: male, female, or other.',
                 'civil_status.in' => 'The civil status must be one of the following: Single, Married, Widow/er, Annulled, Legally Separated, or Others.',
@@ -556,6 +557,7 @@ class BarangayResidentController extends Controller
                         'monthly_income' => $request->monthly_income,
                         'educational_attainment' => $request->educational_attainment,
                         'remarks' => $request->remarks,
+                        'email' => $request->email,
                        
                         // 'user_id' => $request->user_id,
                         'updated_at' => date('Y-m-d H:i:s'),
