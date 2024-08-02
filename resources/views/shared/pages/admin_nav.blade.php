@@ -87,12 +87,12 @@
                     </a>
                 </li-->
                 
-                <!--li class="nav-item has-treeview">
+                {{-- <!--li class="nav-item has-treeview">
                         <a href="{{ route('cedula_management') }}" class="nav-link">
                         <i class="nav-icon fa-solid fa-file-signature"></i>
                         <p>Cedula</p>
                     </a>
-                </li-->
+                </li--> --}}
                 <li class="nav-header font-weight-bold">DOCUMENT PROCESSING MANAGEMENT</li>
                 <li class="nav-item has-treeview">
                         <a href="{{ route('issuance_configuration_management') }}" class="nav-link">
@@ -114,10 +114,10 @@
                         <p>Looc Database</p>
                     </a>
                 </li> --}}
-                <li class="nav-header font-weight-bold"><i class="fas fa-cogs"></i>&nbsp;PAGE SETTINGS</li>
-                <li class="nav-item has-treeview">
+                {{-- <li class="nav-header font-weight-bold"><i class="fas fa-cogs"></i>&nbsp;PAGE SETTINGS</li>
+                <li class="nav-item has-treeview"> --}}
                      {{-- <a href="{{ route('product_classification') }}" class="nav-link">  --}}
-                    <a href="#" data-toggle="modal" data-target="#" class="nav-link">
+                    {{-- <a href="#" data-toggle="modal" data-target="#" class="nav-link">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>About<i class="fas fa-angle-left right"></i></p>
                     </a>
@@ -153,20 +153,20 @@
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>Activities</p>
                     </a>
-                </li-->
+                </li--> --}}
                 {{-- <li class="nav-item has-treeview">
                     <a href="#" data-toggle="modal" data-target="#" class="nav-link" style="cursor: not-allowed" title="On going module">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>Contact</p>
                     </a>
                 </li> --}}
-                <li class="nav-item has-treeview">
-                    <a href="{{ route('announcement_management') }}" class="nav-link">
+                {{-- <li class="nav-item has-treeview">
+                    <a href="{{ route('announcement_management') }}" class="nav-link"> --}}
                     {{-- <a href="#" data-toggle="modal" data-target="#" class="nav-link" > --}}
-                        <i class="fa-solid fa-pen-to-square"></i>
+                        {{-- <i class="fa-solid fa-pen-to-square"></i>
                         <p>Announcement</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-header font-weight-bold">REPORT MANAGEMENT</li>
                 <li class="nav-item has-treeview">
                         <a href="{{ route('report') }}" class="nav-link">
