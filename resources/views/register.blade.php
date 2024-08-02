@@ -109,88 +109,88 @@
                         <span aria-hidden="true">&times;</span>
                     </button></a>
                 </div>
-        <p class="text-left mx-auto">Please fill up completely and correctly the required information before each item below. Required items are also marked with an asterisk (<strong style="color: crimson">*</strong>) so please fill it up correctly. Wait for the approval of the website owner to approve your account. </p>
+                <p class="text-left mx-auto">Please fill up completely and correctly the required information before each item below. Required items are also marked with an asterisk (<strong style="color: crimson">*</strong>) so please fill it up correctly. Wait for the approval of the website owner to approve your account. </p>
         
-        <form method="post" id="formAddUser" enctype="multipart/form-data">
-            @csrf
+                <form method="post" id="formAddUser" enctype="multipart/form-data">
+                    @csrf
             
-            <div class="container" style="margin-top: 1rem">
-                <!-- Identifying Information Section -->
-                <div class="form-section">
-                    <div class="title-box">
-                        <h3>I. IDENTIFYING INFORMATION</h3>
-                    </div>
+                    <div class="container" style="margin-top: 1rem">
+                        <!-- Identifying Information Section -->
+                        <div class="form-section">
+                            <div class="title-box">
+                                <h3>I. IDENTIFYING INFORMATION</h3>
+                            </div>
                     
-                        <div class="">
-                            <div class="row mb-3">
-                                <!-- Personal Information Fields -->
-                                <div class="col-md-3">
-                                    <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="firstname" id="textFirstname" placeholder="Firstname">
+                            <div class="">
+                                <div class="row mb-3">
+                                    <!-- Personal Information Fields -->
+                                    <div class="col-md-3">
+                                        <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="firstname" id="textFirstname" placeholder="Firstname">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="middleInitial" class="form-label">Middle Initial</label>
+                                        <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" placeholder="Middle Initial">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="lastname" class="form-label">Last Name<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="lastname" id="textLastname" placeholder="Lastname">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="textSuffix" class="form-label">Suffix</label>
+                                        <input type="text" class="form-control" name="suffix" id="textSuffix" placeholder="Suffix">
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="middleInitial" class="form-label">Middle Initial</label>
-                                    <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" placeholder="Middle Initial">
-                                </div>
-                                
-                                <div class="col-md-3">
-                                    <label for="lastname" class="form-label">Last Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="lastname" id="textLastname" placeholder="Lastname">
-                                </div><div class="col-md-3">
-                                    <label for="textSuffix" class="form-label">Suffix</label>
-                                    <input type="text" class="form-control" name="suffix" id="textSuffix" placeholder="Suffix">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                            <div class="col-md-4">
-                                    <label for="selectGender" class="form-label">Sex<span class="text-danger" title="Required">*</span></label>
-                                    <select class="form-select w-100" id="selectGender" name="gender">
-                                        <option value="0" disabled selected>Select One</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        {{-- <option value="3">Other</option> --}}
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="selectCivilStatus" class="form-label">Civil Status<span class="text-danger" title="Required">*</span></label>
-                                    <select class="form-select w-100" id="selectCivilStatus" name="civil_status">
-                                        <option value="0" disabled selected>Select One</option>
-                                        <option value="1">Single</option>
-                                        <option value="2">Married</option>
-                                        <option value="3">Widow/er</option>
-                                        <option value="4">Annulled</option>
-                                        <option value="5">Legally Separated</option>
-                                        {{-- <option value="6">Others</option> --}}
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="textReligion" class="form-label">Religion<span class="text-danger" title="Required">*</span></label>
-                                    <select class="form-select w-100" id="textReligion" name="religion">
-                                        <option value="0" disabled selected>Select One</option>
-                                        <option value="1">Roman Catholic</option>
-                                        <option value="2">Islam</option>
-                                        <option value="3">Iglesia ni Cristo</option>
-                                        <option value="4">Philippine Independent Church</option>
-                                        <option value="5">Seventh-Day Adventist</option>
-                                        {{-- <option value="6">Others</option> --}}
-                                    </select>
-                                </div>
-                            </div>
 
                                 <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="birthdate" class="form-label">Birthdate<span class="text-danger" title="Required">*</span></label>
-                                    <input type="text" class="form-control datetimepicker" width="276" name="birthdate" id="textBirthdate" placeholder="Birthdate">
-                                </div>
                                     <div class="col-md-4">
-                                    <label for="age" class="form-label">Age<span class="text-danger" title="Required">*</span></label>
-                                    <input type="number" class="form-control" min="1" max="200" name="age" id="textAge" readonly placeholder="Age" title="Auto generated based on Birthdate">
+                                        <label for="selectGender" class="form-label">Sex<span class="text-danger" title="Required">*</span></label>
+                                        <select class="form-select w-100" id="selectGender" name="gender">
+                                            <option value="0" disabled selected>Select One</option>
+                                            <option value="1">Male</option>
+                                            <option value="2">Female</option>
+                                            {{-- <option value="3">Other</option> --}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="selectCivilStatus" class="form-label">Civil Status<span class="text-danger" title="Required">*</span></label>
+                                        <select class="form-select w-100" id="selectCivilStatus" name="civil_status">
+                                            <option value="0" disabled selected>Select One</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Married</option>
+                                            <option value="3">Widow/er</option>
+                                            <option value="4">Annulled</option>
+                                            <option value="5">Legally Separated</option>
+                                            {{-- <option value="6">Others</option> --}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="textReligion" class="form-label">Religion<span class="text-danger" title="Required">*</span></label>
+                                        <select class="form-select w-100" id="textReligion" name="religion">
+                                            <option value="0" disabled selected>Select One</option>
+                                            <option value="1">Roman Catholic</option>
+                                            <option value="2">Islam</option>
+                                            <option value="3">Iglesia ni Cristo</option>
+                                            <option value="4">Philippine Independent Church</option>
+                                            <option value="5">Seventh-Day Adventist</option>
+                                            {{-- <option value="6">Others</option> --}}
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="textBirthPlace" class="form-label">Birth Place</label>
-                                    <input type="text" class="form-control" name="birth_place" id="textBirthPlace" placeholder="Birth Place">
-                                </div>
+                            
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="birthdate" class="form-label">Birthdate<span class="text-danger" title="Required">*</span></label>
+                                        <input type="text" class="form-control datetimepicker" width="276" name="birthdate" id="textBirthdate" placeholder="Birthdate">
+                                    </div>
+                                        <div class="col-md-4">
+                                        <label for="age" class="form-label">Age<span class="text-danger" title="Required">*</span></label>
+                                        <input type="number" class="form-control" min="1" max="200" name="age" id="textAge" readonly placeholder="Age" title="Auto generated based on Birthdate">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="textBirthPlace" class="form-label">Birth Place</label>
+                                        <input type="text" class="form-control" name="birth_place" id="textBirthPlace" placeholder="Birth Place">
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
@@ -226,7 +226,6 @@
                                     </div>
                                 
                                     <div class="col-md-3 mb-1">
-                                        
                                         <label class="form-label" for="municipalityInput"><b>City/Municipality</b><span class="text-danger"></span></label>
                                         <select id="municipalityInput" name="municipality" class="form-control @error('municipality') is-invalid @enderror" required>
                                             <option value="" disabled selected>Select</option>
@@ -301,90 +300,85 @@
                         </div>
                     </div>
 
-                <!-- Contact & Account Information Section -->
-                <div class="form-section">
-                    <div class="title-box">
-                        <h3>II. CONTACT & ACCOUNT INFORMATION</h3>
-                    </div>
+                    <!-- Contact & Account Information Section -->
+                    <div class="form-section">
+                        <div class="title-box">
+                            <h3>II. CONTACT & ACCOUNT INFORMATION</h3>
+                        </div>
                     
-                    <!-- First Row: Email and Mobile Number -->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="textEmail" class="form-label">Email Address
-                            <small>(Enter a valid email address.)</small>
-                            <span class="text-danger">*</span>
-                        </label>
-                        <input type="email" class="form-control" name="email" id="textEmail" placeholder="Email Address">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="textMobileNumber" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" name="mobile_number" id="textMobileNumber" placeholder="Mobile Number">
-                    </div>
-                </div>
-            </div>
+                        <!-- First Row: Email and Mobile Number -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="textEmail" class="form-label">Email Address
+                                        <small>(Enter a valid email address.)</small>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control" name="email" id="textEmail" placeholder="Email Address">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="textMobileNumber" class="form-label">Mobile Number</label>
+                                    <input type="text" class="form-control" name="mobile_number" id="textMobileNumber" placeholder="Mobile Number">
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Second Row: Username, Password, and Confirm Password -->
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="textUsername" class="form-label">Username
-                            <span class="text-danger">*</span>
-                        </label>
-                        <input type="text" class="form-control" name="username" id="textUsername" placeholder="Username">
+                        <!-- Second Row: Username, Password, and Confirm Password -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="textUsername" class="form-label">Username
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" name="username" id="textUsername" placeholder="Username">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="textPassword" class="form-label">Password
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="password" class="form-control" name="password" id="textPassword" placeholder="Password" oninput="validatePassword()">
+                                    <small id="passwordError" class="text-danger" style="display:none;">Password must be at least 8 characters long and include a mix of letters and numbers.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="textConfirmPassword" class="form-label">Confirm Password
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="password" class="form-control" name="password_confirmation" id="textConfirmPassword" placeholder="Confirm Password" oninput="validateConfirmPassword()">
+                                    <small id="confirmPasswordError" class="text-danger" style="display:none;">Passwords must match.</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="textPassword" class="form-label">Password
-                            <span class="text-danger">*</span>
-                        </label>
-                        <input type="password" class="form-control" name="password" id="textPassword" placeholder="Password" oninput="validatePassword()">
-                        <small id="passwordError" class="text-danger" style="display:none;">Password must be at least 8 characters long and include a mix of letters and numbers.</small>
+                    <br>
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-auto">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="confirmInfo">
+                                <p class="form-check-label" for="confirmInfo">
+                                    The information entered above is true and correct. I have full knowledge in providing the above information. I understand that this form contains with my personal information to be stored in the Online Barangay Information System (OBMIS) database.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-auto ml-auto">
+                            <button class="btn btn-success" type="submit" id="btnAddUser"  style="width: 150px; height: 40px; margin-right: 15px;">
+                                <i id="btnAddUserIcon" class="fa fa-check"></i> Register
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="textConfirmPassword" class="form-label">Confirm Password
-                            <span class="text-danger">*</span>
-                        </label>
-                        <input type="password" class="form-control" name="password_confirmation" id="textConfirmPassword" placeholder="Confirm Password" oninput="validateConfirmPassword()">
-                        <small id="confirmPasswordError" class="text-danger" style="display:none;">Passwords must match.</small>
-                    </div>
-                </div>
+                    <br><br>
+                </form>
             </div>
-        </div>
-        <br>
-
-        <div class="row mb-3 align-items-center">
-            <div class="col-auto">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="confirmInfo">
-                    <p class="form-check-label" for="confirmInfo">
-                        The information entered above is true and correct. I have full knowledge in providing the above information. I understand that this form contains with my personal information to be stored in the Online Barangay Information System (OBMIS) database.
-                    </p>
-                </div>
-            </div>
-            <div class="col-auto ml-auto">
-                <button class="btn btn-success" type="submit" id="btnAddUser" disabled style="width: 150px; height: 40px; margin-right: 15px;">
-                    <i id="btnAddUserIcon" class="fa fa-check"></i> Register
-                </button>
-            </div>
-        </div>
-            <br>
-            <br>
-        </form>
-    </div>
         </div>
     </div>
     
     @include('shared.js_links.js_links')
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
             $("#formAddUser").submit(function(event){
