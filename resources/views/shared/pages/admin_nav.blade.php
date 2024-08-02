@@ -114,34 +114,34 @@
                         <p>Looc Database</p>
                     </a>
                 </li> --}}
-                <!--li class="nav-header font-weight-bold"><i class="fas fa-cogs"></i>&nbsp;PAGE SETTINGS</li>
+                <li class="nav-header font-weight-bold"><i class="fas fa-cogs"></i>&nbsp;PAGE SETTINGS</li>
                 <li class="nav-item has-treeview">
-                    {{-- <a href="{{ route('product_classification') }}" class="nav-link"> --}}
+                     {{-- <a href="{{ route('product_classification') }}" class="nav-link">  --}}
                     <a href="#" data-toggle="modal" data-target="#" class="nav-link">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>About<i class="fas fa-angle-left right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{!{ route('about_management') }}" class="nav-link">
+                            <a href="{{ route('about_management') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>About Page</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{!{ route('history_management') }}" class="nav-link">
+                            <a href="{{ route('history_management') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>History Page</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{!{ route('mission_vision_management') }}" class="nav-link">
+                            <a href="{{ route('mission_vision_management') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Mission-Vision Page</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{!{ route('officials_management') }}" class="nav-link">
+                            <a href="{{ route('officials_management') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Officials Page</p>
                             </a>
@@ -149,7 +149,7 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="{!{ route('activities_management') }}" class="nav-link">
+                    <a href="{{ route('activities_management') }}" class="nav-link">
                         <i class="fa-solid fa-pen-to-square"></i>
                         <p>Activities</p>
                     </a>

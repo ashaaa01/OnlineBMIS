@@ -50,30 +50,30 @@
                             </a>
                         </li>
                         <!--li class="nav-item has-treeview">
-                            <a href="{{ route('request_registration_certificate') }}" class="nav-link">
+                            <a href="{!{ route('request_registration_certificate') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>
                                 <p>Registration</p></p>
                             </a>
                         </li-->
-                        <li class="nav-item has-treeview">
+                        {{-- <li class="nav-item has-treeview">
                             <a href="{{ route('request_license_permit_certificate') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>
                                 <p>License & Permit</p></p>
                             </a>
-                        </li>
+                        </li> --}}
                         <!--li class="nav-item has-treeview">
-                            <a href="{{ route('request_cedula_management') }}" class="nav-link">
+                            <a href="{!{ route('request_cedula_management') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>
                                 <p>Cedula</p></p>
                             </a>
                         </li-->
                     </ul>
                 </li>
-                <li class="nav-header font-weight-bold">TRANSACTION PROCESS</li>
+                <li class="nav-header font-weight-bold"></li>
                 <li class="nav-item has-treeview">
-                    <a href="{{ route('transaction_process') }}" class="nav-link">
+                    <a href="{{ route('user_information') }}" class="nav-link">
                         <i class="nav-icon fa-solid fa-file-signature"></i>
-                        <p>Transaction process</p></p>
+                        <p>User Information</p></p>
                     </a>
                 </li>
                 {{-- <li class="nav-item has-treeview">

@@ -33,10 +33,7 @@
                     <h2 class="my-3">Dashboard</h2>
 
                     @if ($sessionId == 1)
-                        <!-- Bar Graph Container -->
-                        <div class="bar-graph-container">
-                            <canvas id="barGraph"></canvas>
-                        </div>
+                        
                         <!-- Total Pending Users -->
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
                             <a href="#" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
@@ -45,6 +42,24 @@
                                         <div class="col mt-0">
                                             <h5 class="card-title-dashboard" style="color: #4B545C;">Total Pending Resident</h5>
                                             <h1 class="mt-1 mb-3" id="totalPendingUsers">0</h1>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <span><i class="fa-solid fa-users-slash" style="color: #4B545C;"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+                            <a href="#" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title-dashboard" style="color: #4B545C;">Total Verified Users</h5>
+                                            <h1 class="mt-1 mb-3" id="totalUsers">0</h1>
                                         </div>
                                         <div class="col-auto">
                                             <div class="stat text-primary">
@@ -133,7 +148,7 @@
                         </div>
 
                         <!-- Total Business Permit Requests -->
-                        <div class="col-sm-12 col-md-6 col-xl-4">
+                        {{-- <div class="col-sm-12 col-md-6 col-xl-4">
                             <a href="{{ route('license_permit_certificate') }}" class="card card-dashboard" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5); text-decoration: none; color: inherit;">
                                 <div class="card-body">
                                     <div class="row">
@@ -149,7 +164,31 @@
                                     </div>
                                 </div>
                             </a>
+                        </div> --}}
+                        @if ($sessionId == 1)
+                        <div>
+                            <h3>Total Number of On Process, For Issuance and Issued Status of Certificate Request:</h3>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div style="flex: 2; width: 60%;">
+                                    <canvas id="certificateRequestsChart" style="width: 100%; height: 350px; background-color:#e1eee7;"></canvas>
+                                </div>
+                                <div style="width: 30%; display: flex; justify-content: center; align-items: center;">
+                                    <canvas id="genderDistributionChart" style="width: 150px; height: 100px;"></canvas>
+                                </div>
+                            </div>
                         </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+                        @endif
                     @else
                         <!-- User Dashboard Cards -->
                         <div class="col-sm-12 col-md-6 col-xl-4">
@@ -248,34 +287,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script type="text/javascript">
     function renderChart(data) {
-    var ctx = document.getElementById('barGraph').getContext('2d');
+    var ctx = document.getElementById('certificateRequestsChart').getContext('2d');
     var certificateRequestsChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Children', 'Youth', 'Adult', 'Senior'], // Sequential numbers for the x-axis labels
+            labels: ['Barangay Clearance', 'Indigency', 'Residency', 'Business Permit'], // Sequential numbers for the x-axis labels
             datasets: [
                 {
-                    label: 'Male',
+                    label: 'Pending',
                     data: [
-                        data['totalMaleChildren'],
+                        data['totalPendingBarangayClearanceCertificates'],
                         data['totalPendingIndigencyCertificates'],
                         data['totalPendingResidencyCertificates'],
-                        data['totalLicensePermitCertificate'],
                         0
                     ],
-                    backgroundColor: '#6c757d',
-                    borderColor: '#6c757d',
+                    backgroundColor: '#AC92EB',
+                    borderColor: '#AC92EB',
                     borderWidth: 1,
                     barThickness: 30,
                     borderRadius: 5
                 },
                 {
-                    label: 'For Issuance',
+                    label: 'Processing',
                     data: [
                         data['totalProcessingBarangayClearanceCertificates'],
                         data['totalProcessingIndigencyCertificates'],
                         data['totalProcessingResidencyCertificates'],
-                        data['totalProcessingLicensePermitCertificate'],
                         0
                     ],
                     backgroundColor: '#4FC1E8',
@@ -285,12 +322,25 @@
                     borderRadius: 5
                 },
                 {
-                    label: 'Issued',
+                    label: 'Disapproved',
+                    data: [
+                        data['totalDisapprovedBarangayClearanceCertificates'],
+                        data['totalDisapprovedIndigencyCertificates'],
+                        data['totalDisapprovedResidencyCertificates'],
+                        0
+                    ],
+                    backgroundColor: '#ED5564',
+                    borderColor: '#ED5564',
+                    borderWidth: 1,
+                    barThickness: 30,
+                    borderRadius: 5
+                },
+                {
+                    label: 'Approved',
                     data: [
                         data['totalApprovedBarangayClearanceCertificates'],
                         data['totalApprovedIndigencyCertificates'],
                         data['totalApprovedResidencyCertificates'],
-                        data['totalApprovedLicensePermitCertificate'],
                         0
                     ],
                     backgroundColor: '#A0D568',
@@ -305,7 +355,7 @@
                         data['totalBarangayClearanceCertificates'],
                         data['totalIndigencyCertificates'],
                         data['totalResidencyCertificates'],
-                        data['totalLicensePermitCertificatesRequests'],
+                        data['totalLicensePermitCertificatesRequests']
                     ],
                     backgroundColor: [
                         '#FFCE54',
@@ -419,6 +469,7 @@
                     $('#totalIndigencyCertificates').text(response['totalIndigencyCertificates']);
                     $('#totalResidencyCertificates').text(response['totalResidencyCertificates']);
                     $('#totalLicensePermitCertificatesRequests').text(response['totalLicensePermitCertificatesRequests']);
+                    $('#totalUsers').text(response['totalUsers']);
 
                     // Render the charts
                     renderChart(response);

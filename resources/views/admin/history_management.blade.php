@@ -29,9 +29,9 @@
                                 <h3 class="card-title" style="margin-top: 8px;">History Management</h3>
                             </div>
                             <div class="card-body">
-                                {{-- <div class="text-right mt-4">                   
+                                 <div class="text-right mt-4">                   
                                     <button type="button" id="buttonAddBarangayHistory" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddBarangayHistory"><i class="fa fa-plus fa-md"></i> New History</button>
-                                </div><br> --}}
+                                </div><br> 
                                 <div class="table-responsive">
                                     <table id="tableBarangayHistory" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
                                         <thead>

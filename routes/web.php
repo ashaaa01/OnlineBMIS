@@ -12,6 +12,7 @@ use App\Http\Controllers\BarangayOthersController;
 use App\Http\Controllers\FingerDevicesControlller;
 use App\Http\Controllers\BarangayHistoryController;
 use App\Http\Controllers\BarangayOfficialController;
+use App\Http\Controllers\BarangayProfileController;
 use App\Http\Controllers\BarangayResidentController;
 use App\Http\Controllers\BarangayActivitiesController;
 use App\Http\Controllers\IndigencyCertificateController;
@@ -264,6 +265,7 @@ Route::get('/get_user_levels', [UserController::class, 'getUserLevels'])->name('
 Route::get('/view_users', [UserController::class, 'viewUsers'])->name('view_users');
 Route::get('/view_pending_users', [UserController::class, 'viewPendingUsers'])->name('view_pending_users');
 Route::get('/get_user_by_id', [UserController::class, 'getUserById'])->name('get_user_by_id');
+Route::get('/get_user_by_session_id', [UserController::class, 'getUserBySessionId'])->name('get_user_session_by_id');
 Route::post('/edit_user_status', [UserController::class, 'editUserStatus'])->name('edit_user_status');
 Route::post('/edit_user_authentication', [UserController::class, 'editUserAuthentication'])->name('edit_user_authentication');
 Route::get('/get_data_for_dashboard', [UserController::class, 'getDataForDashboard'])->name('get_data_for_dashboard');
@@ -504,3 +506,16 @@ Route::get('/certificates-reports', [ReportController::class, 'certificateReport
 Route::get('combined-report-pdf', [ReportController::class, 'generateCombinedReportPdf'])->name('combinedReportPdf');
 
 Route::post('/auth/user/reset-password', [UserController::class, 'resetPassword']);
+
+// Example for web.php
+Route::get('/barangay-profile', [BarangayProfileController::class, 'viewBarangayProfile']);
+Route::post('/barangay-profile/add', [BarangayProfileController::class, 'addBarangayProfile']);
+Route::get('/barangay-profile/{id}', [BarangayProfileController::class, 'getBarangayProfileById']);
+Route::post('/barangay-profile/status', [BarangayProfileController::class, 'editBarangayProfileStatus']);
+Route::get('/barangay-profile/total', [BarangayProfileController::class, 'getTotalBarangayProfile']);
+
+// routes/web.php
+
+Route::get('/user_information', function () {
+    return view('admin.user_information');
+})->name('user_information');

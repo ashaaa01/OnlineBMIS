@@ -29,9 +29,9 @@
                                 <h3 class="card-title" style="margin-top: 8px;">Mission Vision Management</h3>
                             </div>
                             <div class="card-body">
-                                {{-- <div class="text-right mt-4">                   
+                                 <div class="text-right mt-4">                   
                                     <button type="button" id="buttonAddBarangayMissionVision" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddBarangayMissionVision"><i class="fa fa-plus fa-md"></i> New Mission Vision</button>
-                                </div><br> --}}
+                                </div><br> 
                                 <div class="table-responsive">
                                     <table id="tableBarangayMissionVision" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
                                         <thead>

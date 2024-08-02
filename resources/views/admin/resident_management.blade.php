@@ -65,9 +65,10 @@
                                     <table id="tableBarangayResident" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
                                         <thead>
                                             <tr>
+                                                <th>No.</th>
                                                 <th>Action</th>
                                                 <!--th>ID Number</th-->
-                                                <th>Image</th>
+                                                {{-- <th>Image</th> --}}
                                                 <th>Name</th>
                                                 <th>Age</th>
                                                 <th>Sex</th>
@@ -274,10 +275,10 @@
                                     </div>
 
                                         <!-- Contact Information Fields -->
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email address<small>(For Account Activation)</small><span class="text-danger">*</span></label>
+                                        <div class="mb-3">
+                                        <label for="email" class="form-label">Email address<span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" name="email" id="textEmail" placeholder="Email Address">
-                                    </div>  
+                                        </div>  
                                     <div class="mb-3">
                                         <label for="textMobileNumber" class="form-label">Mobile Number</label>
                                         <input type="text" class="form-control" name="mobile_number" id="textMobileNumber" placeholder="Mobile Number">
@@ -330,284 +331,146 @@
     </div><!-- Edit Resident Status Modal End -->
 
     <!-- View Resident Modal Start -->
-    <div class="modal fade" id="modalViewBarangayResident" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-info-circle"></i>&nbsp;Resident Full Details</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="formViewBarangayResident" autocomplete="off">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="card-body">
-                            <div class="row">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#view_personalInformation" type="button" role="tab">Personal Information Tab</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#view_addressInformation" type="button" role="tab">Address Information Tab</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#view_employmentInformation" type="button" role="tab">Employment Information Tab</button>
-                                    </li>
-                                    <!--li class="nav-item">
-                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#blotterRecordInformation" type="button" role="tab">Blotter Record Information Tab</button>
-                                    </li-->
-                                </ul>
-                                
-                                <div class="tab-content mt-3" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="view_personalInformation">
-                                        <!-- For Resident Id -->
-                                        <input type="text" class="form-control" style="display: none" name="barangay_resident_id" id="barangayResidentId" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-                                            
+<div class="modal fade" id="modalViewBarangayResident" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-info-circle"></i>&nbsp;Resident Full Details</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formViewBarangayResident" autocomplete="off">
+                @csrf
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <h5>I. Identifying Information</h5>
+                            <hr>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="lastname" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="lastname" id="textLastname" readonly placeholder="Lastname">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="firstname" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" name="firstname" id="textFirstname" readonly placeholder="Firstname">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="middleInitial" class="form-label">Middle Initial</label>
+                                    <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="textSuffix" class="form-label">Suffix <small>(e.g Sr., Jr. I, II, III, IV, V, VI)</small></label>
+                                    <input type="text" class="form-control" name="suffix" id="textSuffix" readonly placeholder="Suffix">
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="gender" class="form-label">Sex</label>
+                                    <input type="text" class="form-control" name="gender" id="textGender" readonly placeholder="Sex">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="birthdate" class="form-label">Birthdate</label>
+                                    <input type="text" class="form-control datetimepicker" name="birthdate" id="textBirthdate" readonly placeholder="Birthdate">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" min="1" max="200" name="age" id="textAge" readonly placeholder="Age" title="Auto generated based on Birthdate" style="width: 100px;">
+                                </div>
+                                <div class="col-lg-4">
+                                    <label for="textBirthPlace" class="form-label">Birth Place</label>
+                                    <input type="text" class="form-control" name="birth_place" id="textBirthPlace" readonly placeholder="Birth Place" style="width: 100%;">
+                                </div>
+                            </div>
+                           
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="textNationality" class="form-label">Nationality</label>
+                                    <input type="text" class="form-control" name="nationality" id="textNationality" readonly placeholder="Nationality">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="textReligion" class="form-label">Religion</label>
+                                    <input type="text" class="form-control" name="religion" id="textReligion" readonly placeholder="Religion">
+                                </div>
+                            </div>
 
-                                        <div class="mb-3">
-                                            <label for="firstname" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" name="firstname" id="textFirstname" readonly placeholder="Firstname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="lastname" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" name="lastname" id="textLastname" readonly placeholder="Lastname">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="middleInitial" class="form-label">Middle Initial</label>
-                                            <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textSuffix" class="form-label">Suffix</label>
-                                            <input type="text" class="form-control" name="suffix" id="textSuffix" readonly placeholder="Suffix">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email address</label>
-                                            <input type="text" class="form-control" name="email" id="textEmail" readonly placeholder="Email Address">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Contact Number</label>
-                                            <input type="text" class="form-control" name="contact_number" id="textContactNumber" readonly placeholder="Contact Number">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="userLevel" class="form-label">User Level</label>
-                                            <select class="form-select" id="userLevel" name="user_level" readonly placeholder="User Level">
-                                                <!-- Auto Generated -->
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" name="username" id="textUsername" readonly placeholder="Username">
-                                        </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" name="email" id="textEmail" readonly placeholder="Email Address">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contact_number" class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" name="contact_number" id="textContactNumber" readonly placeholder="Contact Number">
+                                </div>
+                            </div>
 
-                                        <div class="mb-3">
-                                            <label for="selectGender" class="form-label">Sex</label>
-                                            <select class="form-select" id="selectGender" name="gender" readonly>
-                                                <option value="0" disabled selected>Select One</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                {{-- <option value="3">Other</option> --}}
-                                            </select>
-                                        </div>
+                        <div class="mb-4">
+                            <h5>II. Address Information</h5>
+                            <hr>
+                            <div class="mb-3">
+                                <label for="textZone" class="form-label">Zone</label>
+                                <input type="text" class="form-control" id="textZone" readonly placeholder="Zone">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textBarangay" class="form-label">Barangay</label>
+                                <input type="text" class="form-control" name="barangay" id="textBarangay" readonly placeholder="Barangay">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textMunicipality" class="form-label">Municipality</label>
+                                <input type="text" class="form-control" name="municipality" id="textMunicipality" readonly placeholder="Municipality">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textProvince" class="form-label">Province</label>
+                                <input type="text" class="form-control" name="province" id="textProvince" readonly placeholder="Province">
+                            </div>
+                        </div>
 
-                                        <div class="mb-3">
-                                            <label for="selectCivilStatus" class="form-label">Civil Status</label>
-                                            <select class="form-select" id="selectCivilStatus" name="civil_status" readonly>
-                                                <option value="0" disabled selected>Select One</option>
-                                                <option value="1">Single</option>
-                                                <option value="2">Married</option>
-                                                <option value="3">Widow/er</option>
-                                                <option value="4">Annulled</option>
-                                                <option value="5">Legally Separated</option>
-                                                <option value="6">Others</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="birthdate" class="form-label">Birthdate</label>
-                                            <input type="text" class="form-control datetimepicker" width="276" name="birthdate" id="textBirthdate" readonly placeholder="Birthdate">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="age" class="form-label">Age</label>
-                                            <input type="number" class="form-control" min="1" max="200" name="age" id="textAge" readonly placeholder="Age" title="Auto generated based on Birthdate">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textBirthPlace" class="form-label">Birth Place</label>
-                                            <input type="text" class="form-control" name="birth_place" id="textBirthPlace" readonly placeholder="Birth Place">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="textNationality" class="form-label">Nationality</label>
-                                            <input type="text" class="form-control" name="nationality" id="textNationality" readonly placeholder="Nationality">
-                                        </div>
-        
-                                        <div class="mb-3">
-                                            <label for="textReligion" class="form-label">Religion</label>
-                                            <input type="text" class="form-control" name="religion" id="textReligion" readonly placeholder="Religion">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="selectEducationalAttainment" class="form-label">Educational Attainment</label>
-                                            <select class="form-select" id="selectEducationalAttainment" name="educational_attainment" readonly>
-                                                <option value="0" disabled selected>Select One</option>
-                                                <option value="1">Elementary Graduate</option>
-                                                <option value="2">Elementary Undergraduate</option>
-                                                <option value="3">High School Graduate</option>
-                                                <option value="4">High School Undergraduate</option>
-                                                <option value="5">College Graduate</option>
-                                                <option value="6">College Undergraduate</option>
-                                                <option value="7">Masters Graduate</option>
-                                                <option value="8">Some/Completed Masters Degree</option>
-                                                <option value="9">Vocational</option>
-                                                <option value="10">Out of School Youth</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade  " id="view_addressInformation">
-                                        {{-- <div class="mb-3">
-                                            <label for="textZone" class="form-label">Zone</label>
-                                            <input type="text" class="form-control" name="zone" id="textZone" readonly placeholder="Zone" >
-                                        </div> --}}
-                                        <div class="mb-3">
-                                            <label for="textZone" class="form-label">Zone</label>
-                                            <input type="text" class="form-control" id="textZone" readonly placeholder="Zone">
-                                        </div>
-        
-                                        <!--div class="mb-3">
-                                            <label for="textBlock" class="form-label">Block</label>
-                                            <input type="text" class="form-control" name="block" id="textBlock" readonly placeholder="Block">
-                                        </div-->
-        
-                                        <div class="mb-3">
-                                            <label for="textBarangay" class="form-label">Barangay</label>
-                                            <input type="text" class="form-control" name="barangay" id="textBarangay" readonly placeholder="Barangay">
-                                        </div>
-        
-                                        <div class="mb-3">
-                                            <label for="textMunicipality" class="form-label">Municipality</label>
-                                            <input type="text" class="form-control" name="municipality" id="textMunicipality" readonly placeholder="Municipality">
-                                        </div>
-        
-                                        <div class="mb-3">
-                                            <label for="textProvince" class="form-label">Province</label>
-                                            <input type="text" class="form-control" name="province" id="textProvince" readonly placeholder="Province">
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="view_employmentInformation">
-                                        <div class="mb-3">
-                                            <label for="textOccupation" class="form-label">Occupation</label>
-                                            <input type="text" class="form-control" name="occupation" id="textOccupation" readonly placeholder="Occupation">
-                                        </div>
-        
-                                        <div class="mb-3">
-                                            <label for="textMonthlyIncome" class="form-label">Monthly Income</label>
-                                            <input type="text" class="form-control" name="monthly_income" id="textMonthlyIncome" readonly placeholder="Monthly Income">
-                                        </div>
-        
-                                        <div class="mb-3">
-                                            <label for="textPhilHealthNumber" class="form-label">Phil Health Number</label>
-                                            <input type="text" class="form-control" name="phil_health_number" id="textPhilHealthNumber" readonly placeholder="Phil Health Number">
-                                        </div>
-    
-                                        <div class="mb-3">
-                                            <label for="textRemarks" class="form-label">Remarks</label>
-                                            <input type="text" class="form-control" name="remarks" id="textRemarks" readonly placeholder="Remarks">
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="blotterRecordInformation">
-                                        <div class="table-responsive">
-                                            <table id="tableBarangayResidentBlotter" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Case Number</th>
-                                                        <th>Respondent</th>   
-                                                        <th>Complainant</th>
-                                                        <th style="min-width: 350px; width: 350px !important;">Complainant Statement</th>
-                                                        <th>Date Filed</th>
-                                                        <th>Action Taken</th>
-                                                        <th>Status</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                        {{-- <div class="mb-3">
-                                            <label for="textCaseNumber" class="form-label">Case Number<span class="text-danger" title="Required">*</span></label>
-                                            <input type="text" class="form-control" name="case_number" id="textCaseNumber" readonly placeholder="Case Number">
-                                        </div>
-    
-                                        <div class="mb-3">
-                                            <label for="lastname" class="form-label">Complainant Statement<span class="text-danger" title="Required">*</span></label>
-                                            <input type="text" class="form-control" name="complainant_statement" id="textComplainantStatement" readonly placeholder="Complainant Statement">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textRespondent" class="form-label">Respondent</label>
-                                            <input type="text" class="form-control" name="respondent" id="textRespondent" readonly placeholder="Respondent">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textRespondentAge" class="form-label">Respondent Age</label>
-                                            <input type="text" class="form-control" min="1" max="200" name="respondent_age" id="textRespondentAge" readonly placeholder="Respondent Age">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textRespondentAddress" class="form-label">Respondent Address</label>
-                                            <input type="text" class="form-control" name="respondent_address" id="textRespondentAddress" readonly placeholder="Respondent Address">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textRespondentContactNumber" class="form-label">Respondent Contact Number</label>
-                                            <input type="number" class="form-control" name="respondent_contact_number" id="textRespondentContactNumber" readonly placeholder="Respondent Contact Number">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textPersonInvolved" class="form-label">Person Involved</label>
-                                            <input type="text" class="form-control" name="person_involved" id="textPersonInvolved" readonly placeholder="Person Involved">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textIncidentLocation" class="form-label">Incident Location</label>
-                                            <input type="text" class="form-control" name="incident_location" id="textIncidentLocation" readonly placeholder="Incident Location">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textIncidentDate" class="form-label">Incident Date</label>
-                                            <input type="datetime-local" class="form-control" name="incident_date" id="textIncidentDate" readonly placeholder="Incident Date">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="selectActionTaken" class="form-label">Action Taken</label>
-                                            <select class="form-select" id="selectActionTaken" readonly name="action_taken">
-                                                <option value="0" disabled selected>Select One</option>
-                                                <option value="1">Negotiating</option>
-                                                <option value="2">Both Signed</option>
-                                                <option value="3">Others</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="selectStatus" class="form-label">Status</label>
-                                            <select class="form-select" id="selectStatus" readonly name="status">
-                                                <option value="0" disabled selected>Select One</option>
-                                                <option value="1">New</option>
-                                                <option value="2">On-Going</option>
-                                                <option value="3">Pending</option>
-                                                <option value="4">Report</option>
-                                                <option value="5">Solved</option>
-                                                <option value="6">Not Solved</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="textRemarks" class="form-label">Remarks</label>
-                                            <input type="text" class="form-control" name="remarks" readonly id="textRemarks" placeholder="Remarks">
-                                        </div> --}}
-                                    </div>
+                        <div class="mb-4">
+                            <h5>III. Employment Information</h5>
+                            <hr>
+                            <div class="mb-3">
+                                <label for="textOccupation" class="form-label">Occupation</label>
+                                <input type="text" class="form-control" name="occupation" id="textOccupation" readonly placeholder="Occupation">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textMonthlyIncome" class="form-label">Monthly Income</label>
+                                <input type="text" class="form-control" name="monthly_income" id="textMonthlyIncome" readonly placeholder="Monthly Income">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textPhilHealthNumber" class="form-label">Phil Health Number</label>
+                                <input type="text" class="form-control" name="phil_health_number" id="textPhilHealthNumber" readonly placeholder="Phil Health Number">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textRemarks" class="form-label">Remarks</label>
+                                <input type="text" class="form-control" name="remarks" id="textRemarks" readonly placeholder="Remarks">
+                            </div>
+                            <div class="mb-3">
+                                <label for="textRegisteredVoter" class="form-label">A Registered Voter?<span class="text-danger" title="Required">*</span></label>
+                                <select readonly class="form-select w-100" id="textRegisteredVoter" name="registered_voter">
+                                    <option value="0" disabled selected>Select One</option>
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="votersId" class="form-label">Voter's ID</label>
+                                <div class="rounded mb-3" style="overflow: hidden;">
+                                    <img src="https://via.placeholder.com/219X200" alt="voters id" id="imgVotersID" style="object-fit: cover; width: 200px; height: 200px;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                        {{-- <button type="submit" id="buttonAddBarangayResident" class="btn btn-primary" title="On going module"><i id="iconAddBarangayResident" class="fa fa-check"></i> Save</button> --}}
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                    {{-- <button type="submit" id="buttonAddBarangayResident" class="btn btn-primary" title="On going module"><i id="iconAddBarangayResident" class="fa fa-check"></i> Save</button> --}}
+                </div>
+            </form>
         </div>
-    </div><!-- View Resident Modal End -->
+    </div>
+</div><!-- View Resident Modal End -->
 
     <!-- Filtering Modal Start -->
     <div class="modal fade" id="modalFilter" data-bs-keyboard="false" data-bs-backdrop="static">
@@ -759,22 +622,23 @@
                     },
                 },
                 "columns":[
+                    { "data": "number", "name": "number", "orderable": false },
                     { "data" : "action", orderable:false, searchable:false},
                   //  { "data" : "barangay_id_number"},
-                    {
-                    data: null,
-                    render: function (data, type, row) {
-                        return `
-                        <div style="overflow: hidden;">
-                            <img
-                            style="object-fit: cover;width:40px;height:40px"
-                            src="${data.image}"
-                            alt="Product Avatar"
-                            />
-                        </div>
-                        `;
-                    }
-                    },
+                    // {
+                    // data: null,
+                    // render: function (data, type, row) {
+                    //     return `
+                    //     <div style="overflow: hidden;">
+                    //         <img
+                    //         style="object-fit: cover;width:40px;height:40px"
+                    //         src="${data.image}"
+                    //         alt="Product Avatar"
+                    //         />
+                    //     </div>
+                    //     `;
+                    // }
+                    // },
                     { "data" : function(data){
                         return capitalizeFirstLetter(data.user_info.lastname) +', '+ capitalizeFirstLetter(data.user_info.firstname);
                     }},
@@ -885,7 +749,14 @@
                     // console.log('index ', index);
                 },
             });
-            
+            $('#modalViewBarangayResident').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var email = button.data('email'); // Extract email from data-* attributes
+
+                var modal = $(this);
+                modal.find('#textEmail').val(email); // Set email field value
+            });
+                        
 
             $('#buttonAddBarangayResident').on('click', function(){
                 getUsersWithResidentInfo($('#selectUser'));

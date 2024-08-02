@@ -17,7 +17,7 @@
                         <li><a class="dropdown-item" href="{{ route('about') }}">About</a></li>
                         <li><a class="dropdown-item" href="{{ route('history') }}">History</a></li>
                         <li><a class="dropdown-item" href="{{ route('vision_mission') }}">Vision-Mission</a></li>
-                        <!--li><a class="dropdown-item" href="{!{ route('officials') }}">Barangay Officials</a></li>
+                        <li><a class="dropdown-item" href="{{ route('officials') }}">Barangay Officials</a></li>
                         <li><a class="dropdown-item" href="{!{ route('officials_sk') }}">Barangay Officials-SK</a></li>
                         <li><a class="dropdown-item" href="{!{ route('officials_bpso') }}">Barangay Officials-BPSO</a></li-->
                     </ul>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -121,21 +122,21 @@ class UserController extends Controller
             'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'middle_initial' => 'nullable|regex:/^[A-Z]$/',
             'suffix' => 'nullable|string|max:10', 
-            'gender' => 'required|in:1,2,3', 
+            'gender' => 'required|in:1,2', 
             'civil_status' => 'required|in:1,2,3,4,5,6',
             'birthdate' => 'required|date|before:today', 
             'age' => 'required|integer|min:0|max:120',
             'length_of_stay_number' => 'required|integer|min:0',
             'length_of_stay_unit' => 'required|in:years,months',
+            'permanent_address' => 'nullable|string|max:500',
             'birth_place' => 'nullable|string|max:255',
             'zone' => 'required|integer|min:1|max:9',
             'barangay' => 'nullable|string|max:255',
             'nationality' => 'required|string|max:255',
-            'municipality' => 'nullable|string|max:255',
+            'municipality' => 'required|string|max:255',
             'religion' => 'required|string|max:255',
             'occupation' => 'nullable|string|max:255',
             'registered_voter' => 'required|in:1,2',
-            'voters_id' => 'nullable|string|max:255',
 
             'email' => 'required|email|unique:users,email',
             'mobile_number' => 'required|numeric|min:11',
@@ -160,13 +161,18 @@ class UserController extends Controller
              */
             $voters_id = null;
             if(isset($request->voters_id)){
+                $folder = 'voters_photo';
                 $voters_file = $request->file('voters_id');
                 $voters_id = $voters_file->getClientOriginalName();
-                Storage::putFileAs('public/voters_government_id', $request->voters_id, $voters_id);
+                if (!File::exists($folder)) {
+                    File::makeDirectory($folder, 0777, true); // Recursively create directory
+                }
+                $file = $voters_file;
+                $file->move(public_path($folder), $voters_id);
             }
 
             DB::beginTransaction();
-            try {
+            // try {
                 $userId = User::insertGetId([
                     'firstname' => $request->firstname,
                     'lastname' => $request->lastname,
@@ -177,6 +183,7 @@ class UserController extends Controller
                     'email' => $request->email,
                     'contact_number' => $request->mobile_number,
                     'username' => $request->username,
+                    'gender' => $request->gender,
 
                     'password' => Hash::make($request->password),
                     'is_password_changed' => 0,
@@ -196,6 +203,7 @@ class UserController extends Controller
                     'birthdate' => $birthdate,
                     'age' => $request->age,
                     'birth_place' => $request->birth_place,
+                    // 'permanent_address' => $request->permanent_address,
                     'zone' => $request->zone,
                     'barangay' => $request->barangay,
                     'municipality' => $request->municipality,
@@ -217,10 +225,10 @@ class UserController extends Controller
                 // User::where('id', $userId)->update(['created_by' => $userId]);
                 DB::commit();
                 return response()->json(['hasError' => 0]);
-            } catch (\Exception $e) {
-                DB::rollback();
-                return response()->json(['hasError' => 1, 'exceptionError' => $e]);
-            }
+            // } catch (\Exception $e) {
+            //     DB::rollback();
+            //     return response()->json(['hasError' => 1, 'exceptionError' => $e]);
+            // }
         
             // $userDetails = BarangayResidentDatabase::where('is_deleted', 0)
             //                 ->where('firstname', strtolower($request->firstname) )
@@ -346,6 +354,24 @@ class UserController extends Controller
         
     }
 
+            public function getData()
+            {
+                // Query your users
+                $users = User::all(); // Adjust to your query
+            
+                // Add row number to each user
+                $users->each(function ($user, $index) {
+                    $user->rowNumber = $index + 1; // Assign row number (starting from 1)
+                });
+            
+                return datatables()->of($users)
+                    ->addColumn('number', function ($user) {
+                        return $user->rowNumber;
+                    })
+                    // Add other columns as needed
+                    ->make(true);
+            }
+
     public function viewUsers(Request $request){
         $userDetails = User::with('user_levels')->where('is_deleted', 0)
         ->where('is_authenticated', 1)
@@ -357,7 +383,16 @@ class UserController extends Controller
         })
         ->get();
         
-        return DataTables::of($userDetails)
+        // Add row numbers to each user detail
+            $userDetails->transform(function ($userDetail, $index) {
+                $userDetail->rowNumber = $index + 1; // Row number starts from 1
+                return $userDetail;
+            });
+
+            return DataTables::of($userDetails)
+            ->addColumn('number', function ($userDetail) {
+                return $userDetail->rowNumber; // Use the added rowNumber property
+            })
             ->addColumn('status', function($userDetail){
                 $result = "";
                 if($userDetail->status == 1){
@@ -381,8 +416,7 @@ class UserController extends Controller
             ->addColumn('action', function($userDetail){
                 if($userDetail->status == 1){
                     $result =   '<center>';
-                    $result .=            '<button type="button" class="btn btn-primary btn-xs text-center actionEditUser mr-1" user-id="' . $userDetail->id . '" data-bs-toggle="modal" data-bs-target="#modalAddUser" title="Edit User Details">';
-                    $result .=                '<i class="fa fa-xl fa-edit"></i> ';
+                    $result .=            
                     $result .=            '</button>';
 
                     if($userDetail->user_level_id != 1){
@@ -417,7 +451,15 @@ class UserController extends Controller
     public function viewPendingUsers(){
         $userDetails = User::with('user_levels')->where('is_deleted', 0)->where('is_authenticated', 0)->get();
         
+        $userDetails->transform(function ($userDetail, $index) {
+            $userDetail->rowNumber = $index + 1; // Row number starts from 1
+            return $userDetail;
+        });
+
         return DataTables::of($userDetails)
+        ->addColumn('number', function ($userDetail) {
+            return $userDetail->rowNumber; // Use the added rowNumber property
+        })
             ->addColumn('status', function($userDetail){
                 $result = "";
                 if($userDetail->status == 1){
@@ -441,9 +483,7 @@ class UserController extends Controller
             ->addColumn('action', function($userDetail){
                 if($userDetail->status == 1){
                     $result =   '<center>
-                                <button type="button" class="btn btn-primary btn-xs text-center actionEditUser" user-id="' . $userDetail->id . '" data-bs-toggle="modal" data-bs-target="#modalAddUser" title="Edit User Details">
-                                    <i class="fa fa-xl fa-edit"></i> 
-                                </button>
+                                
                                 <button type="button" class="btn btn-danger btn-xs text-center actionEditUserStatus mr-1" user-id="' . $userDetail->id . '" user-status="' . $userDetail->status . '" data-bs-toggle="modal" data-bs-target="#modalEditUserStatus" title="Deactivate User">
                                     <i class="fa-solid fa-xl fa-ban"></i>
                                 </button>';
@@ -497,7 +537,7 @@ class UserController extends Controller
 
     public function getUserById(Request $request){
         $userDetails = User::with('user_levels')->where('id', $request->userId)->get();
-        // echo $userDetails;
+        // echo $userDetails; die;
         return response()->json(['userDetails' => $userDetails]);
     }
 
@@ -623,27 +663,34 @@ class UserController extends Controller
         $totalFemaleAdult = BarangayResident::where('gender', 2)->whereBetween('age', [25, 59])->count();
         $totalFemaleSenior = BarangayResident::where('gender', 2)->where('age', '>=', 60)->count();
 
-    // Age category counts
-    $totalChildren = BarangayResident::whereBetween('age', [0, 12])->count();
-    $totalYouth = BarangayResident::whereBetween('age', [13, 24])->count();
-    $totalAdult = BarangayResident::whereBetween('age', [25, 59])->count();
-    $totalSenior = BarangayResident::where('age', '>=', 60)->count();
+        // Gender counts
+        $totalMale = BarangayResident::where('gender', 1)->count();
+        $totalFemale = BarangayResident::where('gender', 2)->count();
+        $totalOther = BarangayResident::where('gender', 3)->count();
 
-    // Educational attainment counts (example, adjust according to your categories)
-    $educationalAttainments = [
-        'None' => BarangayResident::where('educational_attainment', 'None')->count(),
-        'High School' => BarangayResident::where('educational_attainment', 'High School')->count(),
-        'College' => BarangayResident::where('educational_attainment', 'College')->count(),
-        'Graduate' => BarangayResident::where('educational_attainment', 'Graduate')->count(),
-    ];
+        // Age category counts
+        $totalChildren = BarangayResident::whereBetween('age', [0, 12])->count();
+        $totalYouth = BarangayResident::whereBetween('age', [13, 24])->count();
+        $totalAdult = BarangayResident::whereBetween('age', [25, 59])->count();
+        $totalSenior = BarangayResident::where('age', '>=', 60)->count();
 
-    // Civil status counts (example, adjust according to your statuses)
-    $civilStatuses = [
-        'Single' => BarangayResident::where('civil_status', 'Single')->count(),
-        'Married' => BarangayResident::where('civil_status', 'Married')->count(),
-        'Widowed' => BarangayResident::where('civil_status', 'Widowed')->count(),
-        'Divorced' => BarangayResident::where('civil_status', 'Divorced')->count(),
-    ];
+        $totalUsers = User::where('is_authenticated', 1)->count();
+
+        // Educational attainment counts (example, adjust according to your categories)
+        $educationalAttainments = [
+            'None' => BarangayResident::where('educational_attainment', 'None')->count(),
+            'High School' => BarangayResident::where('educational_attainment', 'High School')->count(),
+            'College' => BarangayResident::where('educational_attainment', 'College')->count(),
+            'Graduate' => BarangayResident::where('educational_attainment', 'Graduate')->count(),
+        ];
+
+        // Civil status counts (example, adjust according to your statuses)
+        $civilStatuses = [
+            'Single' => BarangayResident::where('civil_status', 'Single')->count(),
+            'Married' => BarangayResident::where('civil_status', 'Married')->count(),
+            'Widowed' => BarangayResident::where('civil_status', 'Widowed')->count(),
+            'Divorced' => BarangayResident::where('civil_status', 'Divorced')->count(),
+        ];
         
 
         
@@ -700,9 +747,16 @@ class UserController extends Controller
             'totalYouth' => $totalYouth,
             'totalAdult' => $totalAdult,
             'totalSenior' => $totalSenior,
+
+             // Gender counts
+             'totalMale' => $totalMale,
+             'totalFemale' => $totalFemale,
+             'totalOther' => $totalOther,
     
             // For User Dashboard
             'totalBarangayClearanceRequests' => $totalBarangayClearanceRequests,
+
+            'totalUsers' => $totalUsers,
         ]);
     }
     
@@ -785,13 +839,21 @@ class UserController extends Controller
              */
             $validator = Validator::make($data, [
                 'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-            'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+                'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
                 'email' => 'required',
                 'contact_number' => 'required|numeric|min:11', // 'contact_number' => 'required|regex:/^(09|\+639)\d{9}$',
                 'username' => 'required',
-                'password' => 'required|alphaNum|min:8|required_with:confirm_password|same:confirm_password',
-                'confirm_password' => 'required|alphaNum|min:8'
+                'password' => 'nullable|string|required_with:new_password',
+                'new_password' => 'nullable|alphaNum|min:8|required_with:confirm_password|required_with:password|same:confirm_password',
+                'confirm_password' => 'nullable|alphaNum|min:8'
             ]);
+
+            if(isset($request->password)){
+                $user = User::findOrFail($request->user_id);
+                if (!Hash::check($request->password, $user->password)) {
+                    return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
+                }  
+            }
     
             if ($validator->fails()) {
                 return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
@@ -803,11 +865,19 @@ class UserController extends Controller
                     'email' => $request->email,
                     'contact_number' => $request->contact_number,
                     'username' => $request->username,
-                    'password' => Hash::make($request->password),
                     'updated_at' => date('Y-m-d H:i:s'),
                     'last_updated_by' => $_SESSION["session_user_id"]
                 ]);
-                return response()->json(['hasError' => 0, 'session'=> $_SESSION["session_user_id"]]);
+
+                $logout = false;
+
+                if(isset($request->new_password)){
+                    $logout = true;
+                    User::where('id', $request->user_id)->update([
+                        'password' => Hash::make($request->new_password),
+                    ]);
+                }
+                return response()->json(['hasError' => 0, 'session'=> $_SESSION["session_user_id"], 'logout'=> $logout]);
             }
         }
         

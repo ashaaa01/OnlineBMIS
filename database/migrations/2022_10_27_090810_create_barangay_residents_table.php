@@ -20,8 +20,10 @@ class CreateBarangayResidentsTable extends Migration
             $table->string('gender')->nullable();
             $table->tinyInteger('civil_status')->nullable()->comment = '1-Single, 2-Married, 3-Widow/er, 4-Annulled, 5-Legally Separated, 6-Others';
             $table->string('length_of_stay')->nullable();
+            $table->enum('length_of_stay_unit', ['years', 'months']);
             $table->date('birthdate');
             $table->string('birth_place')->nullable();
+            $table->string('permanent_address')->nullable();
             $table->string('zone')->nullable();
             $table->string('block')->nullable();
             $table->string('lot')->nullable();

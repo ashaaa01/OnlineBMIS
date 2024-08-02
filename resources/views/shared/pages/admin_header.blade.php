@@ -81,6 +81,7 @@
                                     <label for="middleInitial" class="form-label">Middle Initial</label>
                                     <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" placeholder="Middle Initial">
                                 </div>
+                                
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address<span class="text-danger" title="Required">*</span></label>
                                     <input type="text" class="form-control" name="email" id="textEmail" placeholder="Email Address">
@@ -96,6 +97,10 @@
                                 <div class="mb-3" id="divPassword">
                                     <label for="password" class="form-label">Password<span class="text-danger" title="Required">*</span></label>
                                     <input type="password" class="form-control" name="password" id="textPassword" placeholder="Password">
+                                </div>
+                                <div class="mb-3" id="divPassword">
+                                    <label for="textNewPassword" class="form-label">New Password<span class="text-danger" title="Required">*</span></label>
+                                    <input type="password" class="form-control" name="new_password" id="textNewPassword" placeholder="Password">
                                 </div>
                                 <div class="mb-3" id="divConfirmPassword">
                                     <label for="confirmPassword" class="form-label">Confirm Password<span class="text-danger" title="Required">*</span></label>

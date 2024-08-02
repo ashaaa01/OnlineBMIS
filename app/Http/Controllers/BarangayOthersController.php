@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Auth; // or use Illuminate\Support\Facades\Auth;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -76,7 +76,7 @@ class BarangayOthersController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json(['validationHasError' => 1, 'error' => $validator->messages()]);
+                return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
             } else {
                 DB::beginTransaction();
                 try {
@@ -107,7 +107,7 @@ class BarangayOthersController extends Controller
             ]);
     
             if ($validator->fails()) {
-                return response()->json(['validationHasError' => 1, 'error' => $validator->messages()]);
+                return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
             } else {
                 DB::beginTransaction();
                 try {
@@ -146,7 +146,7 @@ class BarangayOthersController extends Controller
             'status' => 'required',
         ]);
 
-        if($validator->passes()){
+        if($validator->fails()){
             if($request->status == 1){
                 BarangayOther::where('id', $request->barangay_others_id)
                     ->update([
@@ -171,7 +171,7 @@ class BarangayOthersController extends Controller
                 
         }
         else{
-            return response()->json(['validationHasError' => 1, 'error' => $validator->messages()]);
+            return response()->json(['validationHasError' => 1, 'error' => $validator->errors()]);
         }
     }
 

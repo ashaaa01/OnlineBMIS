@@ -305,7 +305,23 @@ function viewBarangayResidentById(id){
                 $("#textSuffix", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].suffix);
                 
                 $("#textUsername", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].username);
+                $("#lengthOfStayNumber", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].length_of_stay);
+                $("#lengthOfStayUnit", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].length_of_stay_unit);
+                $("#imgVotersID", $("#formViewBarangayResident")).attr('src', "voters_photo/"+viewBarangayResidentDetails[0]['user_info'].voters_id);
                 
+               // Gender
+                let genderText = "";
+                if (viewBarangayResidentDetails[0].gender == 1) {
+                    genderText = "Male";
+                } else if (viewBarangayResidentDetails[0].gender == 2) {
+                    genderText = "Female";
+                } else {
+                    genderText = "Other";
+                }
+
+                // Set the value of the gender input
+                $("#textGender").val(genderText);
+
                 $("#textBirthdate", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].birthdate);
                 $("#textAge", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].age);
                 $("#textBirthPlace", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].birth_place);
@@ -321,7 +337,7 @@ function viewBarangayResidentById(id){
                 $("#selectCivilStatus", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].civil_status).trigger('change');
                 $('select[name="user_level"]', $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info']['user_levels'].id).trigger('change');
                 $("#selectEducationalAttainment", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].educational_attainment).trigger('change');
-
+                $("#textRegisteredVoter", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].registered_voter).trigger('change');
 
                 // $("#textPurok", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].purok);
                 // $("#textBlock", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].block);

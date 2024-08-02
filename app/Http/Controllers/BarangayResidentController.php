@@ -33,9 +33,11 @@ use App\Models\BarangayResidentBlotter;
 class BarangayResidentController extends Controller
 {
     public function viewBarangayResident(Request $request){
-        $barangayResidentDetails = BarangayResident::with('user_info', 'barangay_resident_blotter_details')
-            ->where('is_deleted', 0)
-            ->orderBy('id', 'desc')
+        $barangayResidentDetails = BarangayResident::with(['user_info' => function($q){
+            $q->where('is_authenticated', 1);
+        }, 'barangay_resident_blotter_details'])
+        ->where('is_deleted', 0)
+        ->orderBy('id', 'desc')
             ->when($request->textFilterZone, function ($query) use ($request) {
                 return $query ->where('zone', 'like', '%'.$request->textFilterZone.'%');
             })
@@ -83,8 +85,15 @@ class BarangayResidentController extends Controller
             });
         }
 
+        $barangayResidentDetails->transform(function ($barangayResidentDetails, $index) {
+            $barangayResidentDetails->rowNumber = $index + 1; // Row number starts from 1
+            return $barangayResidentDetails;
+        });
         // return $barangayResidentDetails;
         return DataTables::of($barangayResidentDetails)
+            ->addColumn('number', function ($barangayResidentDetails) {
+                return $barangayResidentDetails->rowNumber; // Use the added rowNumber property
+            })
             ->addColumn('status', function($row){
                 $result = "";
                 if($row->status == 1){
@@ -155,6 +164,29 @@ class BarangayResidentController extends Controller
                 else if($row->civil_status == 6){
                     $result .= '<center><span>Others</span>';
                 }
+                return $result;
+            })
+            ->addColumn('religion', function($row){
+                // 1-Single, 2-Married, 3-Widow/er, 4-Annulled, 5-Legally Separated, 6-Others
+                $result = "";
+                if($row->civil_status == 1){
+                    $result .= 'Roman Catholic';
+                }
+                else if($row->civil_status == 2){
+                    $result .= 'Islam';
+                }
+                else if($row->civil_status == 3){
+                    $result .= 'Iglesia Ni Cristo';
+                }
+                else if($row->civil_status == 4){
+                    $result .= 'Philippine Independent Church';
+                }
+                else if($row->civil_status == 5){
+                    $result .= 'Sevent-Day Adventist';
+                }
+                // else if($row->civil_status == 6){
+                //     $result .= '<center><span>Others</span>';
+                // }
                 return $result;
             })
             
@@ -342,7 +374,6 @@ class BarangayResidentController extends Controller
                 'occupation' => 'nullable|string|max:255',
                 'monthly_income' => 'nullable|string',
                 'registered_voter' => 'required|in:1,2',
-                'voters_id' => 'nullable|string|max:255',
                 'educational_attainment' => 'required|in:1,2,3,4,5,6,7,8,9,10',
                 'remarks' => 'nullable|string',
             ], [
@@ -366,7 +397,7 @@ class BarangayResidentController extends Controller
                      * For uploading image
                      */
                     $image_name = null;
-                    if(isset($request->photo)){
+                    if (isset($request->photo)) {
                         $folder = 'resident_photo';
                         $image_file = $request->file('photo');
                         $image_name = $image_file->getClientOriginalName();
@@ -376,7 +407,7 @@ class BarangayResidentController extends Controller
                         $file = $image_file;
                         $file->move(public_path($folder), $image_name);
                     } else {
-                        $image_name = '/images/img/user-circle-icon.png';
+                        $image_name = 'images/img/user-circle-icon.png'; // Corrected path
                     }
 
                     /**
@@ -384,9 +415,14 @@ class BarangayResidentController extends Controller
                      */
                     $voters_id = null;
                     if(isset($request->voters_id)){
+                        $folder = 'voters_photo';
                         $voters_file = $request->file('voters_id');
                         $voters_id = $voters_file->getClientOriginalName();
-                        Storage::putFileAs('public/voters_government_id', $request->voters_id, $voters_id);
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $voters_file;
+                        $file->move(public_path($folder), $voters_id);
                     }
 
                     $firstname = strtolower($request->firstname);
@@ -401,6 +437,7 @@ class BarangayResidentController extends Controller
                         'voters_id' => $voters_id,
                         'contact_number' => $request->mobile_number,
                         'username' => $username,
+                        'email' => $request->email,
     
                         'is_password_changed' => 0,
                         'user_level_id' => 3, // User
@@ -420,6 +457,7 @@ class BarangayResidentController extends Controller
                         'barangay' => $request->barangay,
                         'municipality' => $request->municipality,
                         'province' => $request->province,
+                        'email' => $request->email,
                        // 'phase' => $request->phase,
                         'nationality' => $request->nationality,
                       //  'block' => $request->block,
@@ -435,7 +473,7 @@ class BarangayResidentController extends Controller
                         'is_deleted' => 0
                     ]);
 
-                    $barangayIdNumber = "BRGY-PAGASA-" . date("Y") .'-'. $barangayResidentId;
+                    $barangayIdNumber = "PAG-ASA-" . date("Y") .'-'. $barangayResidentId;
                     BarangayResident::where('id', $barangayResidentId)->update([
                         'barangay_id_number' => $barangayIdNumber,
                     ]);
@@ -514,9 +552,14 @@ class BarangayResidentController extends Controller
                      */
                     $voters_id = null;
                     if(isset($request->voters_id)){
+                        $folder = 'voters_photo';
                         $voters_file = $request->file('voters_id');
                         $voters_id = $voters_file->getClientOriginalName();
-                        Storage::putFileAs('public/voters_government_id', $request->voters_id, $voters_id);
+                        if (!File::exists($folder)) {
+                            File::makeDirectory($folder, 0777, true); // Recursively create directory
+                        }
+                        $file = $voters_file;
+                        $file->move(public_path($folder), $voters_id);
 
                         User::where('id', $request->user_id)->update([
                             'voters_id' => $voters_id,
@@ -613,14 +656,14 @@ class BarangayResidentController extends Controller
 
     public function getBarangayResidentById(Request $request){
         $barangayResidentDetails = BarangayResident::with(['user_info' => function($query) {
-            $query->select('id', 'firstname', 'lastname', 'middle_initial', 'suffix', 'registered_voter', 'contact_number'); // Include the primary key for the relationship
+            $query->select('id', 'firstname', 'lastname', 'middle_initial','email', 'suffix', 'registered_voter', 'contact_number'); // Include the primary key for the relationship
         }])->where('id', $request->barangayResidentId)->get();
         return response()->json(['barangayResidentDetails' => $barangayResidentDetails]);
     }
 
     public function viewBarangayResidentById(Request $request){
         $viewBarangayResidentDetails = BarangayResident::with(['user_info.user_levels', 'barangay_resident_blotter_details', 'user_info' => function($query) {
-            $query->select('id', 'firstname', 'lastname', 'middle_initial', 'suffix', 'registered_voter', 'username','contact_number', 'user_level_id'); // Include the primary key for the relationship
+            $query->select('id', 'firstname', 'lastname', 'middle_initial','gender', 'email', 'suffix', 'registered_voter', 'voters_id', 'username','contact_number', 'user_level_id'); // Include the primary key for the relationship
         }])->where('id', $request->barangayResidentId)->get();
         return response()->json(['viewBarangayResidentDetails' => $viewBarangayResidentDetails]);
     }

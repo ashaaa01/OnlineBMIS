@@ -77,6 +77,7 @@
                                             <table id="tableUsers" class="table table-bordered table-hover nowrap" style="width: 100%;">
                                                 <thead>
                                                     <tr>
+                                                        <th>No.</th>
                                                         <th>Action</th>
                                                         <th>Status</th>
                                                         <th>Authentication</th>
@@ -98,6 +99,7 @@
                                             <table id="tablePendingUsers" class="table table-bordered table-hover nowrap" style="width: 100%;">
                                                 <thead>
                                                     <tr>
+                                                        <th>No.</th>
                                                         <th>Action</th>
                                                         {{-- <th>Status</th> --}}
                                                         <th>Voters Id</th>
@@ -304,36 +306,40 @@
             });
 
             dataTablesUsers = $("#tableUsers").DataTable({
-                "processing" : false,
-                "serverSide" : true,
+                "processing": false,
+                "serverSide": true,
                 "responsive": true,
-                // "order": [[ 0, "desc" ],[ 4, "desc" ]],
                 "language": {
                     "info": "Showing _START_ to _END_ of _TOTAL_ user records",
                     "lengthMenu": "Show _MENU_ user records",
                 },
-                "ajax" : {
+                "ajax": {
                     url: "view_users",
-                    data: function (param){
-                        // param.filterCustomer                = $('#selectFilterCustomerId').val();
-                        // param.filterModeOfDefect            = $('#txtFilterModeOfDefectId').val();
-                        param.dateRangeFrom                 = $('#dateRangeFrom', $('#formDateRange')).val();
-                        param.dateRangeTo                   = $('#dateRangeTo', $('#formDateRange')).val();
+                    data: function (param) {
+                        param.dateRangeFrom = $('#dateRangeFrom', $('#formDateRange')).val();
+                        param.dateRangeTo = $('#dateRangeTo', $('#formDateRange')).val();
                     },
                 },
-                "columns":[
-                    { "data" : "action", orderable:false, searchable:false},
-                    { "data" : "status"},
-                    { "data" : "is_authenticated"},
-                    { "data" : "firstname"},
-                    { "data" : "lastname"},
-                    { "data" : "middle_initial"},
-                    { "data" : "email"},
-                    { "data" : "contact_number"},
-                    { "data" : "username"},
-                    { "data" : "user_levels.name"},
-                    { "data" : "created_at"},
+                "columns": [
+                    { "data": "number", "name": "number", "orderable": false },
+                    { "data": "action", "orderable": false, "searchable": false },
+                    { "data": "status" },
+                    { "data": "is_authenticated" },
+                    { "data": "firstname" },
+                    { "data": "lastname" },
+                    { "data": "middle_initial" },
+                    { "data": "email" },
+                    { "data": "contact_number" },
+                    { "data": "username" },
+                    { "data": "user_levels.name" },
+                    { "data": "created_at" },
                 ],
+                "columnDefs": [
+                {
+                    "targets": 0, // Index of the column you want to center
+                    "className": "text-center" // Apply the CSS class
+                }
+            ]
             });
 
             dataTablesPendingUsers = $("#tablePendingUsers").DataTable({
@@ -349,6 +355,7 @@
                     url: "view_pending_users",
                 },
                 "columns":[
+                    { "data": "number", "name": "number", "orderable": false },
                     { "data" : "action", orderable:false, searchable:false},
                     // { "data" : "status"},
                     { "data" : "voters_id"},
@@ -360,6 +367,12 @@
                     { "data" : "username"},
                     { "data" : "user_levels.name"},
                 ],
+                "columnDefs": [
+                {
+                    "targets": 0, // Index of the column you want to center
+                    "className": "text-center" // Apply the CSS class
+                }
+            ]
             });
 
             $("#buttonAddUser").on('click', function(){
@@ -422,6 +435,8 @@
                 dataTablesUsers.ajax.reload(null, false);
             });
         });
+
+        
     </script>
 @endsection
 

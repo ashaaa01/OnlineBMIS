@@ -14,7 +14,7 @@ function addUser(){
         },
         success: function(response){
             if(response['validationHasError'] == 1){
-                toastr.error('Saving user failed!');
+                toastr.error('Registration failed! Please Fill-Up the form correctly');
                 if(response['error']['firstname'] === undefined){
                     $("#textFirstname").removeClass('is-invalid');
                     $("#textFirstname").attr('title', '');
@@ -86,6 +86,14 @@ function addUser(){
                 else{
                     $("#fileAddVotersId").addClass('is-invalid');
                     $("#fileAddVotersId").attr('title', response['error']['voters_id']);
+                }
+                if(response['error']['selectGender'] === undefined){
+                    $("#selectGender").removeClass('is-invalid');
+                    $("#selectGender").attr('title', '');
+                }
+                else{
+                    $("#selectGender").addClass('is-invalid');
+                    $("#selectGender").attr('title', response['error']['selectGender']);
                 }
             }else if(response['hasError'] == 0){
                 $("#formAddUser")[0].reset();
@@ -558,12 +566,14 @@ function editUser(){
                 /**
                  * Force to logout the current session after the user updated Profile
                  */
-                $('#modalLogout').modal('hide');
-                $('#modalSpinner').modal('show');
-                setTimeout(() => {
-                    UserLogout();
-                    console.log("Logging out...")
-                }, 600);
+                if(response.logout){
+                    $('#modalLogout').modal('hide');
+                    $('#modalSpinner').modal('show');
+                    setTimeout(() => {
+                        UserLogout();
+                        console.log("Logging out...")
+                    }, 600);
+                }
             }else{
                 toastr.error('Saving user failed!');
             }
