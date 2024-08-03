@@ -14,29 +14,42 @@
     @include('shared.css_links.css_links')
     <!-- Bootstrap CSS for Modal -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{{ asset('/images/svg/omlogos.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex; /* Enable Flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.7); /* White background with 80% opacity */
+            border-radius: 10px; /* Optional: Adds rounded corners */
+            padding: 20px; /* Adjust padding as needed */
+            max-width: 600px; /* Adjust max-width as needed */
+            width: 100%; /* Ensures form container is responsive */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
+    
         @if(session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
         @endif
-        <div id="countdown" class="text-danger" style="font-size: 18px; font-weight: bold; position: fixed; top: 20px; right: 20px;"></div>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-white px-0">
-                <li class="breadcrumb-item"><a href="{{ route('index') }}">Home Page</a></li>
-                <li class="breadcrumb-item active">Sign In</li>
-            </ol>
-        </nav>
-    </div>
-
-    <div class="container d-flex align-items-center" style="height: calc(100vh - 61.5px)">
-        <div class="row mx-auto align-items-center">
-            <div class="col-lg-6">
-                <img class="svg-images w-75 img-fluid d-none d-lg-block" src="{{ asset('/images/svg/undraw_social_interaction.svg') }}" alt="Social Interaction">
-            </div>
-            <div class="col-lg-6 shadow p-4 rounded">
+    <div class="">
+            <div class="form-container">
+                
+                <a href="{{ route('index') }}"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 15px;">
+                    <span aria-hidden="true">Close</span>
+                </button></a>
                 <h1 class="fw-bold text-left">Sign In</h1>
                 <p class="text-left">Sign in to personalize your account and easily access your most important information from the website.</p>
                 <form id="formSignIn">
@@ -64,6 +77,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <!-- Forgot Password Modal -->
     <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">

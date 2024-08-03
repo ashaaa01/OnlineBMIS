@@ -105,8 +105,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title" id="documentModalLabel"><strong>Registration Form</strong></h1>
-                    <a href="{{ route('index') }}"><button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <a href="{{ route('index') }}"><button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 15px;">
+                        <span aria-hidden="true">Close</span>
                     </button></a>
                 </div>
                 <p class="text-left mx-auto">Please fill up completely and correctly the required information before each item below. Required items are also marked with an asterisk (<strong style="color: crimson">*</strong>) so please fill it up correctly. Wait for the approval of the website owner to approve your account. </p>
