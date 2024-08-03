@@ -14,7 +14,7 @@ function addUser(){
         },
         success: function(response){
             if(response['validationHasError'] == 1){
-                toastr.error('Registration failed! Please Fill-Up the form correctly');
+                toastr.error('Registration failed! Must be 15 years old above. Please Fill-Up the form correctly');
                 if(response['error']['firstname'] === undefined){
                     $("#textFirstname").removeClass('is-invalid');
                     $("#textFirstname").attr('title', '');
@@ -94,6 +94,11 @@ function addUser(){
                 else{
                     $("#selectGender").addClass('is-invalid');
                     $("#selectGender").attr('title', response['error']['selectGender']);
+                }
+
+                // Handle custom validation error for age
+                if(response['error']['age'] === 'Age 14 and below can\'t register'){
+                    toastr.error('Age 14 and below can\'t register.');
                 }
             }else if(response['hasError'] == 0){
                 $("#formAddUser")[0].reset();

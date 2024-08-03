@@ -335,7 +335,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class="fas fa-info-circle"></i>&nbsp;Resident Full Details</h4>
+                <h4 class="modal-title" style=""><i class="fas fa-info-circle"></i>&nbsp;Resident Full Details</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formViewBarangayResident" autocomplete="off">
@@ -343,13 +343,9 @@
                 <div class="modal-body">
                     <div class="card-body">
                         <div class="mb-4">
-                            <h5>I. Identifying Information</h5>
+                            <h5 style="background-color: #128212; padding: 0.5rem 1rem; border: 1px solid #dee2e6; border-radius: 0.25rem; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; font-weight: bold; color: #dee2e6;">I. Identifying Information</h5>
                             <hr>
                             <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <label for="lastname" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" name="lastname" id="textLastname" readonly placeholder="Lastname">
-                                </div>
                                 <div class="col-md-3">
                                     <label for="firstname" class="form-label">First Name</label>
                                     <input type="text" class="form-control" name="firstname" id="textFirstname" readonly placeholder="Firstname">
@@ -357,6 +353,10 @@
                                 <div class="col-md-3">
                                     <label for="middleInitial" class="form-label">Middle Initial</label>
                                     <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="lastname" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="lastname" id="textLastname" readonly placeholder="Lastname">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="textSuffix" class="form-label">Suffix <small>(e.g Sr., Jr. I, II, III, IV, V, VI)</small></label>
@@ -406,7 +406,7 @@
                             </div>
 
                         <div class="mb-4">
-                            <h5>II. Address Information</h5>
+                            <h5 style="background-color: #128212; padding: 0.5rem 1rem; border: 1px solid #dee2e6; border-radius: 0.25rem; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; font-weight: bold; color: #dee2e6;">II. Address Information</h5>
                             <hr>
                             <div class="mb-3">
                                 <label for="textZone" class="form-label">Zone</label>
@@ -427,8 +427,24 @@
                         </div>
 
                         <div class="mb-4">
-                            <h5>III. Employment Information</h5>
+                            <h5 style="background-color: #128212; padding: 0.5rem 1rem; border: 1px solid #dee2e6; border-radius: 0.25rem; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; font-weight: bold; color: #dee2e6;">III. Employment Information</h5>
                             <hr>
+                            <div class="mb-3">
+                                <label for="selectEducationalAttainment" class="form-label">Educational Attainment<span class="text-danger" title="Required">*</span></label>
+                                <select readonly class="form-select w-100" id="selectEducationalAttainment" name="educational_attainment" readonly placeholder="Educational Attainment">
+                                    <option value="0" disabled selected>Select One</option>
+                                    <option value="1">Elementary Graduate</option>
+                                    <option value="2">Elementary Undergraduate</option>
+                                    <option value="3">High School Graduate</option>
+                                    <option value="4">High School Undergraduate</option>
+                                    <option value="5">College Graduate</option>
+                                    <option value="6">College Undergraduate</option>
+                                    <option value="7">Masters Graduate</option>
+                                    <option value="8">Some/Completed Masters Degree</option>
+                                    <option value="9">Vocational</option>
+                                    <option value="10">Out of School Youth</option>
+                                </select>
+                            </div>
                             <div class="mb-3">
                                 <label for="textOccupation" class="form-label">Occupation</label>
                                 <input type="text" class="form-control" name="occupation" id="textOccupation" readonly placeholder="Occupation">

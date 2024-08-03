@@ -338,6 +338,7 @@ function viewBarangayResidentById(id){
                 $('select[name="user_level"]', $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info']['user_levels'].id).trigger('change');
                 $("#selectEducationalAttainment", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].educational_attainment).trigger('change');
                 $("#textRegisteredVoter", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].registered_voter).trigger('change');
+                $("#selectEducationalAttainment", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0]['user_info'].educational_attainment).trigger('change');
 
                 // $("#textPurok", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].purok);
                 // $("#textBlock", $("#formViewBarangayResident")).val(viewBarangayResidentDetails[0].block);

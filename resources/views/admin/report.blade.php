@@ -176,7 +176,7 @@ let dataTablesBarangayResident = $("#tableBarangayResident").DataTable({
         }
     },
     columns: [
-        { data: function(data) { return capitalizeFirstLetter(data.user_info.lastname) + ', ' + capitalizeFirstLetter(data.user_info.firstname); }},
+        { data: function(data) { return capitalizeFirstLetter(data.user_info.firstname) + ' ' + capitalizeFirstLetter(data.user_info.lastname); }},
         { data: "age" },
         { data: "age_category" },
         { data: "gender" },

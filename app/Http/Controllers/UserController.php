@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -125,7 +126,17 @@ class UserController extends Controller
             'gender' => 'required|in:1,2', 
             'civil_status' => 'required|in:1,2,3,4,5,6',
             'birthdate' => 'required|date|before:today', 
-            'age' => 'required|integer|min:0|max:120',
+            'age' => [
+            'required',
+            'integer',
+            'min:0',
+            'max:120',
+            function($attribute, $value, $fail) {
+                if ($value <= 14) {
+                    $fail('Residents must be older than 14 years old to register.');
+                }
+            },
+        ],
             'length_of_stay_number' => 'required|integer|min:0',
             'length_of_stay_unit' => 'required|in:years,months',
             'permanent_address' => 'nullable|string|max:500',
@@ -137,6 +148,7 @@ class UserController extends Controller
             'religion' => 'required|string|max:255',
             'occupation' => 'nullable|string|max:255',
             'registered_voter' => 'required|in:1,2',
+            'educational_attainment' => 'required|in:1,2,3,4,5,6,7,8,9,10',
 
             'email' => 'required|email|unique:users,email',
             'mobile_number' => 'required|numeric|min:11',
