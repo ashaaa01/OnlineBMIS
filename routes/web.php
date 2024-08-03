@@ -516,6 +516,4 @@ Route::get('/barangay-profile/total', [BarangayProfileController::class, 'getTot
 
 // routes/web.php
 
-Route::get('/user_information', function () {
-    return view('admin.user_information');
-})->name('user_information');
+Route::get('/user_information', [UserController::class, 'getUserInformation'])->name('user_information');

@@ -22,6 +22,37 @@ class User extends Authenticatable // Authenticatable this will allow the use of
     }
 
     public function barangay_resident_info(){
-        return $this->hasOne(BarangayResident::class, 'user_id');
+        return $this->hasOne(BarangayResident::class, 'user_id')->withDefault([
+            'id' => '',
+            'barangay_id_number' => '',
+            'age' => '',
+            'gender' => '',
+            'length_of_stay' => '',
+            'civil_status' => '',
+            'length_of_stay_unit' => '',
+            'birthdate' => '',
+            'birth_place' => '',
+            'permanent_address' => '',
+            'zone' => '',
+            'barangay' => '',
+            'municipality' => '',
+            'province' => '',
+            'phase' => '',
+            'nationality' => '',
+            'occupation' => '',
+            'monthly_income' => '',
+            'phil_health_number' => '',
+            'religion' => '',
+            'education_attainment' => '',
+            'photo' => '',
+            'remarks' => '',
+            'status' => '',
+            'user_id' => '',
+            'is_deleted' => '',
+            'created_by' => '',
+            'last_updated_by' => '',
+            'created_at' => '',
+            'updated_at' => '',
+        ]);
     }
 }

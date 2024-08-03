@@ -41,60 +41,78 @@
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label for="lastname" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" name="lastname" id="textLastname" readonly placeholder="Lastname">
+                                    <input type="text" class="form-control" name="lastname" id="textLastname" value="{{ $userDetails->lastname }}" readonly placeholder="Lastname">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="firstname" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" name="firstname" id="textFirstname" readonly placeholder="Firstname">
+                                    <input type="text" class="form-control" name="firstname" id="textFirstname" value="{{ $userDetails->firstname }}" readonly placeholder="Firstname">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="middleInitial" class="form-label">Middle Initial</label>
-                                    <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
+                                    <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" value="{{ $userDetails->middle_initial }}" readonly placeholder="Middle Initial">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="textSuffix" class="form-label">Suffix <small>(e.g Sr., Jr. I, II, III, IV, V, VI)</small></label>
-                                    <input type="text" class="form-control" name="suffix" id="textSuffix" readonly placeholder="Suffix">
+                                    <input type="text" class="form-control" name="suffix" id="textSuffix" value="{{ $userDetails->suffix }}" readonly placeholder="Suffix">
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
                                 <div class="col-md-3">
                                     <label for="gender" class="form-label">Sex</label>
-                                    <input type="text" class="form-control" name="gender" id="textGender" readonly placeholder="Sex">
+                                    @php
+                                        $gender = '';
+                                        if($userDetails->gender == 1){
+                                            $gender = 'Male';
+                                        } else if($userDetails->gender == 2){
+                                            $gender = 'Female';
+                                        } else {
+                                            $gender = 'Other';
+                                        }
+                                    @endphp
+                                    <input type="text" class="form-control" name="gender" id="textGender" value="{{  $gender }}" readonly placeholder="Sex">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="birthdate" class="form-label">Birthdate</label>
-                                    <input type="text" class="form-control datetimepicker" name="birthdate" id="textBirthdate" readonly placeholder="Birthdate">
+                                    <input type="text" class="form-control datetimepicker" name="birthdate" id="textBirthdate" value="{{ $userDetails->barangay_resident_info->birthdate }}" readonly placeholder="Birthdate">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="age" class="form-label">Age</label>
-                                    <input type="number" class="form-control" min="1" max="150" name="age" id="textAge" readonly placeholder="Age" title="Auto generated based on Birthdate" style="width: 100px;">
+                                    <input type="number" class="form-control" min="1" max="150" name="age" id="textAge" value="{{ $userDetails->barangay_resident_info->age }}" readonly placeholder="Age" title="Auto generated based on Birthdate" style="width: 100px;">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="textBirthPlace" class="form-label">Birth Place</label>
-                                    <input type="text" class="form-control" name="birth_place" id="textBirthPlace" readonly placeholder="Birth Place" >
+                                    <input type="text" class="form-control" name="birth_place" id="textBirthPlace" value="{{ $userDetails->barangay_resident_info->birth_place }}" readonly placeholder="Birth Place" >
                                 </div>
                             </div>
                            
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="textNationality" class="form-label">Nationality</label>
-                                    <input type="text" class="form-control" name="nationality" id="textNationality" readonly placeholder="Nationality">
+                                    <input type="text" class="form-control" name="nationality" id="textNationality" value="{{ $userDetails->barangay_resident_info->nationality }}" readonly placeholder="Nationality">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="textReligion" class="form-label">Religion</label>
-                                    <input type="text" class="form-control" name="religion" id="textReligion" readonly placeholder="Religion">
+                                    <select class="form-select w-100" id="textReligion" name="religion" readonly>
+                                        <option value="0" disabled {{ is_null($userDetails->barangay_resident_info->religion) ? 'selected' : '' }}>Select One</option>
+                                        <option value="1" {{ $userDetails->barangay_resident_info->religion == 1 ? 'selected' : '' }}>Roman Catholic</option>
+                                        <option value="2" {{ $userDetails->barangay_resident_info->religion == 2 ? 'selected' : '' }}>Islam</option>
+                                        <option value="3" {{ $userDetails->barangay_resident_info->religion == 3 ? 'selected' : '' }}>Iglesia ni Cristo</option>
+                                        <option value="4" {{ $userDetails->barangay_resident_info->religion == 4 ? 'selected' : '' }}>Philippine Independent Church</option>
+                                        <option value="5" {{ $userDetails->barangay_resident_info->religion == 5 ? 'selected' : '' }}>Seventh-Day Adventist</option>
+                                        {{-- <option value="6" {{ $userDetails->barangay_resident_info->religion == 6 ? 'selected' : '' }}>Others</option> --}}
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" name="email" id="textEmail" readonly placeholder="Email Address">
+                                    <input type="email" class="form-control" name="email" id="textEmail" value="{{ $userDetails->email }}" readonly placeholder="Email Address">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="contact_number" class="form-label">Contact Number</label>
-                                    <input type="text" class="form-control" name="contact_number" id="textContactNumber" readonly placeholder="Contact Number">
+                                    <input type="text" class="form-control" name="contact_number" id="textContactNumber" value="{{ $userDetails->contact_number }}" readonly placeholder="Contact Number">
                                 </div>
                             </div>
 
@@ -102,20 +120,20 @@
                             <h5>II. Address Information</h5>
                             <hr>
                             <div class="mb-3">
-                                <label for="textZone" class="form-label">Zone</label>
-                                <input type="text" class="form-control" id="textZone" readonly placeholder="Zone">
+                                <label for="textZone" class="form-label">Zone/Street</label>
+                                <input type="text" class="form-control" id="textZone" value="{{ $userDetails->barangay_resident_info->zone }}" readonly placeholder="Zone">
                             </div>
                             <div class="mb-3">
                                 <label for="textBarangay" class="form-label">Barangay</label>
-                                <input type="text" class="form-control" name="barangay" id="textBarangay" readonly placeholder="Barangay">
+                                <input type="text" class="form-control" name="barangay" id="textBarangay" value="{{ $userDetails->barangay_resident_info->barangay }}" readonly placeholder="Barangay">
                             </div>
                             <div class="mb-3">
-                                <label for="textMunicipality" class="form-label">Municipality</label>
-                                <input type="text" class="form-control" name="municipality" id="textMunicipality" readonly placeholder="Municipality">
+                                <label for="textMunicipality" class="form-label">City/Municipality</label>
+                                <input type="text" class="form-control" name="municipality" id="textMunicipality" value="{{ $userDetails->barangay_resident_info->municipality }}" readonly placeholder="Municipality">
                             </div>
                             <div class="mb-3">
-                                <label for="textProvince" class="form-label">Province</label>
-                                <input type="text" class="form-control" name="province" id="textProvince" readonly placeholder="Province">
+                                <label for="textProvince" class="form-label">Permanent Address</label>
+                                <input type="text" class="form-control" name="province" id="textProvince" value="{{ $userDetails->barangay_resident_info->province }}" readonly placeholder="Province">
                             </div>
                         </div>
 
@@ -123,33 +141,40 @@
                             <h5>III. Employment Information</h5>
                             <hr>
                             <div class="mb-3">
+                                <label for="selectEducationalAttainment" class="form-label">Educational Attainment<span class="text-danger" title="Required">*</span></label>
+                                <select class="form-select w-100" id="selectEducationalAttainment" name="educational_attainment" readonly>
+                                    <option value="0" disabled {{ is_null($userDetails->barangay_resident_info->educational_attainment) ? 'selected' : '' }}>Select One</option>
+                                    <option value="1" {{ $userDetails->barangay_resident_info->educational_attainment == 1 ? 'selected' : '' }}>Elementary Graduate</option>
+                                    <option value="2" {{ $userDetails->barangay_resident_info->educational_attainment == 2 ? 'selected' : '' }}>Elementary Undergraduate</option>
+                                    <option value="3" {{ $userDetails->barangay_resident_info->educational_attainment == 3 ? 'selected' : '' }}>High School Graduate</option>
+                                    <option value="4" {{ $userDetails->barangay_resident_info->educational_attainment == 4 ? 'selected' : '' }}>High School Undergraduate</option>
+                                    <option value="5" {{ $userDetails->barangay_resident_info->educational_attainment == 5 ? 'selected' : '' }}>College Graduate</option>
+                                    <option value="6" {{ $userDetails->barangay_resident_info->educational_attainment == 6 ? 'selected' : '' }}>College Undergraduate</option>
+                                    <option value="7" {{ $userDetails->barangay_resident_info->educational_attainment == 7 ? 'selected' : '' }}>Masters Graduate</option>
+                                    <option value="8" {{ $userDetails->barangay_resident_info->educational_attainment == 8 ? 'selected' : '' }}>Some/Completed Masters Degree</option>
+                                    <option value="9" {{ $userDetails->barangay_resident_info->educational_attainment == 9 ? 'selected' : '' }}>Vocational</option>
+                                    <option value="10" {{ $userDetails->barangay_resident_info->educational_attainment == 10 ? 'selected' : '' }}>Out of School Youth</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
                                 <label for="textOccupation" class="form-label">Occupation</label>
-                                <input type="text" class="form-control" name="occupation" id="textOccupation" readonly placeholder="Occupation">
+                                <input type="text" class="form-control" name="occupation" id="textOccupation" value="{{ $userDetails->barangay_resident_info->occupation }}" readonly placeholder="Occupation">
                             </div>
-                            <div class="mb-3">
-                                <label for="textMonthlyIncome" class="form-label">Monthly Income</label>
-                                <input type="text" class="form-control" name="monthly_income" id="textMonthlyIncome" readonly placeholder="Monthly Income">
-                            </div>
-                            <div class="mb-3">
-                                <label for="textPhilHealthNumber" class="form-label">Phil Health Number</label>
-                                <input type="text" class="form-control" name="phil_health_number" id="textPhilHealthNumber" readonly placeholder="Phil Health Number">
-                            </div>
-                            <div class="mb-3">
-                                <label for="textRemarks" class="form-label">Remarks</label>
-                                <input type="text" class="form-control" name="remarks" id="textRemarks" readonly placeholder="Remarks">
-                            </div>
+                          
+                          
                             <div class="mb-3">
                                 <label for="textRegisteredVoter" class="form-label">A Registered Voter?<span class="text-danger" title="Required">*</span></label>
                                 <select readonly class="form-select w-100" id="textRegisteredVoter" name="registered_voter">
-                                    <option value="0" disabled selected>Select One</option>
-                                    <option value="1">Yes</option>
-                                    <option value="2">No</option>
+                                    <option value="0" disabled {{ is_null($userDetails->registered_voter) ? 'selected' : '' }}>Select One</option>
+                                    <option value="1" {{ $userDetails->registered_voter == 1 ? 'selected' : '' }}>Yes</option>
+                                    <option value="2" {{ $userDetails->registered_voter == 2 ? 'selected' : '' }}>No</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="votersId" class="form-label">Voter's ID</label>
                                 <div class="rounded mb-3" style="overflow: hidden;">
-                                    <img src="https://via.placeholder.com/219X200" alt="voters id" id="imgVotersID" style="object-fit: cover; width: 200px; height: 200px;">
+                                    <img src="{{ !empty($userDetails->voters_id) ? 'voters_photo/'.$userDetails->voters_id : 'https://via.placeholder.com/219X200'  }}" alt="voters id" id="imgVotersID" style="object-fit: cover; width: 200px; height: 200px;">
                                 </div>
                             </div>
                         </div>

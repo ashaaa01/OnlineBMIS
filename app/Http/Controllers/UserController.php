@@ -143,6 +143,7 @@ class UserController extends Controller
             'birth_place' => 'nullable|string|max:255',
             'zone' => 'required|integer|min:1|max:9',
             'barangay' => 'nullable|string|max:255',
+            'province' => 'nullable|string|max:255',
             'nationality' => 'required|string|max:255',
             'municipality' => 'required|string|max:255',
             'religion' => 'required|string|max:255',
@@ -215,13 +216,15 @@ class UserController extends Controller
                     'birthdate' => $birthdate,
                     'age' => $request->age,
                     'birth_place' => $request->birth_place,
-                    // 'permanent_address' => $request->permanent_address,
+                    'permanent_address' => $request->permanent_address,
                     'zone' => $request->zone,
                     'barangay' => $request->barangay,
+                    'province' => $request->province,
                     'municipality' => $request->municipality,
                     'nationality' => $request->nationality,
                     'religion' => $request->religion,
                     'occupation' => $request->occupation,
+                    'educational_attainment' => $request->educational_attainment,
                     'user_id' => $userId,
                     'created_at' => date('Y-m-d H:i:s'),
                     'created_by' => $userId,
@@ -551,6 +554,13 @@ class UserController extends Controller
         $userDetails = User::with('user_levels')->where('id', $request->userId)->get();
         // echo $userDetails; die;
         return response()->json(['userDetails' => $userDetails]);
+    }
+
+    public function getUserInformation(){
+        $user = Auth::user();
+        $userDetails = User::with('user_levels', 'barangay_resident_info')->where('id', $user->id)->first();
+        // echo $userDetails; die;
+        return view('admin.user_information', compact('userDetails'));
     }
 
     public function getUserBySessionId(Request $request){

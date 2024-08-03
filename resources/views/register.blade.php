@@ -216,9 +216,11 @@
 
                                 <div class="row mb-3">
                                     <div class="col-md-3 mb-1">
-                                        <label class="form-label" for="provinceInput"><b>Permanent Address</b><span class="text-danger">*</span></label>
-                                        <input type="text" id="provinceInput" name="province" class="form-control @error('province') is-invalid @enderror" value="{{ old('province', 'Oriental Mindoro') }}" readonly>
-                                        @error('province')
+                                        <label class="form-label" for="permanent_addressInput"><b>Permanent Address</b><span class="text-danger">*</span></label>
+                                        <input type="text" id="permanent_addressInput" class="form-control @error('permanent_address') is-invalid @enderror" value="{{ old('permanent_address', 'Oriental Mindoro') }}" readonly >
+                                        <input type="hidden" name="permanent_address"  value="{{ old('permanent_address', 'Oriental Mindoro') }}" >
+                                        <input type="hidden" name="province"  value="{{ old('province', 'Oriental Mindoro') }}" >
+                                        @error('permanent_address')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -275,7 +277,19 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="textEducation" class="form-label">Educational Attainment</label>
-                                        <input type="text" class="form-control" name="education" id="textEducation" placeholder="Educational Attainment">
+                                        <select readonly class="form-select w-100" id="selectEducationalAttainment" name="educational_attainment"  readonly placeholder="Educational Attainment">
+                                            <option value="0" disabled selected>Select One</option>
+                                            <option value="1">Elementary Graduate</option>
+                                            <option value="2">Elementary Undergraduate</option>
+                                            <option value="3">High School Graduate</option>
+                                            <option value="4">High School Undergraduate</option>
+                                            <option value="5">College Graduate</option>
+                                            <option value="6">College Undergraduate</option>
+                                            <option value="7">Masters Graduate</option>
+                                            <option value="8">Some/Completed Masters Degree</option>
+                                            <option value="9">Vocational</option>
+                                            <option value="10">Out of School Youth</option>
+                                        </select>
                                     </div>
                                 </div>
 
