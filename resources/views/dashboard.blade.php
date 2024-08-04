@@ -406,22 +406,19 @@
         var genderDistributionChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Female', 'Male', 'Other'],
+                labels: ['Female', 'Male',],
                 datasets: [{
                     data: [
                         data['totalFemale'],
-                        data['totalMale'],
-                        data['totalOther']
+                        data['totalMale']
                     ],
                     backgroundColor: [
                         '#FF6384',
                         '#36A2EB',
-                        '#9966FF'
                     ],
                     borderColor: [
                         '#FF6384',
                         '#36A2EB',
-                        '#9966FF'
                     ],
                     borderWidth: 1
                 }]
