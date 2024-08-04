@@ -294,7 +294,7 @@
             labels: ['Barangay Clearance', 'Indigency', 'Residency', 'Business Permit'], // Sequential numbers for the x-axis labels
             datasets: [
                 {
-                    label: 'Pending',
+                    label: 'On Process',
                     data: [
                         data['totalPendingBarangayClearanceCertificates'],
                         data['totalPendingIndigencyCertificates'],
@@ -308,7 +308,7 @@
                     borderRadius: 5
                 },
                 {
-                    label: 'Processing',
+                    label: 'For Issuance',
                     data: [
                         data['totalProcessingBarangayClearanceCertificates'],
                         data['totalProcessingIndigencyCertificates'],
@@ -321,22 +321,22 @@
                     barThickness: 30,
                     borderRadius: 5
                 },
+                // {
+                //     label: 'Disapproved',
+                //     data: [
+                //         data['totalDisapprovedBarangayClearanceCertificates'],
+                //         data['totalDisapprovedIndigencyCertificates'],
+                //         data['totalDisapprovedResidencyCertificates'],
+                //         0
+                //     ],
+                //     backgroundColor: '#ED5564',
+                //     borderColor: '#ED5564',
+                //     borderWidth: 1,
+                //     barThickness: 30,
+                //     borderRadius: 5
+                // },
                 {
-                    label: 'Disapproved',
-                    data: [
-                        data['totalDisapprovedBarangayClearanceCertificates'],
-                        data['totalDisapprovedIndigencyCertificates'],
-                        data['totalDisapprovedResidencyCertificates'],
-                        0
-                    ],
-                    backgroundColor: '#ED5564',
-                    borderColor: '#ED5564',
-                    borderWidth: 1,
-                    barThickness: 30,
-                    borderRadius: 5
-                },
-                {
-                    label: 'Approved',
+                    label: 'Issued',
                     data: [
                         data['totalApprovedBarangayClearanceCertificates'],
                         data['totalApprovedIndigencyCertificates'],
