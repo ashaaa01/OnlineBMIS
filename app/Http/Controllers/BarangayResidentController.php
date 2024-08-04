@@ -354,7 +354,7 @@ class BarangayResidentController extends Controller
             $validator = Validator::make($data, [
                 'firstname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
                 'lastname' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-                'middle_initial' => 'nullable|regex:/^[A-Z]$/',
+                'middle_initial' => 'required|string',
                 'suffix' => 'nullable|string|max:10', 
 
                 'gender' => 'required|in:1,2,3', 

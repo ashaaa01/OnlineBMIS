@@ -48,7 +48,7 @@
                                     <input type="text" class="form-control" name="firstname" id="textFirstname" value="{{ $userDetails->firstname }}" readonly placeholder="Firstname">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="middleInitial" class="form-label">Middle Initial</label>
+                                    <label for="middleInitial" class="form-label">Middle Name</label>
                                     <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" value="{{ $userDetails->middle_initial }}" readonly placeholder="Middle Initial">
                                 </div>
                                 <div class="col-md-3">

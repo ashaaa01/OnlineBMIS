@@ -123,7 +123,7 @@
                                         <input type="text" class="form-control" name="lastname" id="textLastname" placeholder="Lastname">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="middleInitial" class="form-label">Middle Initial</label>
+                                        <label for="middleInitial" class="form-label">Middle Name</label>
                                         <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" placeholder="Middle Initial">
                                     </div>
                                     <div class="mb-3">
@@ -351,7 +351,7 @@
                                     <input type="text" class="form-control" name="firstname" id="textFirstname" readonly placeholder="Firstname">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="middleInitial" class="form-label">Middle Initial</label>
+                                    <label for="middleInitial" class="form-label">Middle Name</label>
                                     <input type="text" class="form-control" name="middle_initial" id="textMiddleInitial" readonly placeholder="Middle Initial">
                                 </div>
                                 <div class="col-md-3">
