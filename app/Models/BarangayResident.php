@@ -54,14 +54,14 @@ class BarangayResident extends Model
     {
         $age = $this->age;
 
-        if ($age <= 14) {
-            return 'Children';
-        } elseif ($age <= 24) {
+        if ($age >= 15 && $age <= 30) {
             return 'Youth';
-        } elseif ($age <= 64) {
+        } elseif ($age >= 31 && $age <= 64) {
             return 'Adult';
-        } else {
+        } elseif ($age >= 65) {
             return 'Senior';
+        } else {
+            return 'Not Categorized'; // For ages below 15
         }
     }
 }
