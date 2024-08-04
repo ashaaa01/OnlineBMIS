@@ -71,16 +71,16 @@ class BarangayResidentController extends Controller
                 $age = Carbon::parse($resident->birthdate)->age;
                 $category = '';
     
-                if ($age >= 0 && $age <= 14) {
-                    $category = 'Children';
-                } elseif ($age >= 15 && $age <= 24) {
+                if ($age >= 15 && $age <= 30) {
                     $category = 'Youth';
-                } elseif ($age >= 25 && $age <= 64) {
+                } elseif ($age >= 31 && $age <= 64) {
                     $category = 'Adult';
                 } elseif ($age >= 65) {
                     $category = 'Senior';
+                } else {
+                    $category = 'Not Categorized'; // For ages below 15
                 }
-    
+        
                 return $category === $request->filter_age_category;
             });
         }

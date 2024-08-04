@@ -97,9 +97,9 @@
                                     </div>
                                     <select id="filter_age_category" class="form-select">
                                         <option value="">All</option>
-                                        <option value="Children">Children (0-14)</option>
-                                        <option value="Youth">Youth (15-24)</option>
-                                        <option value="Adult">Adult (25-64)</option>
+                                        {{-- <option value="Children">Children (0-14)</option> --}}
+                                        <option value="Youth">Youth (15-30)</option>
+                                        <option value="Adult">Adult (30-64)</option>
                                         <option value="Senior">Senior (65+)</option>
                                     </select>
 

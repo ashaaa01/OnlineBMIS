@@ -2,7 +2,7 @@
     <div class="float-right d-none d-sm-block">
         <b id="footerTimer"></b>
     </div>
-    <strong>Online Barangay Management Information System</strong>&nbsp;<small>Lovelove</small>
+    <strong>Online Barangay Management Information System</strong>&nbsp;<small>All Rights Reserved © 2024</small>
 </footer>
 
 <!--script type="text/javascript">
