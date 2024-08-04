@@ -87,11 +87,7 @@
                                         <option value="10">Others</option>
                                     </select>
 
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Age:</span>
-                                    </div>
-                                    <input type="text" class="form-select" name="filter_age" id="textFilterAge" placeholder="Enter age">
-
+                                
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Age Category:</span>
                                     </div>
