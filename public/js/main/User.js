@@ -373,11 +373,11 @@ function editUserStatus(){
                         dataTablesUsers.draw();
                         dataTablesPendingUsers.draw();
                     }
-                    else{
+                    else {
                         if(response['status'] == 3){
                             toastr.success('User disapproved success!');  // add success
                         } else {
-                            toastr.success('User approved success!');
+                            toastr.success('User activation success!');
                         }
                         dataTablesUsers.draw();
                         dataTablesPendingUsers.draw();
