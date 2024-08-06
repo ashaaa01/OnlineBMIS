@@ -638,6 +638,7 @@ class UserController extends Controller
                 'error' => $validator->errors()
             ]);
         }
+        
         $new_status = "";
         if($request->status != 3){
             $status = $request->status == 1 ? 0 : 1; // Toggle status

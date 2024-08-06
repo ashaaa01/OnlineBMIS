@@ -456,6 +456,7 @@
 
                 if(userStatus == 1){
                     $("#paragraphEditUserStatus").text('Are you sure to disapprove the user?');
+                    //disapproved
                 }
                 else{
                     $("#paragraphEditUserStatus").text('Are you sure to activate the user?');
