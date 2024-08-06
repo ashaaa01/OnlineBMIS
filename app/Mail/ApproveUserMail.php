@@ -11,17 +11,14 @@ class ApproveUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $request;
-
     /**
      * Create a new message instance.
      *
-     * @param mixed $request
      * @return void
      */
-    public function __construct($request)
+    public function __construct(protected $request)
     {
-        $this->request = $request;
+       //
     }
 
     /**
@@ -31,11 +28,13 @@ class ApproveUserMail extends Mailable
      */
     public function build()
     {
-        return $this->from('obmis2024@gmail.com', 'OBMIS')
-                    ->subject($this->request->new_status.' User')
-                    ->view('mail.approve_user')
-                    ->with([
-                        'request' => $this->request,
-                    ]);
+        // return $this->from('obmis2024@gmail.com', 'OBMIS')
+        //             ->subject($this->request->new_status.' User')
+        //             ->view('mail.approve_user')
+        //             ->with([
+        //                 'request' => $this->request,
+        //             ]);
+        return $this->subject($this->request['new_status'].' User')
+        ->view('mail.approve_user')->with(['request' => $this->request]);
     }
 }

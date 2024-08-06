@@ -15,6 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use App\Jobs\SendNewStatus;
 use App\Jobs\SendNewPassword;
 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -646,19 +647,25 @@ class UserController extends Controller
         }
         
     
-        $user = User::where('id', $request->user_id)
+       User::where('id', $request->user_id)
             ->update([
                 'status' => $status,
                 'last_updated_by' => session('session_user_id'), // Use session helper
                 'updated_at' => now() // Use Laravel's now() helper
             ]);
         
+        $user = User::findOrFail($request->user_id);
+
         $details = [
             'recipient' => $user->email,
-            'new_status' => $new_status
+            'new_status' => $new_status,
+            'first_name' =>$user->firstname,
+            'last_name' => $user->lastname,
         ];
         
-        SendNewPassword::dispatch($details);
+        if($request->status == 3){
+            SendNewStatus::dispatch($details);
+        }
     
         return response()->json([
             'hasError' => 0,
@@ -684,6 +691,12 @@ class UserController extends Controller
     
         try {
             $authStatus = $request->authentication == 1 ? 0 : 1;
+            $new_status = "";
+            if($authStatus == 1) {
+                $new_status = "Approved";
+            } else {
+                $new_status = "Disapproved";
+            }
     
             User::where('id', $request->user_id)
                 ->update([
@@ -691,6 +704,16 @@ class UserController extends Controller
                     'last_updated_by' => $_SESSION['session_user_id'],
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
+            $user = User::findOrFail($request->user_id);
+
+            $details = [
+                'recipient' => $user->email,
+                'new_status' => $new_status,
+                'first_name' =>$user->firstname,
+                'last_name' => $user->lastname,
+            ];   
+                
+            SendNewStatus::dispatch($details);
     
             $authentication = User::where('id', $request->user_id)->value('is_authenticated');
             return response()->json(['hasError' => 0, 'authentication' => (int)$authentication]);
