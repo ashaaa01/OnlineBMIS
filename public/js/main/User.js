@@ -373,12 +373,12 @@ function editUserStatus(){
                         dataTablesUsers.draw();
                         dataTablesPendingUsers.draw();
                     }
-                    else {
-                        if(response['status'] == 3){
-                            toastr.success('User disapproved success!');  // add success
-                        } else {
-                            toastr.success('User activation success!');
-                        }
+                    else if(response['status'] == 1) {
+                        toastr.success('User activation success!');
+                        dataTablesUsers.draw();
+                        dataTablesPendingUsers.draw();
+                    } else if(response['status'] == 3){
+                        toastr.success('User disapproved success!');  // add success
                         dataTablesUsers.draw();
                         dataTablesPendingUsers.draw();
                     }
