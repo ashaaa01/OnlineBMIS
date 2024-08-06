@@ -264,6 +264,7 @@ Route::post('/add_user_as_admin', [UserController::class, 'addUserAsAdmin'])->na
 Route::get('/get_user_levels', [UserController::class, 'getUserLevels'])->name('get_user_levels');
 Route::get('/view_users', [UserController::class, 'viewUsers'])->name('view_users');
 Route::get('/view_pending_users', [UserController::class, 'viewPendingUsers'])->name('view_pending_users');
+Route::get('/view_disapproved_users', [UserController::class, 'viewDisapprovedUsers'])->name('view_pending_users');
 Route::get('/get_user_by_id', [UserController::class, 'getUserById'])->name('get_user_by_id');
 Route::get('/get_user_by_session_id', [UserController::class, 'getUserBySessionId'])->name('get_user_session_by_id');
 Route::post('/edit_user_status', [UserController::class, 'editUserStatus'])->name('edit_user_status');

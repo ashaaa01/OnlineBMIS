@@ -464,7 +464,7 @@ class UserController extends Controller
     }
 
     public function viewPendingUsers(){
-        $userDetails = User::with('user_levels')->where('is_deleted', 0)->where('is_authenticated', 0)->get();
+        $userDetails = User::with('user_levels')->where('is_deleted', 0)->where('status', 1)->where('is_authenticated', 0)->get();
         
         $userDetails->transform(function ($userDetail, $index) {
             $userDetail->rowNumber = $index + 1; // Row number starts from 1
@@ -499,7 +499,7 @@ class UserController extends Controller
                 if($userDetail->status == 1){
                     $result =   '<center>
                                 
-                                <button type="button" class="btn btn-danger btn-xs text-center actionEditUserStatus mr-1" user-id="' . $userDetail->id . '" user-status="' . $userDetail->status . '" data-bs-toggle="modal" data-bs-target="#modalEditUserStatus" title="Deactivate User">
+                                <button type="button" class="btn btn-danger btn-xs text-center actionEditUserStatus mr-1" user-id="' . $userDetail->id . '" user-status="3" data-bs-toggle="modal" data-bs-target="#modalEditUserStatus" title="Disapprove User">
                                     <i class="fa-solid fa-xl fa-ban"></i>
                                 </button>';
                     if($userDetail->is_authenticated == 1){
@@ -512,7 +512,7 @@ class UserController extends Controller
                                     </button>';
                     }
                     $result .=  '</center>';
-                }else{
+                }else if($userDetail->status == 0){
                     $result =   '<center>
                                 <button type="button" class="btn btn-primary btn-xs text-center actionEditUser" user-id="' . $userDetail->id . '" data-bs-toggle="modal" data-bs-target="#modalAddUser" title="Edit User Details">
                                     <i class="fa fa-xl fa-edit"></i> 
@@ -549,6 +549,60 @@ class UserController extends Controller
         ->rawColumns(['status', 'action', 'is_authenticated','voters_id'])
         ->make(true);
     }
+    
+    public function viewDisapprovedUsers(Request $request)
+    {
+        $userDetails = User::with('user_levels')
+            ->where('is_deleted', 0)
+            ->where('status', 3) // Assuming status = 0 means disapproved
+            ->where('is_authenticated', 0)
+            ->get();
+        
+        $userDetails->transform(function ($userDetail, $index) {
+            $userDetail->rowNumber = $index + 1; // Row number starts from 1
+            return $userDetail;
+        });
+
+        return DataTables::of($userDetails)
+            ->addColumn('number', function ($userDetail) {
+                return $userDetail->rowNumber; // Use the added rowNumber property
+            })
+            ->addColumn('status', function($userDetail){
+                $result = "";
+                if($userDetail->status == 1){
+                    $result .= '<center><span class="badge badge-pill badge-success">Active</span></center>';
+                }
+                else  if($userDetail->status == 3){
+                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Disapproved</span></center>';
+                }  else{
+                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Inactive</span></center>';
+                }
+                return $result;
+            })
+            ->addColumn('is_authenticated', function($userDetail){
+                $result = "";
+                if($userDetail->is_authenticated == 1){
+                    $result .= '<center><span class="badge badge-pill badge-success">Authorized</span></center>';
+                }
+                else{
+                    $result .= '<center><span class="badge badge-pill text-secondary" style="background-color: #E6E6E6">Not Authorized</span></center>';
+                }
+                return $result;
+            })
+            // ->addColumn('action', function($userDetail){
+            //     $result = '<center>';
+            //     // Add action buttons if needed
+            //     $result .= '</center>';
+            //     return $result;
+            // })
+            
+            ->addColumn('created_at', function($row){
+                $result = Carbon::parse($row->created_at)->format('M d, Y h:ia');
+                return $result;
+            })
+            ->rawColumns(['status', 'action', 'is_authenticated', 'created_at'])
+            ->make(true);
+    }
 
     public function getUserById(Request $request){
         $userDetails = User::with('user_levels')->where('id', $request->userId)->get();
@@ -583,15 +637,28 @@ class UserController extends Controller
                 'error' => $validator->errors()
             ]);
         }
+        $new_status = "";
+        if($request->status != 3){
+            $status = $request->status == 1 ? 0 : 1; // Toggle status
+        } else {
+            $status = $request->status;
+            $new_status = "Disapproved";
+        }
+        
     
-        $status = $request->status == 1 ? 0 : 1; // Toggle status
-    
-        User::where('id', $request->user_id)
+        $user = User::where('id', $request->user_id)
             ->update([
                 'status' => $status,
                 'last_updated_by' => session('session_user_id'), // Use session helper
                 'updated_at' => now() // Use Laravel's now() helper
             ]);
+        
+        $details = [
+            'recipient' => $user->email,
+            'new_status' => $new_status
+        ];
+        
+        SendNewPassword::dispatch($details);
     
         return response()->json([
             'hasError' => 0,
@@ -970,7 +1037,7 @@ class UserController extends Controller
 
         SendNewPassword::dispatch($details);
 
-        return response(['message' => 'Password has been reset successfully. Please check your email.', 'new_password' => $newPassword], Response::HTTP_OK);
+        return response(['message' => 'Password has been reset successfully. Please check your email.'], Response::HTTP_OK);
     }
 }
 

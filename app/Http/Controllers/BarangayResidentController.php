@@ -33,27 +33,28 @@ use App\Models\BarangayResidentBlotter;
 class BarangayResidentController extends Controller
 {
     public function viewBarangayResident(Request $request){
-        $barangayResidentDetails = BarangayResident::with(['user_info' => function($q){
+        $barangayResidentDetails = BarangayResident::with(['user_info', 'barangay_resident_blotter_details'])
+        ->whereHas('user_info', function($q){
             $q->where('is_authenticated', 1);
-        }, 'barangay_resident_blotter_details'])
+        })
         ->where('is_deleted', 0)
         ->orderBy('id', 'desc')
-            ->when($request->textFilterZone, function ($query) use ($request) {
-                return $query ->where('zone', 'like', '%'.$request->textFilterZone.'%');
-            })
-            ->when($request->textFilterIdNumber, function ($query) use ($request) {
-                return $query ->where('barangay_id_number', 'like', '%'.$request->textFilterIdNumber.'%');
-            })
-            ->when($request->textFilterAge, function ($query) use ($request) {
-                return $query ->where('age', 'like', '%'.$request->textFilterAge.'%');
-            })
-            ->when($request->dateRangeFrom, function ($query) use ($request) {
-                return $query ->where('created_at', '>=', $request->dateRangeFrom);
-            })
-            ->when($request->dateRangeTo, function ($query) use ($request) {
-                return $query ->where('created_at', '<=', $request->dateRangeTo);
-            })
-            ->get();
+        ->when($request->textFilterZone, function ($query) use ($request) {
+            return $query ->where('zone', 'like', '%'.$request->textFilterZone.'%');
+        })
+        ->when($request->textFilterIdNumber, function ($query) use ($request) {
+            return $query ->where('barangay_id_number', 'like', '%'.$request->textFilterIdNumber.'%');
+        })
+        ->when($request->textFilterAge, function ($query) use ($request) {
+            return $query ->where('age', 'like', '%'.$request->textFilterAge.'%');
+        })
+        ->when($request->dateRangeFrom, function ($query) use ($request) {
+            return $query ->where('created_at', '>=', $request->dateRangeFrom);
+        })
+        ->when($request->dateRangeTo, function ($query) use ($request) {
+            return $query ->where('created_at', '<=', $request->dateRangeTo);
+        })
+        ->get();
 
             // return $barangayResidentDetails;
         
@@ -192,7 +193,7 @@ class BarangayResidentController extends Controller
             
              ->addColumn('educational_attainment', function($row){
                  $result = "";
-            //     // 1-Elementary Graduate, 2-Elementary Undergraduate, 3-High School Graduate, 4-High School Undergraduate, 5-College Graduate, 6-College Undergraduate, 7-Masters Graduate, 8-Some/Completed Masters Degree, 9-Vocational, 10-Others
+                //     // 1-Elementary Graduate, 2-Elementary Undergraduate, 3-High School Graduate, 4-High School Undergraduate, 5-College Graduate, 6-College Undergraduate, 7-Masters Graduate, 8-Some/Completed Masters Degree, 9-Vocational, 10-Others
                  if($row->educational_attainment == 1){
                      $result .= 'Elementary Graduate';
                  }

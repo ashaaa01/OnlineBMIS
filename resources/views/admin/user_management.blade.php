@@ -38,6 +38,9 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pendingUser" type="button" role="tab">Pending Resident Tab</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#disapprovedUser" type="button" role="tab">Disapproved Resident Tab</button>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="user" role="tabpanel">
@@ -115,7 +118,30 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="disapprovedUser" role="tabpanel">
+                                        <div class="table-responsive" style="margin-top: 8.5%;">
+                                            <table id="tableDisapprovedUsers" class="table table-bordered table-hover nowrap" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No.</th>
+                                                        <th>Status</th>
+                                                        <th>Authentication</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Middle Initial</th>
+                                                        <th>Email</th>
+                                                        <th>Username</th>
+                                                        <th>User Level</th>
+                                                        <th>Created At</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+
+                               
+                            </div>
 
                                 
                             </div>
@@ -366,6 +392,7 @@
                     { "data" : "email"},
                     { "data" : "username"},
                     { "data" : "user_levels.name"},
+                    
                 ],
                 "columnDefs": [
                 {
@@ -374,6 +401,38 @@
                 }
             ]
             });
+
+            dataTablesDisapprovedUsers = $("#tableDisapprovedUsers").DataTable({
+            "processing": false,
+            "serverSide": true,
+            "responsive": true,
+            "language": {
+                "info": "Showing _START_ to _END_ of _TOTAL_ disapproved user records",
+                "lengthMenu": "Show _MENU_ disapproved user records",
+            },
+            "ajax": {
+                url: "view_disapproved_users",
+            },
+            "columns": [
+                { "data": "number", "name": "number", "orderable": false },
+                // { "data": "action", "orderable": false, "searchable": false },
+                { "data": "status" },
+                { "data": "is_authenticated" },
+                { "data": "firstname" },
+                { "data": "lastname" },
+                { "data": "middle_initial" },
+                { "data": "email" },
+                { "data": "username" },
+                { "data": "user_levels.name" },
+                { "data": "created_at" },
+            ],
+            "columnDefs": [
+                {
+                    "targets": 0,
+                    "className": "text-center"
+                }
+            ]
+        });
 
             $("#buttonAddUser").on('click', function(){
                 $("#divPassword").removeClass('d-none');
@@ -396,7 +455,7 @@
                 $("#textEditUserStatusUserId").val(userId);
 
                 if(userStatus == 1){
-                    $("#paragraphEditUserStatus").text('Are you sure to deactivate the user?');
+                    $("#paragraphEditUserStatus").text('Are you sure to disapprove the user?');
                 }
                 else{
                     $("#paragraphEditUserStatus").text('Are you sure to activate the user?');
