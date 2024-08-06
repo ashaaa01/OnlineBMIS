@@ -629,7 +629,7 @@ class UserController extends Controller
     
         $validator = Validator::make($data, [
             'user_id' => 'required',
-            'status' => 'required|boolean', // Added boolean validation for status
+            'status' => 'required|numeric', // Added boolean validation for status
         ]);
     
         if ($validator->fails()) {
