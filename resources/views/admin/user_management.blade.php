@@ -454,12 +454,12 @@
                 $("#textEditUserStatus").val(userStatus);
                 $("#textEditUserStatusUserId").val(userId);
 
-                if(userStatus == 1){
+                if(userStatus == 3){
                     $("#paragraphEditUserStatus").text('Are you sure to disapprove the user?');
                     //disapproved
                 }
                 else{
-                    $("#paragraphEditUserStatus").text('Are you sure to activate the user?');
+                    $("#paragraphEditUserStatus").text('Are you sure to approve the user?');
                 }
             });
 

@@ -500,7 +500,7 @@ class UserController extends Controller
                 if($userDetail->status == 1){
                     $result =   '<center>
                                 
-                                <button type="button" class="btn btn-danger btn-xs text-center actionEditUserStatus mr-1" user-id="' . $userDetail->id . '" user-status="3" data-bs-toggle="modal" data-bs-target="#modalEditUserStatus" title="Disapprove User">
+                                <button type="button" class="btn btn-danger btn-xs text-center actionEditUserStatus mr-1" user-id="' . $userDetail->id . '" user-status="3" data-bs-toggle="modal" data-bs-target="#modalEditUserStatus" title="Disapprove User Request">
                                     <i class="fa-solid fa-xl fa-ban"></i>
                                 </button>';
                     if($userDetail->is_authenticated == 1){
@@ -638,7 +638,7 @@ class UserController extends Controller
                 'error' => $validator->errors()
             ]);
         }
-        
+
         $new_status = "";
         if($request->status != 3){
             $status = $request->status == 1 ? 0 : 1; // Toggle status
