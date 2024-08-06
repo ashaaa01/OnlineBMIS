@@ -375,7 +375,7 @@ function editUserStatus(){
                     }
                     else{
                         if(response['status'] == 3){
-                            toastr.success('User disapproved success!');
+                            toastr.success('User disapproved success!');  // add success
                         } else {
                             toastr.success('User approved success!');
                         }
