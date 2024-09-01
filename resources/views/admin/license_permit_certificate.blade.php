@@ -99,17 +99,25 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="textPurpose" class="form-label">Purpose<span class="text-danger" title="Required">*</span></label>
-                                        <textarea type="text" class="form-control" rows="3" name="purpose" id="textPurpose" placeholder="Purpose"></textarea>
+                                        <label for="textPermitTo" class="form-label">Permit To<span class="text-danger" title="Required">*</span></label>
+                                        <textarea type="text" class="form-control" rows="3" name="permit_to" id="textPermitTo" placeholder="Permit To"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="textPeriodDateOf" class="form-label">Period Date From<span class="text-danger" title="Required">*</span></label>
+                                        <input type="date" class="form-control" name="period_date_of" id="textPeriodDateOf" placeholder="From">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="textPeriodDateTo" class="form-label">Period Date To<span class="text-danger" title="Required">*</span></label>
+                                        <input type="date" class="form-control" name="period_date_to" id="textPeriodDateTo" placeholder="To">
                                     </div>
                                     <div class="mb-3">
                                         <label for="textORNumber" class="form-label">OR Number<span class="text-danger" title="Required">*</span></label>
                                         <input type="text" class="form-control" rows="4" name="or_number" id="textORNumber" placeholder="OR Number">
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="textBusinessName" class="form-label">Business Name<span class="text-danger" title="Required">*</span></label>
                                         <input type="text" class="form-control" rows="4" name="business_name" id="textBusinessName" placeholder="Business Name">
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="textLocation" class="form-label">Location<span class="text-danger" title="Required">*</span></label>
                                         <input type="text" class="form-control" rows="4" name="location" id="textLocation" placeholder="Location">

@@ -13,6 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+
 use DOMElement;
 use DOMXPath;
 use Dompdf\Dompdf;
@@ -39,7 +40,7 @@ class LicensePermitCertificateController extends Controller
                     $result .=   '<button type="button" class="btn btn-primary btn-xs text-center actionEditLicensePermitCertificate mr-1" license-permit-certificate-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#modalAddLicensePermitCertificate" title="Edit Details">';
                     $result .=       '<i class="fa fa-xl fa-edit"></i>';
                     $result .=   '</button>';
-                    $result .=   '<a href="barangay_license_and_permit_certificate_pdf/'.$row->id.'" class="btn btn-info btn-xs text-center actionPrintBarangayClearanceCertificate mr-1" barangay-clearance-certificate-id="' . $row->id . '" title="Print Certificate">';
+                    $result .=   '<a href="barangay_permit_certificate_pdf/'.$row->id.'" class="btn btn-info btn-xs text-center actionPrintBarangayClearanceCertificate mr-1" barangay-clearance-certificate-id="' . $row->id . '" title="Print Certificate">';
                     $result .=       '<i class="fa fa-xl fa-print"></i>';
                     $result .=   '</a>';
                     $result .='</center>';
@@ -122,9 +123,12 @@ class LicensePermitCertificateController extends Controller
         if(!isset($request->license_permit_certificate_id)){
             $validator = Validator::make($data, [
                 'barangay_resident_id' => 'required',
-                'purpose' => 'required',
+                //'purpose' => 'required',
                 'or_number' => 'required',
-                'business_name' => 'required',
+                'permit_to' => 'required',
+                'period_date_of' => 'required',
+                'period_date_to' => 'required',
+                //'business_name' => 'required',
                 'location' => 'required',
                 'nature_of_business' => 'required',
                 'community_tax_cert' => 'required',
@@ -149,9 +153,12 @@ class LicensePermitCertificateController extends Controller
                 try {
                     $licensePermitId = LicensePermitCertificate::insertGetId([
                         'barangay_resident_id' => $request->barangay_resident_id,
-                        'purpose' => $request->purpose,
+                        //'purpose' => $request->purpose,
                         'or_number' => $request->or_number,
-                        'business_name' => $request->business_name,
+                        'permit_to' => $request->permit_to,
+                        'period_date_of' => $request->period_date_of,
+                        'period_date_to' => $request->period_date_to,
+                        //'business_name' => $request->business_name,
                         'location' => $request->location,
                         'nature_of_business' => $request->nature_of_business,
                         'community_tax_cert' => $request->community_tax_cert,
@@ -187,9 +194,12 @@ class LicensePermitCertificateController extends Controller
         }else{ /* For Update */
             $validator = Validator::make($data, [
                 'barangay_resident_id' => 'required',
-                'purpose' => 'required',
+                //'purpose' => 'required',
                 'or_number' => 'required',
-                'business_name' => 'required',
+                'permit_to' => 'required',
+                'period_date_of' => 'required',
+                'period_date_to' => 'required',
+                //'business_name' => 'required',
                 'location' => 'required',
                 'nature_of_business' => 'required',
                 'community_tax_cert' => 'required',
@@ -212,9 +222,12 @@ class LicensePermitCertificateController extends Controller
                 try {
                     LicensePermitCertificate::where('id', $request->license_permit_certificate_id)->update([
                         'barangay_resident_id' => $request->barangay_resident_id,
-                        'purpose' => $request->purpose,
+                        //'purpose' => $request->purpose,
                         'or_number' => $request->or_number,
-                        'business_name' => $request->business_name,
+                        'permit_to' => $request->permit_to,
+                        'period_date_of' => $request->period_date_of,
+                        'period_date_to' => $request->period_date_to,
+                        //'business_name' => $request->business_name,
                         'location' => $request->location,
                         'nature_of_business' => $request->nature_of_business,
                         'community_tax_cert' => $request->community_tax_cert,
@@ -247,26 +260,45 @@ class LicensePermitCertificateController extends Controller
         return response()->json(['licensePermitCertificateDetails' => $licensePermitCertificateDetails]);
     }
 
-    public function barangay_license_and_permit_certificate_pdf(Request $request, $id)
+    public function barangay_permit_certificate_pdf(Request $request, $id)
     {
         $barangayResidentDetails = LicensePermitCertificate::with('resident_info.user_info')
             ->where('id', $id)
             ->where('is_deleted', 0)->orderBy('id', 'desc')
             ->get();
         // return $barangayResidentDetails;
-        $data = [
-            'repub_title' => 'Republika ng Pilipinas',
-            'province_title' => 'Lalawigan ng Oriental Mindoro',
-            'city_title' => 'Bayan ng Bansud',
-            'brgy_title' => "BARANGAY PAG-ASA",
-            'telephone_title' => "Telephone No.: (049)-502-6234",
-            // 'name' => $imploded_name,
-            // 'age' => $age,
-            // 'address' => $address,
-            'data' => $barangayResidentDetails,
-        ];
+        
+        foreach ($barangayResidentDetails as $item) {
+            // Concatenate address fields
+            $addressParts = [
+                $item->resident_info->barangay,
+                $item->resident_info->municipality
+            ];
+            
+            // Remove empty parts and join with commas
+            $item->resident_info->full_address = implode(', ', array_filter($addressParts));
+        }
 
-        $pdf = PDF::loadView('barangay_license_and_permit_certificate_pdf', $data);
+        $data = [
+        'repub_title' => 'Republic of the Philippines',
+        'province_title' => 'Province of Oriental Mindoro',
+        'city_title' => 'Municipality of Bansud',
+        'brgy_title' => "BARANGAY PAG-ASA",
+        'data' => $barangayResidentDetails,
+        'amount_collection' => $barangayResidentDetails->first()->amount_collection,
+        'permit_to' => $barangayResidentDetails->first()->permit_to,
+        'period_date_of' => $barangayResidentDetails->first()->period_date_of,
+        'period_date_to' => $barangayResidentDetails->first()->period_date_to,
+        'issued_on' => $barangayResidentDetails->first()->issued_on,
+        'or_number' => $barangayResidentDetails->first()->or_number,
+        'barangay' => $barangayResidentDetails->first()->barangay,
+        'purpose' => $barangayResidentDetails->first()->purpose,
+        'logoleft' => public_path('images/svg/bansudlogo.png'),
+        'logoright' => public_path('images/svg/palogo.png'),
+    ];
+    
+
+        $pdf = PDF::loadView('barangay_permit_certificate_pdf', $data);
 
         // return $pdf->download('itsolutionstuff.pdf');
         // $pdf->setPaper('A5', 'Landscape');

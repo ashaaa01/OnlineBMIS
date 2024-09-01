@@ -75,7 +75,7 @@
                         <li class="nav-item">
                             <a href="{{ route('license_permit_certificate') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>
-                                <p>Business Permit</p>
+                                <p>Barangay Permit</p>
                             </a>
                         </li>
                     </ul>

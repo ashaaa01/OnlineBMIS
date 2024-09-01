@@ -417,7 +417,7 @@ Route::get('/view_license_permit_certificate', [LicensePermitCertificateControll
 Route::post('/add_license_permit_certificate', [LicensePermitCertificateController::class, 'addLicensePermitCertificate'])->name('add_license_permit_certificate');
 Route::get('/get_license_permit_certificate_by_id', [LicensePermitCertificateController::class, 'getLicensePermitCertificateById'])->name('get_license_permit_certificate_by_id');
 Route::get('/get_total_license_permit_certificate', [LicensePermitCertificateController::class, 'getTotalLicensePermitCertificate'])->name('get_total_license_permit_certificate');
-Route::get('/barangay_license_and_permit_certificate_pdf/{id}', [LicensePermitCertificateController::class, 'barangay_license_and_permit_certificate_pdf'])->name('barangay_license_and_permit_certificate_pdf');
+Route::get('/barangay_permit_certificate_pdf/{id}', [LicensePermitCertificateController::class, 'barangay_permit_certificate_pdf'])->name('barangay_permit_certificate_pdf');
 
 /**
  * REQUEST BARANGAY CLEARANCE CERTIFICATE CONTROLLER
