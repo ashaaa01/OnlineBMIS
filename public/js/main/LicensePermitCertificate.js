@@ -17,13 +17,13 @@ function addLicensePermitCertificate(){
             if(response['validationHasError'] == 1){
                 toastr.error('Saving failed!');
                 
-                if(response['error']['purpose'] === undefined){
-                    $("#textPurpose").removeClass('is-invalid');
-                    $("#textPurpose").attr('title', '');
+                if(response['error']['permit_to'] === undefined){
+                    $("#textPermitTo").removeClass('is-invalid');
+                    $("#textPermitTo").attr('title', '');
                 }
                 else{
-                    $("#textPurpose").addClass('is-invalid');
-                    $("#textPurpose").attr('title', response['error']['purpose']);
+                    $("#textPermitTo").addClass('is-invalid');
+                    $("#textPermitTo").attr('title', response['error']['permit_to']);
                 }
                 if(response['error']['or_number'] === undefined){
                     $("#textORNumber").removeClass('is-invalid');
@@ -33,13 +33,21 @@ function addLicensePermitCertificate(){
                     $("#textORNumber").addClass('is-invalid');
                     $("#textORNumber").attr('title', response['error']['or_number']);
                 }
-                if(response['error']['business_name'] === undefined){
-                    $("#textBusinessName").removeClass('is-invalid');
-                    $("#textBusinessName").attr('title', '');
+                if(response['error']['period_date_of'] === undefined){
+                    $("#textPeriodDateOf").removeClass('is-invalid');
+                    $("#textPeriodDateOf").attr('title', '');
                 }
                 else{
-                    $("#textBusinessName").addClass('is-invalid');
-                    $("#textBusinessName").attr('title', response['error']['business_name']);
+                    $("#textPeriodDateOf").addClass('is-invalid');
+                    $("#textPeriodDateOf").attr('title', response['error']['period_date_of']);
+                }
+                if(response['error']['period_date_to'] === undefined){
+                    $("#textPeriodDateTo").removeClass('is-invalid');
+                    $("#textPeriodDateTo").attr('title', '');
+                }
+                else{
+                    $("#textPeriodDateTo").addClass('is-invalid');
+                    $("#textPeriodDateTo").attr('title', response['error']['period_date_to']);
                 }
                 if(response['error']['location'] === undefined){
                     $("#textLocation").removeClass('is-invalid');
@@ -155,10 +163,10 @@ function getLicensePermitCertificateById(id){
             if(licensePermitCertificateDetails.length > 0){
                 // console.log('moment ',moment(liscensePermitCertificateDetails[0].issued_on).format("YYYY/MM/DD"));
                 $("#selectResident").val(licensePermitCertificateDetails[0].barangay_resident_id).trigger('change');
-                $("#textPurpose").val(licensePermitCertificateDetails[0].purpose);
+                $("#textPermitTo").val(licensePermitCertificateDetails[0].permit_to);
                 $("#textORNumber").val(licensePermitCertificateDetails[0].or_number);
-                $("#textBusinessName").val(licensePermitCertificateDetails[0].business_name);
-                $("#textLocation").val(licensePermitCertificateDetails[0].location);
+                $("#textPeriodDateOf").val(licensePermitCertificateDetails[0].period_date_of);
+                $("#textPeriodDateTo").val(licensePermitCertificateDetails[0].period_date_to);
                 $("#textNatureOfBusiness").val(licensePermitCertificateDetails[0].nature_of_business);
                 $("#textCommunityTaxCert").val(licensePermitCertificateDetails[0].community_tax_cert);
                 $("#textGrossSalesIncome").val(licensePermitCertificateDetails[0].gross_sales_income);
@@ -238,21 +246,29 @@ function addRequestLicensePermitCertificate(){
             if(response['validationHasError'] == 1){
                 toastr.error('Saving failed!');
                 
-                if(response['error']['purpose'] === undefined){
-                    $("#textPurpose").removeClass('is-invalid');
-                    $("#textPurpose").attr('title', '');
+                if(response['error']['permit_to'] === undefined){
+                    $("#textPermitTo").removeClass('is-invalid');
+                    $("#textPermitTo").attr('title', '');
                 }
                 else{
-                    $("#textPurpose").addClass('is-invalid');
-                    $("#textPurpose").attr('title', response['error']['purpose']);
+                    $("#textPermitTo").addClass('is-invalid');
+                    $("#textPermitTo").attr('title', response['error']['permit_to']);
                 }
-                if(response['error']['business_name'] === undefined){
-                    $("#textBusinessName").removeClass('is-invalid');
-                    $("#textBusinessName").attr('title', '');
+                if(response['error']['period_date_of'] === undefined){
+                    $("#textPeriodDateOf").removeClass('is-invalid');
+                    $("#textPeriodDateOf").attr('title', '');
                 }
                 else{
-                    $("#textBusinessName").addClass('is-invalid');
-                    $("#textBusinessName").attr('title', response['error']['business_name']);
+                    $("#textPeriodDateOf").addClass('is-invalid');
+                    $("#textPeriodDateOf").attr('title', response['error']['period_date_of']);
+                }
+                if(response['error']['period_date_to'] === undefined){
+                    $("#textPeriodDateTo").removeClass('is-invalid');
+                    $("#textPeriodDateTo").attr('title', '');
+                }
+                else{
+                    $("#textPeriodDateTo").addClass('is-invalid');
+                    $("#textPeriodDateTo").attr('title', response['error']['period_date_to']);
                 }
                 if(response['error']['location'] === undefined){
                     $("#textLocation").removeClass('is-invalid');
