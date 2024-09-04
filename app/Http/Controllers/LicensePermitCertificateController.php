@@ -229,7 +229,7 @@ class LicensePermitCertificateController extends Controller
                         'period_date_to' => $request->period_date_to,
                         //'business_name' => $request->business_name,
                         'location' => $request->location,
-                        'nature_of_business' => $request->nature_of_business,
+                        //'nature_of_business' => $request->nature_of_business,
                         'community_tax_cert' => $request->community_tax_cert,
                         'gross_sales_income' => $request->gross_sales_income,
                         'amount_collected' => $request->amount_collected,
@@ -418,9 +418,9 @@ class LicensePermitCertificateController extends Controller
         if(!isset($request->license_permit_certificate_id)){
             $validator = Validator::make($data, [
                 'user_id' => 'required',
-                'purpose' => 'required',
+                'permit_to' => 'required',
                 // 'or_number' => 'required',
-                'business_name' => 'required',
+                // 'business_name' => 'required',
                 'location' => 'required',
                 // 'nature_of_business' => 'required',
                 // 'community_tax_cert' => 'required',
@@ -445,9 +445,9 @@ class LicensePermitCertificateController extends Controller
                 try {
                     $licensePermitId = LicensePermitCertificate::insertGetId([
                         'barangay_resident_id' => $barangayResidentId,
-                        'purpose' => $request->purpose,
+                        'permit_to' => $request->permit_to,
                         'or_number' => $request->or_number,
-                        'business_name' => $request->business_name,
+                        // 'business_name' => $request->business_name,
                         'location' => $request->location,
                         'nature_of_business' => $request->nature_of_business,
                         'community_tax_cert' => $request->community_tax_cert,

@@ -55,12 +55,12 @@
                                 <p>Registration</p></p>
                             </a>
                         </li-->
-                        {{-- <li class="nav-item has-treeview">
+                        <li class="nav-item has-treeview">
                             <a href="{{ route('request_license_permit_certificate') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>
-                                <p>License & Permit</p></p>
+                                <p>Barangay Permit</p></p>
                             </a>
-                        </li> --}}
+                        </li>
                         <!--li class="nav-item has-treeview">
                             <a href="{!{ route('request_cedula_management') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-file-signature"></i>

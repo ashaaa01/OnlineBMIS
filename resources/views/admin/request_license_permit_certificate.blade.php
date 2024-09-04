@@ -25,12 +25,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Request License & Permit Certificate Management</h1>
+                        <h1>Request Barangay Permit Certificate Management</h1>
                     </div>
                     <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Request License & Permit Certificate Management</li>
+                            <li class="breadcrumb-item active">Request Barangay Permit Certificate Management</li>
                         </ol>
                     </div>
                 </div>
@@ -43,11 +43,11 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title" style="margin-top: 8px;">Request License & Permit Certificate Management</h3>
+                                <h3 class="card-title" style="margin-top: 8px;">Request Barangay Permit Certificate Management</h3>
                             </div>
                             <div class="card-body">
                                 <div class="text-right mt-4">                   
-                                    <button type="button" id="buttonAddModalRequestLicensePermitCertificate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddRequestLicensePermitCertificate"><i class="fa fa-plus fa-md"></i> New Request License & Permit Certificate</button>
+                                    <button type="button" id="buttonAddModalRequestLicensePermitCertificate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddRequestLicensePermitCertificate"><i class="fa fa-plus fa-md"></i>Request Barangay Permit Certificate</button>
                                 </div><br>
                                 <div class="table-responsive">
                                     <table id="tableRequestLicensePermitCertificate" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
@@ -77,7 +77,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-info-circle"></i>&nbsp;Request License & Permit Certificate Details</h4>
+                    <h4 class="modal-title"><i class="fas fa-info-circle"></i>&nbsp;Request Barangay Permit Certificate Details</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" id="formAddRequestLicensePermitCertificate" autocomplete="off">
@@ -114,13 +114,13 @@
                                     </div>
                                     
                                     <div class="mb-3">
-                                        <label for="textPurpose" class="form-label">Purpose<span class="text-danger" title="Required">*</span></label>
-                                        <textarea type="text" class="form-control" rows="3" name="purpose" id="textPurpose" placeholder="Purpose"></textarea>
+                                        <label for="textPermitTo" class="form-label">Permit To<span class="text-danger" title="Required">*</span></label>
+                                        <textarea type="text" class="form-control" rows="3" name="permit_to" id="textPermitTo" placeholder="Permit To"></textarea>
                                     </div>
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label for="textBusinessName" class="form-label">Business Name<span class="text-danger" title="Required">*</span></label>
                                         <input type="text" class="form-control" rows="4" name="business_name" id="textBusinessName" placeholder="Business Name">
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3">
                                         <label for="textLocation" class="form-label">Location<span class="text-danger" title="Required">*</span></label>
                                         <input type="text" class="form-control" rows="4" name="location" id="textLocation" placeholder="Location">

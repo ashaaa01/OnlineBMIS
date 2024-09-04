@@ -13,7 +13,7 @@
                     <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Business Permit Certificate Management</li>
+                            <li class="breadcrumb-item active">Barangay Permit Certificate Management</li>
                         </ol>
                     </div>
                 </div>
@@ -26,11 +26,11 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header" style="background: linear-gradient(to right, #1BCFB4, #A2EAD5);">
-                                <h3 class="card-title" style="margin-top: 6px;"><strong>Business Permit Certificate Management</strong></h3>
+                                <h3 class="card-title" style="margin-top: 6px;"><strong>Barangay Permit Certificate Management</strong></h3>
                             </div>
                             <div class="card-body">
                                 <div class="text-right mt-4">                   
-                                    <button type="button" id="buttonAddModalLicensePermitCertificate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddLicensePermitCertificate"><i class="fa fa-plus fa-md"></i> New Business Permit Certificate</button>
+                                    <button type="button" id="buttonAddModalLicensePermitCertificate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddLicensePermitCertificate"><i class="fa fa-plus fa-md"></i> New Barangay Permit Certificate</button>
                                 </div><br>
                                 <div class="table-responsive">
                                     <table id="tableLicensePermitCertificate" class="table table-sm table-bordered table-hover display nowrap" style="width: 100%;">
