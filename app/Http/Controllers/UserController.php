@@ -572,7 +572,7 @@ class UserController extends Controller
     {
         $userDetails = User::with('user_levels')
             ->where('is_deleted', 0)
-            ->where('status', 3) // Assuming status = 0 means disapproved
+            ->where('status', 3) // Assuming status = 3 means disapproved
             ->where('is_authenticated', 0)
             ->get();
         
@@ -745,7 +745,8 @@ class UserController extends Controller
         session_start();
         
         $totalUsers = User::where('is_authenticated', 1)->count();
-        $totalPendingUsers = User::where('is_authenticated', 0)->count();
+        $totalPendingUsers = User::where('is_authenticated', 0)->where('status', 1)->count();
+        $totalDisapproveUsers = User::where('is_authenticated', 0)->where('status', 3)->count(); // disapprove
         $totalResidents = BarangayResident::where('status', 1)->count();
         $totalBlotters = BarangayResidentBlotter::count();
     
@@ -826,6 +827,7 @@ class UserController extends Controller
         
         return response()->json([
             'totalUsers' => $totalUsers, 
+            'totalDisapproveUsers' => $totalDisapproveUsers,
             'totalPendingUsers' => $totalPendingUsers,
             'totalResidents' => $totalResidents,
             'totalBlotters' => $totalBlotters,
