@@ -139,6 +139,27 @@ class BarangayResidentController extends Controller
                 else if($row->gender == 2){
                     $result .= '<center><span>Female</span></center>';
                 }
+                else if($row->gender == 3){
+                    $result .= '<center><span>Lesbian</span></center>';
+                }
+                else if($row->gender == 4){
+                    $result .= '<center><span>Gay</span></center>';
+                }
+                else if($row->gender == 5){
+                    $result .= '<center><span>Bisexual</span></center>';
+                }
+                else if($row->gender == 6){
+                    $result .= '<center><span>Transgender</span></center>';
+                }
+                else if($row->gender == 7){
+                    $result .= '<center><span>Queer/Questioning</span></center>';
+                }
+                else if($row->gender == 8){
+                    $result .= '<center><span>Intersex</span></center>';
+                }
+                else if($row->gender == 9){
+                    $result .= '<center><span>Asexual/Aromantic/Agender</span></center>';
+                }
                // else{
                //     $result .= '<center><span>Other</span></center>';
                // }
@@ -170,20 +191,38 @@ class BarangayResidentController extends Controller
             ->addColumn('religion', function($row){
                 // 1-Single, 2-Married, 3-Widow/er, 4-Annulled, 5-Legally Separated, 6-Others
                 $result = "";
-                if($row->civil_status == 1){
+                if($row->religion == 1){
                     $result .= 'Roman Catholic';
                 }
-                else if($row->civil_status == 2){
-                    $result .= 'Islam';
+                else if($row->religion == 2){
+                    $result .= 'Muslim';
                 }
-                else if($row->civil_status == 3){
+                else if($row->religion == 3){
                     $result .= 'Iglesia Ni Cristo';
                 }
-                else if($row->civil_status == 4){
+                else if($row->religion == 4){
                     $result .= 'Philippine Independent Church';
                 }
-                else if($row->civil_status == 5){
-                    $result .= 'Sevent-Day Adventist';
+                else if($row->religion == 5){
+                    $result .= 'Seventh-Day Adventist Church';
+                }
+                else if($row->religion == 6){
+                    $result .= 'Apostolic Catholic Church';
+                }
+                else if($row->religion == 7){
+                    $result .= 'United Church of Christ in the Philippines';
+                }
+                else if($row->religion == 8){
+                    $result .= 'Members Church of God International(MCGI)';
+                }
+                else if($row->religion == 9){
+                    $result .= 'Pentecostals';
+                }
+                else if($row->religion == 10){
+                    $result .= 'Baptist';
+                }
+                else if($row->religion == 11){
+                    $result .= 'Born Again';
                 }
                 // else if($row->civil_status == 6){
                 //     $result .= '<center><span>Others</span>';
@@ -784,7 +823,9 @@ class BarangayResidentController extends Controller
         'logoright' => public_path('images/svg/palogo.png'),
     ];
 
-    $pdf = PDF::loadView('resident_report_pdf', $data);
+    $pdf = \Barryvdh\DomPDF\Facade\PDF::loadView('resident_report_pdf', $data);
+    $pdf->set_option('isHtml5ParserEnabled', true);
+    $pdf->set_option('isPhpEnabled', true);
     $pdf->setPaper('A4', 'landscape');
     return $pdf->stream('Resident Report PDF File.pdf');
 }

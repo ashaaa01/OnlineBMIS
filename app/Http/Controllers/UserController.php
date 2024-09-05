@@ -469,12 +469,29 @@ class UserController extends Controller
         
         $userDetails->transform(function ($userDetail, $index) {
             $userDetail->rowNumber = $index + 1; // Row number starts from 1
-            return $userDetail;
-        });
+
+            // Length of Stay
+        if ($userDetail->barangay_resident_id) {
+            $userDetail->length_of_stay = $userDetail->barangay_resident_id->length_of_stay_number . ' ' . $userDetail->barangay_resident_id->length_of_stay_unit;
+        } else {
+            $userDetail->length_of_stay = '0';
+        }
+        
+        return $userDetail;
+    });
+
 
         return DataTables::of($userDetails)
         ->addColumn('number', function ($userDetail) {
             return $userDetail->rowNumber; // Use the added rowNumber property
+        })
+        ->addColumn('length_of_stay', function($userDetail) {
+            if ($userDetail->barangay_resident_id) {
+                $userDetail->length_of_stay = $userDetail->barangay_resident_id->length_of_stay_number . ' ' . $userDetail->barangay_resident_id->length_of_stay_unit;
+            } else {
+                $userDetail->length_of_stay = '0';
+            }
+            return $userDetail->length_of_stay;
         })
             ->addColumn('status', function($userDetail){
                 $result = "";
@@ -995,6 +1012,7 @@ class UserController extends Controller
         }
         
     }
+
 
     public function user_report_pdf(Request $request)
     {

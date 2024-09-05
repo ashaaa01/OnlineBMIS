@@ -17,6 +17,44 @@ use App\Models\BarangayResident;
 
 class User extends Authenticatable // Authenticatable this will allow the use of Auth::user()
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'firstname',
+        'lastname',
+        'middle_initial',
+        'suffix',
+        'registered_voter',
+        'voters_id',
+        'email',
+        'contact_number',
+        'username',
+        'gender'
+    ];
+   
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public function user_levels(){
         return $this->hasOne(UserLevel::class, 'id', 'user_level_id');
     }

@@ -21,6 +21,28 @@ class BarangayResident extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'gender',
+        'birthdate',
+        'age',
+        'birth_place',
+        'province',
+        'zone',
+        'barangay',
+        'municipality',
+        'nationality',
+        'religion',
+        'occupation',
+        'educational_attainment',
+        'user_id',
+        'photo'
+    ];
+
     public function user_info(){
         return $this->hasOne(User::class, 'id', 'user_id');
     }
