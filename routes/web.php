@@ -24,6 +24,7 @@ use App\Http\Controllers\BarangayResidentDatabaseController;
 use App\Http\Controllers\LicensePermitCertificateController;
 use App\Http\Controllers\BarangayClearanceCertificateController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserInfoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -518,3 +519,4 @@ Route::get('/barangay-profile/total', [BarangayProfileController::class, 'getTot
 // routes/web.php
 
 Route::get('/user_information', [UserController::class, 'getUserInformation'])->name('user_information');
+Route::post('/update-user-info', [UserInfoController::class, 'updateInfo'])->name('update-user-info');
